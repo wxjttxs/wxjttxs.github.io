@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-04-16T11:16:00.544Z</updated>
+  <updated>2016-04-16T14:30:18.256Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,25 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>利用hexo配置静态博客过程记录</title>
+    <link href="http://wxjttxs.github.io/2016/04/16/%E5%88%A9%E7%94%A8hexo%E9%85%8D%E7%BD%AE%E9%9D%99%E6%80%81%E5%8D%9A%E5%AE%A2%E8%BF%87%E7%A8%8B%E8%AE%B0%E5%BD%95/"/>
+    <id>http://wxjttxs.github.io/2016/04/16/利用hexo配置静态博客过程记录/</id>
+    <published>2016-04-16T14:21:23.000Z</published>
+    <updated>2016-04-16T14:30:18.256Z</updated>
+    
+    <content type="html">&lt;p&gt;Google有很多关于如何搭建的帖子，我也是搜了很多个，一起参考，最后不幸的是，蒙圈了，只能重新删了再装。&lt;br&gt;先不说这个了。好多帖子都建议买一个自己的域名，但是并不是必须的。&lt;br&gt;搭建好了看着还是很有成就感的。但是，重点是但是，后期的优化，以及你的“私人订制”没有特别好的帖子，恐怕需&lt;br&gt;要上官网以及自己摸索了。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;Google有很多关于如何搭建的帖子，我也是搜了很多个，一起参考，最后不幸的是，蒙圈了，只能重新删了再装。&lt;br&gt;先不说这个了。好多帖子都建议买一个自己的域名，但是并不是必须的。&lt;br&gt;搭建好了看着还是很有成就感的。但是，重点是但是，后期的优化，以及你的“私人订制”没有特别
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>my new post</title>
