@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-04-17T11:43:01.677Z</updated>
+  <updated>2016-04-18T11:15:54.242Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -16,13 +16,33 @@
   <generator uri="http://hexo.io/">Hexo</generator>
   
   <entry>
+    <title>渣打面试机试</title>
+    <link href="http://wxjttxs.github.io/2016/04/18/%E6%B8%A3%E6%89%93%E9%9D%A2%E8%AF%95%E6%9C%BA%E8%AF%95/"/>
+    <id>http://wxjttxs.github.io/2016/04/18/渣打面试机试/</id>
+    <published>2016-04-18T10:51:57.000Z</published>
+    <updated>2016-04-18T11:15:54.242Z</updated>
+    
+    <content type="html">&lt;p&gt;第一次通过宣讲会投递简历，太紧张了。&lt;br&gt;不过更加明确了自己对于银行领域的不足之处：&lt;br&gt;这个笔试的内容有：&lt;br&gt;1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了&lt;br&gt;是PE私募股权），还有一些别的概念，忘了。&lt;br&gt;2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？&lt;br&gt;3.列出至少5个Unix/Linux shell命令以及作用。（要是用过的人应该是小case）&lt;br&gt;4.选择题考察了很多JAVA机制。哎，一直用的都是C/C++,所以全靠感觉。。。&lt;br&gt;5.最后的编程题，写用哪种语言实现排序。哈哈，第一印象就是冒泡，因为不是专门的互联网的那种笔试，没有直接的编译器，所以&lt;br&gt;就写下了主要的sort（），连 main都没有。教训：去到一个自己不熟悉的环境，要问工作人员是不是电脑安装了编译环境，有问题就提。&lt;br&gt;不过，太简单了，所以现在想想它要求的是不是实现三种排序方法啊？赶紧再看看别的。&lt;br&gt;之后是面试：&lt;br&gt;面试的主管是三十五岁左右的技术大牛，还算和蔼可亲。&lt;br&gt;问的问题主要是&lt;br&gt;你觉得渣打哪一点吸引你？&lt;br&gt;（看了我的简历），学校主要讲的是c++，但是企业大多数用的是Java啊；&lt;br&gt;你的项目经历像是学校交作业？！（他应该是说我之前的项目太low了吧）；&lt;br&gt;关注CET-6（毕竟是外企），我写的是读写熟练，没涉及听说，他就问在这样的环境中会感觉压力大么？&lt;br&gt;写了会使用很多软件，他一眼就看到R，所以应该这个以后会用到工作中吧。&lt;br&gt;问我对企业还有什么疑问？我就问了我最关心的银行的研发部门主要是做什么的。他只是说并不像外界传言的那么简单，有很多业务，&lt;br&gt;也很辛苦。&lt;/p&gt;
+&lt;p&gt;好激动，接近二个半小时的宣讲、笔试、面试结束了。总的来说，银行的笔试比较泛，对编程的要求没有互联网的高（或许是我的误解），&lt;br&gt;最重要的是，明白了自己的短板，有太多需要准备的了。&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;第一次通过宣讲会投递简历，太紧张了。&lt;br&gt;不过更加明确了自己对于银行领域的不足之处：&lt;br&gt;这个笔试的内容有：&lt;br&gt;1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了&lt;br&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
     <title>阿里巴巴2015算法工程师</title>
     <link href="http://wxjttxs.github.io/2016/04/17/%E9%98%BF%E9%87%8C%E5%B7%B4%E5%B7%B42015%E7%AE%97%E6%B3%95/"/>
     <id>http://wxjttxs.github.io/2016/04/17/阿里巴巴2015算法/</id>
     <published>2016-04-17T06:13:26.000Z</published>
-    <updated>2016-04-17T11:43:01.677Z</updated>
+    <updated>2016-04-17T14:19:57.476Z</updated>
     
-    <content type="html">&lt;p&gt;1.求m进制下N！的末尾为0的个数的问题：&lt;/p&gt;
+    <content type="html">&lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/u013630349/article/details/47056741&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;更多信息&lt;/a&gt;&lt;br&gt;1.求m进制下N！的末尾为0的个数的问题：&lt;/p&gt;
 &lt;p&gt;count=N/m+N/m^2+N/m^3+..+N/m^k         (m^k&amp;lt;=N)&lt;br&gt;原因是：比如二进制问题，每乘以2则向左移一位，末尾补0，因为相当于求乘了多少个2.&lt;br&gt;2.SQL语句，可能返回null值：&lt;br&gt;只记得select count(*) from t1;是不会出现的，因为就算表为空，返回的是0；所以用排除法选择&lt;br&gt;select max(col1) from t1;//表格为空则为空&lt;br&gt;3.关于STL的描述。（这是客观的，没啥好说的）&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;STL容器是线程不安全的；&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;当容量不够时，vector内部内存扩展方式是翻倍的&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
 &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;std::sort排序不稳定&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
@@ -34,8 +54,8 @@
     
     <summary type="html">
     
-      &lt;p&gt;1.求m进制下N！的末尾为0的个数的问题：&lt;/p&gt;
-&lt;p&gt;count=N/m+N/m^2+N/m^3+..+N/m^k         (m^k&amp;lt;=N)&lt;br&gt;原因是：比如二进制问题，每乘以2则向左移一位，末尾补0，因为相当于求乘了多少个2.&lt;br&gt;2.SQL语句，可
+      &lt;p&gt;&lt;a href=&quot;http://blog.csdn.net/u013630349/article/details/47056741&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;更多信息&lt;/a&gt;&lt;br&gt;1.求m进制下N！的末尾为0的个数的问题：&lt;/p&gt;
+&lt;
     
     </summary>
     
