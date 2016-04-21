@@ -4,23 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>重要的排序 | happy happy</title>
+    <title>happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889#include&amp;lt;iostream&amp;gt;using n">
+    <meta name="description" content="//找出旋转有sheng序数组的最小值12345678910111213141516171819202122232425262728293031323334353637383940414243#include&amp;lt;iostream&amp;gt;using namespace std;int inorder(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)">
 <meta property="og:type" content="article">
-<meta property="og:title" content="重要的排序">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/18/重要的排序/index.html">
+<meta property="og:title" content="happy happy">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/旋转升序的最小值/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889#include&amp;lt;iostream&amp;gt;using n">
-<meta property="og:updated_time" content="2016-04-19T03:00:57.628Z">
+<meta property="og:description" content="//找出旋转有sheng序数组的最小值12345678910111213141516171819202122232425262728293031323334353637383940414243#include&amp;lt;iostream&amp;gt;using namespace std;int inorder(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)">
+<meta property="og:updated_time" content="2016-04-21T13:05:59.656Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="重要的排序">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132333435363738394041424344454647484950515253545556575859606162636465666768697071727374757677787980818283848586878889#include&amp;lt;iostream&amp;gt;using n">
+<meta name="twitter:title" content="happy happy">
+<meta name="twitter:description" content="//找出旋转有sheng序数组的最小值12345678910111213141516171819202122232425262728293031323334353637383940414243#include&amp;lt;iostream&amp;gt;using namespace std;int inorder(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/18/重要的排序/" title="重要的排序" itemprop="url">重要的排序</a>
+      <a href="/2016/04/21/旋转升序的最小值/" title="" itemprop="url"></a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-18T14:53:18.000Z" itemprop="datePublished"> 发表于 2016-04-18</time>
+    <time datetime="2016-04-21T13:04:47.103Z" itemprop="datePublished"> 发表于 2016-04-21</time>
     
   </p>
 </header>
@@ -102,7 +102,8 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//冒泡 (稳定) 时间复杂度太低下，最坏和平均是0（n^2），最好是0(n)</span><br><span class="line">//******************************</span><br><span class="line">//void BubbleSort1(int a[],int n)&#123;</span><br><span class="line">//    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">//        for(int j=i+1;j&lt;n;j++)&#123;//网上好多这个地方写的跟我的不一样，但是这种傻瓜式的挨个比较太好理解</span><br><span class="line">//            if(a[i]&gt;a[j])</span><br><span class="line">//                swap(a[i],a[j]);</span><br><span class="line">//        &#125;</span><br><span class="line">//    &#125;</span><br><span class="line">//    for(int i=0;i&lt;n;i++)</span><br><span class="line">//        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">//&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">//快排，快啊（不稳定）。  最好和平均为0（nlogn），最坏0（n^2）</span><br><span class="line">//************************************</span><br><span class="line">int part(int a[],int low,int high)&#123;//划分成左右子数组，找到中间位置</span><br><span class="line"> int temp=a[high];//最后一个元素作为中间元素</span><br><span class="line"> int i=low-1;//i是慢速下标</span><br><span class="line"> for(int j=low;j&lt;high;j++)&#123;//挨个检查元素，比中间值小的在放在它的左边，大的放在右边</span><br><span class="line">    if(a[j]&lt;=temp)&#123;</span><br><span class="line">        i++;</span><br><span class="line">        swap(a[i],a[j]);</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br><span class="line"> swap(a[i+1],a[high]);</span><br><span class="line"> return i+1;//找到第一个比中间值大的元素，返回它的位置,这就是中间元素所在位置</span><br><span class="line">&#125;</span><br><span class="line">void QuickSort(int a[],int low, int high)&#123;</span><br><span class="line">    if(low&lt;high)&#123;</span><br><span class="line">        int mid=part(a,low,high);</span><br><span class="line">        QuickSort(a,low,mid-1);</span><br><span class="line">        QuickSort(a,mid+1,high);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//插入排序，数据很小时候使用</span><br><span class="line">//****************************888</span><br><span class="line">void InsertSort(int a[],int n)&#123;</span><br><span class="line">    for(int i=1;i&lt;n;i++)&#123;//temp是被排序的数字，从第二个数字之后插入已经排好的数组</span><br><span class="line">       int temp=a[i];</span><br><span class="line">        int j;</span><br><span class="line">        for(j=i-1;j&gt;=0&amp;&amp;a[j]&gt;temp;j--)&#123;//j代表已经排好序的数字，从后往前比较</span><br><span class="line">            a[j+1]=a[j];</span><br><span class="line">       &#125;</span><br><span class="line">        a[j+1]=temp;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">//堆排。利用堆这种数据结构，特殊的二叉树</span><br><span class="line"></span><br><span class="line">//堆排太不好理解了</span><br><span class="line">//随时准备调整满足大顶堆</span><br><span class="line">//***************************************************8</span><br><span class="line">void MaxHeap(int a[], int start,int endd)&#123;//父节点，最后一个叶子节点</span><br><span class="line">    int dad=start;</span><br><span class="line">    int son=dad*2+1;</span><br><span class="line">    while(son&lt;endd)&#123;</span><br><span class="line">        if(son+1&lt;endd &amp;&amp; a[son]&lt;a[son+1])//找到子节点最大de那个</span><br><span class="line">            son++;</span><br><span class="line">        if(a[dad]&gt;a[son])</span><br><span class="line">            break;</span><br><span class="line">        else&#123;</span><br><span class="line">            swap(a[dad],a[son]);</span><br><span class="line">            dad=son;</span><br><span class="line">            son=dad*2+1;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">void HeapSort(int a[],int n)&#123;</span><br><span class="line">    for(int i=n/2-1;i&gt;=0;i--)//找到最后一个父节点,依次到第一个父节点。初始化，调整好大顶堆</span><br><span class="line">        MaxHeap(a,i,n);</span><br><span class="line">    for(int i=n-1;i&gt;0;i--)&#123;</span><br><span class="line">        swap(a[0],a[i]);//将当前根节点0和最后一个节点i调换</span><br><span class="line">        MaxHeap(a,0,i);//i为调整后的根节点，不是最大，所以重新调整</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[]=&#123;1,5,6,7,8,9,0,3,2,1&#125;;</span><br><span class="line">  //  BubbleSort1(a,4);</span><br><span class="line">   // QuickSort(a,0,9);</span><br><span class="line">    //InsertSort(a,10);</span><br><span class="line">    HeapSort(a,10);</span><br><span class="line">    for(int i=0;i&lt;10;i++)</span><br><span class="line">       cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<p>//找出旋转有sheng序数组的最小值<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">int inorder(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">       throw exception();</span><br><span class="line">    int temp=a[0];</span><br><span class="line">    for(int i=1;i&lt;n;i++)&#123;</span><br><span class="line">        if(a[i]&lt;temp)</span><br><span class="line">            temp=a[i];</span><br><span class="line">    &#125;</span><br><span class="line">    return temp;</span><br><span class="line">&#125;</span><br><span class="line">int Minelement(int *a,int n)&#123;</span><br><span class="line">    int start=0;</span><br><span class="line">    int endt=n-1;</span><br><span class="line">    int mid=start;//如果这个数字就是有序的 1 2 3 4</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return 0;</span><br><span class="line">    while(a[start]&gt;=a[endt])&#123;</span><br><span class="line"></span><br><span class="line">        if(start==endt-1)&#123;//找到最小值</span><br><span class="line">            mid=endt;</span><br><span class="line">            break;</span><br><span class="line">        &#125;</span><br><span class="line">        mid=(start+endt)/2;</span><br><span class="line">        if(a[endt]==a[start]&amp;&amp;a[mid]==a[start])</span><br><span class="line">              return inorder(a,n);//这里 必须再添加一个一个return，要不然就不会执行</span><br><span class="line">        if(a[mid]&lt;=a[endt])</span><br><span class="line">            endt=mid;</span><br><span class="line">        else if(a[mid]&gt;=a[start])&#123;</span><br><span class="line">            start=mid;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    return a[mid];</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    //测试用例：本身有序&#123;1,2,3,4,5,6&#125;，a[mid]=a[start]=a[endt];还有正常情况下的</span><br><span class="line"></span><br><span class="line">    int a[6]=&#123;0,1,1,1,1,1&#125;;</span><br><span class="line">    cout&lt;&lt;Minelement(a,6)&lt;&lt;endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +115,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/18/重要的排序/" data-title="重要的排序 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/04/21/旋转升序的最小值/" data-title="happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -127,19 +128,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/18/关于链表必须知道的事/" title="关于链表必须知道的事">
-  <strong>上一篇：</strong><br/>
-  <span>
-  关于链表必须知道的事</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/18/渣打面试机试/"  title="渣打面试机试">
+<a href="/2016/04/21/排序给定人数的年龄o-n/"  title="排序给定人数的年龄o(n)">
  <strong>下一篇：</strong><br/> 
- <span>渣打面试机试
+ <span>排序给定人数的年龄o(n)
 </span>
 </a>
 </div>

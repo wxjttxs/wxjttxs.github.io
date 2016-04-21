@@ -1,10 +1,10 @@
 
- <!DOCTYPE HTML>
+  <!DOCTYPE HTML>
 <html lang="zh-CN">
 <head>
   <meta charset="UTF-8">
   
-    <title>categories | happy happy</title>
+    <title>归档: 2016 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
@@ -13,13 +13,12 @@
     
     <meta name="description">
 <meta property="og:type" content="website">
-<meta property="og:title" content="categories">
-<meta property="og:url" content="http://wxjttxs.github.io/tools/index.html">
+<meta property="og:title" content="happy happy">
+<meta property="og:url" content="http://wxjttxs.github.io/archives/2016/page/2/index.html">
 <meta property="og:site_name" content="happy happy">
 <meta property="og:description">
-<meta property="og:updated_time" content="2016-04-16T08:17:33.733Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="categories">
+<meta name="twitter:title" content="happy happy">
 <meta name="twitter:description">
 
     
@@ -76,15 +75,52 @@
 </div>
       </header>
       <div id="container">
-          
+        
+
 <div class="archive-title" >
-<h2 class="category-icon">分类</h2>
-
+  <h2 class="archive-icon">2016</h2>
+  
+  <div class="archiveslist archive-float clearfix">
+   <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/04/">2016 年 04 月</a><span class="archive-list-count">12</span></li></ul>
+ </div>
+  
 </div>
-<div id="main" class="archive-part">
-<div class="all-list-box"></div>
-</div>
+<div id="main" class="archive-part clearfix">
+  <div id="archive-page">
 
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2016/04/16/利用hexo配置静态博客过程记录/" title="利用hexo配置静态博客过程记录" itemprop="url">
+  
+
+    <time datetime="2016-04-16T14:21:23.000Z" itemprop="datePublished">2016-04-16</time>
+
+
+    <h1 itemprop="name">利用hexo配置静态博客过程记录</h1>
+
+  </a>
+</section>
+
+  <section class="post" itemscope itemprop="blogPost">
+  
+    <a href="/2016/04/12/hello-world/" title="Hello World" itemprop="url">
+  
+
+    <time datetime="2016-04-12T03:44:04.915Z" itemprop="datePublished">2016-04-12</time>
+
+
+    <h1 itemprop="name">Hello World</h1>
+
+  </a>
+</section>
+
+
+  <nav id="page-nav" class="clearfix archive-nav">
+    <a class="extend prev" rel="prev" href="/archives/2016/"><span></span>Prev</a><a class="page-number" href="/archives/2016/">1</a><span class="page-number current">2</span>
+  </nav>
+
+  </div>
+</div>
 
       </div>
       <footer><div id="footer" >
@@ -183,24 +219,6 @@ $(document).ready(function(){
 
 
 
-
-<script type="text/javascript">
-$(document).ready(function(){ 
-  var list    = $('.archive-title a'),
-      box     = $('.all-list-box'),
-      first   = $('.archive-title a:first-of-type');
-      box.load(first.attr('data-src').toString()+' #archive-page');
-      first.addClass('current');
-  list.each(function(){
-    $(this).click(function(){
-      var listSrc=$(this).attr('data-src').toString()+' #archive-page';
-      box.load(listSrc);
-      list.removeClass('current');
-      $(this).addClass('current');
-     });  
-    });
-  }); 
-</script>
 
 
 <link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
