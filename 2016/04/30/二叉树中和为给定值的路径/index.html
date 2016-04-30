@@ -4,44 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>二叉树中和为给定值的路径 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+    <meta name="description" content="//给定二叉树和一个值，找到二叉树中和等于这个值的路径
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stack&amp;gt;
+#include&amp;lt;vector&amp;gt;
 using namespace std;
 struct BinaryTreeNode{
     int m_nValue;
     BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    Binary">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="二叉树中和为给定值的路径">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/04/30/二叉树中和为给定值的路径/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+<meta property="og:description" content="//给定二叉树和一个值，找到二叉树中和等于这个值的路径
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stack&amp;gt;
+#include&amp;lt;vector&amp;gt;
 using namespace std;
 struct BinaryTreeNode{
     int m_nValue;
     BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+    Binary">
+<meta property="og:updated_time" content="2016-04-30T13:28:24.945Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+<meta name="twitter:title" content="二叉树中和为给定值的路径">
+<meta name="twitter:description" content="//给定二叉树和一个值，找到二叉树中和等于这个值的路径
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stack&amp;gt;
+#include&amp;lt;vector&amp;gt;
 using namespace std;
 struct BinaryTreeNode{
     int m_nValue;
     BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    Binary">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +106,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/04/30/二叉树中和为给定值的路径/" title="二叉树中和为给定值的路径" itemprop="url">二叉树中和为给定值的路径</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-04-30T13:27:40.000Z" itemprop="datePublished"> 发表于 2016-04-30</time>
     
   </p>
 </header>
@@ -123,9 +126,10 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
+		<pre><code>//给定二叉树和一个值，找到二叉树中和等于这个值的路径
+#include &lt;iostream&gt;
+#include&lt;stack&gt;
+#include&lt;vector&gt;
 using namespace std;
 struct BinaryTreeNode{
     int m_nValue;
@@ -167,54 +171,41 @@ BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
             return NULL;
         return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
 }
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
-    }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
-
-    }
-     return result;
-}
-
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
+void FindAllPath(BinaryTreeNode* pRoot,int expectedSum,vector&lt;int&gt;&amp; path,int currentSum){
+    currentSum+=pRoot-&gt;m_nValue;
+    path.push_back(pRoot-&gt;m_nValue);
+    bool isLeaf=(pRoot-&gt;m_pLeft==NULL)&amp;&amp;(pRoot-&gt;m_pRight==NULL);
+    //叶子节点，并且路径上的节点的和等于期望的和
+    if(currentSum==expectedSum &amp;&amp; isLeaf){
+        cout&lt;&lt;&quot;the path is found:&quot;;
+        vector&lt;int&gt;::iterator iter=path.begin();
+        for(;iter!=path.end();iter++)
+            cout&lt;&lt;*iter&lt;&lt;&quot; &quot;;
         cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
+    }
+    //不是叶子节点，那就继续遍历左右子树
+    if(pRoot-&gt;m_pLeft)
+        FindAllPath(pRoot-&gt;m_pLeft,expectedSum,path,currentSum);
+    if(pRoot-&gt;m_pRight)
+        FindAllPath(pRoot-&gt;m_pRight,expectedSum,path,currentSum);
+    //是叶子节点，但是路径的和并不等于期望的和,那就回退
+    path.pop_back();
+}
+void FindPath(BinaryTreeNode* pRoot,int expectedSum){
+    if(pRoot==NULL)
+        return;
+    vector&lt;int&gt; path;
+    int currentSum=0;
+    FindAllPath(pRoot,expectedSum,path,currentSum);
+}
+int main()
+{
+    BinaryTreeNode* Btree;
+    int preorder[]={10,5,4,7,12};
+    int inorder[]={4,5,7,10,12};
+    Btree= Contrust(preorder,inorder,5);
+    FindPath(Btree,22);
+    return 0;
 }
 </code></pre>  
 	</div>
@@ -228,7 +219,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/04/30/二叉树中和为给定值的路径/" data-title="二叉树中和为给定值的路径 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -241,19 +232,11 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
-  <strong>上一篇：</strong><br/>
-  <span>
-  链表和队列</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/04/30/后序序列可以构成BST？/"  title="后序序列可以构成BST？">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>后序序列可以构成BST？
 </span>
 </a>
 </div>

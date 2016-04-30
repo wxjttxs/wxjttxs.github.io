@@ -4,44 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>O(1)删除指定节点 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    <meta name="description" content="引入对typedef struct and struct 的结构的比较。百度文库在C 和C++中有三种定义结构的方法1.//这种方法可以在C and C++中定义一个S1结构体
+typedef struct{
+
+   }S1;
+2.//只能在C++使用
+struct S2{
+   };
+3.//这种方法并没有定义结构体，而是定义了一个S3的结构变量，编译器会为S3分配内存
+struct{
+  }S">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="O(1)删除指定节点">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/04/26/O-1-删除指定节点/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+<meta property="og:description" content="引入对typedef struct and struct 的结构的比较。百度文库在C 和C++中有三种定义结构的方法1.//这种方法可以在C and C++中定义一个S1结构体
+typedef struct{
+
+   }S1;
+2.//只能在C++使用
+struct S2{
+   };
+3.//这种方法并没有定义结构体，而是定义了一个S3的结构变量，编译器会为S3分配内存
+struct{
+  }S">
+<meta property="og:updated_time" content="2016-04-27T01:16:28.222Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+<meta name="twitter:title" content="O(1)删除指定节点">
+<meta name="twitter:description" content="引入对typedef struct and struct 的结构的比较。百度文库在C 和C++中有三种定义结构的方法1.//这种方法可以在C and C++中定义一个S1结构体
+typedef struct{
+
+   }S1;
+2.//只能在C++使用
+struct S2{
+   };
+3.//这种方法并没有定义结构体，而是定义了一个S3的结构变量，编译器会为S3分配内存
+struct{
+  }S">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +109,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/04/26/O-1-删除指定节点/" title="O(1)删除指定节点" itemprop="url">O(1)删除指定节点</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-04-26T15:21:25.000Z" itemprop="datePublished"> 发表于 2016-04-26</time>
     
   </p>
 </header>
@@ -123,100 +129,17 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
+		<p>引入对typedef struct and struct 的结构的比较。<a href="http://wenku.baidu.com/view/484d1f0b52ea551810a6875c" target="_blank" rel="external">百度文库</a><br>在C 和C++中有三种定义结构的方法<br>1.//这种方法可以在C and C++中定义一个S1结构体</p>
+<pre><code>typedef struct{
 
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&gt;m_nValue=rootValue;
-    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&gt;0)//左子树的长度,构建左子树
-     {
-         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
-        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
-    }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
-
-    }
-     return result;
-}
-
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
-}
-</code></pre>  
+   }S1;
+</code></pre><p>2.//只能在C++使用</p>
+<pre><code>struct S2{
+   };
+</code></pre><p>3.//这种方法并没有定义结构体，而是定义了一个S3的结构变量，编译器会为S3分配内存</p>
+<pre><code>struct{
+  }S3;
+</code></pre><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br></pre></td><td class="code"><pre><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">typedef struct Node&#123;</span><br><span class="line">    int m_nValue;</span><br><span class="line">    Node* m_pNext;</span><br><span class="line"></span><br><span class="line">&#125;Node,*List;//必须添加typedef</span><br><span class="line">void InsertNode(List&amp; L,int data)&#123;</span><br><span class="line">    Node* p=new Node;</span><br><span class="line">    p-&gt;m_nValue=data;</span><br><span class="line">    p-&gt;m_pNext=NULL;</span><br><span class="line">    if(NULL==L)</span><br><span class="line">        L=p;</span><br><span class="line">    else&#123;//采用头插法</span><br><span class="line">        p-&gt;m_pNext=L;</span><br><span class="line">        L=p;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">void DeleteNode(List&amp; L, Node* pToBeDeleted)&#123;</span><br><span class="line">    Node* p=new Node;</span><br><span class="line">    if(!L||!pToBeDeleted)</span><br><span class="line">        return;</span><br><span class="line">    if(pToBeDeleted==L)&#123;//删除头结点</span><br><span class="line">        L=L-&gt;m_pNext;</span><br><span class="line">        delete pToBeDeleted;</span><br><span class="line">        pToBeDeleted=NULL;</span><br><span class="line">    &#125;</span><br><span class="line">    else&#123;</span><br><span class="line">        if(pToBeDeleted-&gt;m_pNext==NULL)&#123;//尾节点</span><br><span class="line"></span><br><span class="line">            p=L;</span><br><span class="line">            while(p-&gt;m_pNext!=pToBeDeleted)&#123;</span><br><span class="line">                p=p-&gt;m_pNext;</span><br><span class="line">            &#125;</span><br><span class="line">            p-&gt;m_pNext=NULL;</span><br><span class="line">            delete pToBeDeleted;</span><br><span class="line">            pToBeDeleted=NULL;</span><br><span class="line">        &#125;</span><br><span class="line">        else&#123;//中间节点,用后一个数据直接覆盖前一个数据</span><br><span class="line">           p=pToBeDeleted-&gt;m_pNext;</span><br><span class="line">           pToBeDeleted-&gt;m_nValue=p-&gt;m_nValue;</span><br><span class="line">           pToBeDeleted-&gt;m_pNext=p-&gt;m_pNext;</span><br><span class="line">           delete p;</span><br><span class="line">           p=NULL;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">void PrintNode(List&amp; L)&#123;</span><br><span class="line">    if(NULL==L);</span><br><span class="line">    else&#123;</span><br><span class="line">        Node* p=L;</span><br><span class="line">        while(p)&#123;</span><br><span class="line">            cout&lt;&lt;p-&gt;m_nValue&lt;&lt;&quot; &quot;;</span><br><span class="line">            p=p-&gt;m_pNext;</span><br><span class="line">        &#125;</span><br><span class="line">        cout&lt;&lt;endl;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">int main()&#123;</span><br><span class="line">    List L=NULL;</span><br><span class="line">    int data;</span><br><span class="line">    Node* p;</span><br><span class="line">    InsertNode(L,1);</span><br><span class="line">    InsertNode(L,2);</span><br><span class="line">    InsertNode(L,3);</span><br><span class="line">    InsertNode(L,4);</span><br><span class="line">    PrintNode(L);</span><br><span class="line"></span><br><span class="line">    cout&lt;&lt;&quot;输入删除节点：&quot;;</span><br><span class="line">    cin&gt;&gt;data;</span><br><span class="line">    while(data)&#123;</span><br><span class="line"></span><br><span class="line">        p=L;</span><br><span class="line">        while(p-&gt;m_nValue!=data&amp;&amp; p)</span><br><span class="line">            p=p-&gt;m_pNext;</span><br><span class="line">        DeleteNode(L,p);</span><br><span class="line">        PrintNode(L);</span><br><span class="line">        cin&gt;&gt;data;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -228,7 +151,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/04/26/O-1-删除指定节点/" data-title="O(1)删除指定节点 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -242,18 +165,18 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
+ <a href="/2016/04/27/特定要求的排序：奇数移动到偶数前面/" title="特定要求的排序：奇数移动到偶数前面">
   <strong>上一篇：</strong><br/>
   <span>
-  链表和队列</span>
+  特定要求的排序：奇数移动到偶数前面</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/04/22/post打印1-n的最大/"  title="post打印1~n的最大">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>post打印1~n的最大
 </span>
 </a>
 </div>

@@ -4,44 +4,56 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>链表反转 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+    <meta name="description" content="//反转链表注意别断链
+#include &amp;lt;iostream&amp;gt;
+
 using namespace std;
-struct BinaryTreeNode{
+typedef struct ListNode{
     int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
+
+
+void Insert(List&amp;amp; pHead,int data){
+    Li">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="链表反转">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/04/27/链表反转/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+<meta property="og:description" content="//反转链表注意别断链
+#include &amp;lt;iostream&amp;gt;
+
 using namespace std;
-struct BinaryTreeNode{
+typedef struct ListNode{
     int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
+
+
+void Insert(List&amp;amp; pHead,int data){
+    Li">
+<meta property="og:updated_time" content="2016-04-27T03:30:13.730Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
+<meta name="twitter:title" content="链表反转">
+<meta name="twitter:description" content="//反转链表注意别断链
+#include &amp;lt;iostream&amp;gt;
+
 using namespace std;
-struct BinaryTreeNode{
+typedef struct ListNode{
     int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
+
+
+void Insert(List&amp;amp; pHead,int data){
+    Li">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +115,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/04/27/链表反转/" title="链表反转" itemprop="url">链表反转</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-04-27T03:29:09.000Z" itemprop="datePublished"> 发表于 2016-04-27</time>
     
   </p>
 </header>
@@ -123,98 +135,69 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
+		<p>//反转链表注意别断链</p>
+<pre><code>#include &lt;iostream&gt;
+
 using namespace std;
-struct BinaryTreeNode{
+typedef struct ListNode{
     int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
 
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&gt;m_nValue=rootValue;
-    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
+
+void Insert(List&amp; pHead,int data){
+    ListNode* p=new ListNode;
+    p-&gt;m_nValue=data;
+    p-&gt;m_pNext=NULL;
+    if(pHead==NULL)
+        pHead=p;
+    else{
+        p-&gt;m_pNext=pHead;
+        pHead=p;
     }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&gt;0)//左子树的长度,构建左子树
-     {
-         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
-        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
+
 }
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
+void Print(List&amp; pHead){
+    if(pHead==NULL)
+        return ;
+    ListNode* p=pHead;
+    while(p){
+        cout&lt;&lt;p-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        p=p-&gt;m_pNext;
     }
+    cout&lt;&lt;endl;
 }
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
+ListNode *ReverseList(List &amp;L){
+    ListNode* pNode=L;
+    List ReverseHead=NULL;
+    ListNode* pPre=NULL;//前一个节点
+    while(pNode!=NULL){
+        ListNode* pNext=pNode-&gt;m_pNext;//保存后一个节点，不至于反转时候丢失
 
+        if(pNext==NULL)
+            ReverseHead=pNode;//就一个节点
+        pNode-&gt;m_pNext=pPre;//实现反转
+        pPre=pNode;
+        pNode=pNext;//继续下一对节点的反转
     }
-     return result;
+    return ReverseHead;
 }
+int main()
+{
+    ListNode *p;
+    List L=NULL;
+    Insert(L,5);
+    Insert(L,2);
+    Insert(L,3);
+    Insert(L,4);
+    Print(L);
+    p=ReverseList(L);
+    while(p){
+        cout&lt;&lt;p-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        p=p-&gt;m_pNext;
+    }
 
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
+    return 0;
 }
 </code></pre>  
 	</div>
@@ -228,7 +211,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/04/27/链表反转/" data-title="链表反转 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -242,18 +225,18 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
+ <a href="/2016/04/27/合并链表/" title="合并链表">
   <strong>上一篇：</strong><br/>
   <span>
-  链表和队列</span>
+  合并链表</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/04/27/查找倒数第k个节点/"  title="查找倒数第k个节点">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>查找倒数第k个节点
 </span>
 </a>
 </div>
