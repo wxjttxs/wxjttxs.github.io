@@ -4,23 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>BST转换双向链表 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="//实现二叉搜索树到双向链表的转换
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+void Print">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="BST转换双向链表">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/02/BST转换双向链表/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="//实现二叉搜索树到双向链表的转换
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+void Print">
+<meta property="og:updated_time" content="2016-05-02T07:28:46.433Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="BST转换双向链表">
+<meta name="twitter:description" content="//实现二叉搜索树到双向链表的转换
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+void Print">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +109,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/05/02/BST转换双向链表/" title="BST转换双向链表" itemprop="url">BST转换双向链表</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-02T02:48:02.000Z" itemprop="datePublished"> 发表于 2016-05-02</time>
     
   </p>
 </header>
@@ -102,7 +129,113 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<pre><code>//实现二叉搜索树到双向链表的转换
+#include &lt;iostream&gt;
+#include&lt;queue&gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+void PrintFromTopToBottom(BinaryTreeNode* pTreeRoot){
+    if(!pTreeRoot)
+        return;
+    queue&lt;BinaryTreeNode*&gt; que;
+    que.push(pTreeRoot);
+    while(que.size()){
+        BinaryTreeNode* pNode=que.front();//指向队列的第一个元素，要被弹出的元素
+        que.pop();
+        cout&lt;&lt;pNode-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        if(pNode-&gt;m_pLeft)//打印节点的左右子节点
+            que.push(pNode-&gt;m_pLeft);
+        if(pNode-&gt;m_pRight)
+            que.push(pNode-&gt;m_pRight);
+    }
+}
+void Print(BinaryTreeNode*  &amp;pHead){
+    if(pHead==NULL)
+        return ;
+    BinaryTreeNode* p=pHead;
+    while(p){
+        cout&lt;&lt;p-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        p=p-&gt;m_pRight;
+    }
+    cout&lt;&lt;endl;
+}
+BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
+    //根据先序确定第一个数值确定根节点
+   //BinaryTreeNode *root;
+    int rootValue=startpreorder[0];
+    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
+    root-&gt;m_nValue=rootValue;
+    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
+    if(startpreorder==endpreorder){
+        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
+            return root;
+        else
+            throw std::exception();
+    }
+    //在中序找到根节点所在位置
+    int*rootinoder=startinorder;
+     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
+        rootinoder++;
+     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
+         throw exception();
+     int leftLength=rootinoder-startinorder;
+     int* leftPreorderEnd=startpreorder+leftLength;
+     if(leftLength&gt;0)//左子树的长度,构建左子树
+     {
+         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
+     }
+    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
+        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
+    return root;
+}
+BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
+        if(preorder==NULL||inorder==NULL||length&lt;=0)
+            return NULL;
+        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
+}
+void CovertNode(BinaryTreeNode* pNode,BinaryTreeNode** pLastNodeInList){
+    if(pNode==NULL)
+        return;
+    BinaryTreeNode* pCurrent=pNode;
+    if(pCurrent-&gt;m_pLeft!=NULL)//转换左子树为排序的双向链表
+        CovertNode(pCurrent-&gt;m_pLeft,pLastNodeInList);
+    pCurrent-&gt;m_pLeft=*pLastNodeInList;//pCurrent指向根节点
+    if(*pLastNodeInList!=NULL)
+        (*pLastNodeInList)-&gt;m_pRight=pCurrent;//连接上根节点
+    *pLastNodeInList=pCurrent;//当前双向链表的最后一个几点就是根节点
+    if(pCurrent-&gt;m_pRight!=NULL)
+        CovertNode(pCurrent-&gt;m_pRight,pLastNodeInList);
+
+}
+BinaryTreeNode* Covert(BinaryTreeNode* pRootOfTree){
+    BinaryTreeNode* pLastNodeInList=NULL;//双向链表为 空
+    CovertNode(pRootOfTree,&amp;pLastNodeInList);
+    //pLastNodeInList指向双向链表的最后
+    //我们需要返回最后结点
+    BinaryTreeNode* pHeadOfList=pLastNodeInList;
+    while(pHeadOfList!=NULL &amp;&amp; pHeadOfList-&gt;m_pLeft!=NULL)//最后找到双向链表的头结点
+        pHeadOfList=pHeadOfList-&gt;m_pLeft;
+    return pHeadOfList;
+}
+int main()
+{
+    BinaryTreeNode* Btree;
+    int preorder[]={10,6,4,8,14,12,16};
+    int inorder[]={4,6,8,10,12,14,16};
+    Btree= Contrust(preorder,inorder,7);
+    PrintFromTopToBottom(Btree);
+    cout&lt;&lt;endl;
+
+    BinaryTreeNode* L=Covert(Btree);
+
+    Print(L);
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +247,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/02/BST转换双向链表/" data-title="BST转换双向链表 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +261,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/02/字符串全排列/" title="字符串全排列(去重)以及全组合（2^n-1）">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  字符串全排列(去重)以及全组合（2^n-1）</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/04/30/复制复杂链表/"  title="复制复杂链表">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>复制复杂链表
 </span>
 </a>
 </div>

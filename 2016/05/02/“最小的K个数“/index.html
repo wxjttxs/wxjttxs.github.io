@@ -4,23 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>最小的K个数 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;set&amp;gt;
+#include&amp;lt;vector&amp;gt;
+
+using namespace std;
+//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
+//借鉴快排的划分
+
+//int Partition(int *a, int start">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="最小的K个数">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/02/“最小的K个数“/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;set&amp;gt;
+#include&amp;lt;vector&amp;gt;
+
+using namespace std;
+//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
+//借鉴快排的划分
+
+//int Partition(int *a, int start">
+<meta property="og:updated_time" content="2016-05-02T14:25:53.110Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="最小的K个数">
+<meta name="twitter:description" content="#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;set&amp;gt;
+#include&amp;lt;vector&amp;gt;
+
+using namespace std;
+//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
+//借鉴快排的划分
+
+//int Partition(int *a, int start">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +109,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/05/02/“最小的K个数“/" title="最小的K个数" itemprop="url">最小的K个数</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-02T14:24:15.000Z" itemprop="datePublished"> 发表于 2016-05-02</time>
     
   </p>
 </header>
@@ -102,7 +129,98 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<pre><code>#include &lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;set&gt;
+#include&lt;vector&gt;
+
+using namespace std;
+//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
+//借鉴快排的划分
+
+//int Partition(int *a, int start ,int ent){
+//    if(a==NULL||start&lt;0||ent&lt;0)
+//        throw new exception();
+//    int temp=a[ent];//最后一个值作为基准
+//    int i=start-1;
+//    for(int j=start;j&lt;ent;j++){
+//        if(a[j]&lt;=temp){
+//            i++;
+//            swap(a[i],a[j]);
+//        }
+//    }
+//    swap(a[i+1],a[ent]);
+//    return i+1;
+//}
+//void GetLeastNumber(int *input,int n,int k){
+//   // int output[k]={0};
+//    if(input==NULL||n&lt;=0||k&lt;=0||k&gt;n)
+//        return;
+//    int start=0;
+//    int endt=n-1;
+//    int index=Partition(input,start,endt);
+//    while(index!=k-1){
+//        if(index&lt;k-1){
+//            start=index+1;
+//           index=Partition(input,start,endt);
+//        }
+//        else{
+//            endt=index-1;
+//            index=Partition(input,start,endt);
+//        }
+//    }
+//    for(int i=0;i&lt;=index;i++){
+//
+//        cout&lt;&lt;input[i]&lt;&lt;&quot; &quot;;
+//    }
+//    cout&lt;&lt;endl;
+//
+//}
+//int main()
+//{
+//    int a[]={4,5,1,6,2,7,3,8};
+//
+//    GetLeastNumber(a,8,6);
+//    return 0;
+//}
+
+//****************方法二********************************
+//上面的时间很快，但是会改变原始数据
+//所以用一个k大的容器 来装k个最小值，容器没有满那就直接插入。如果满了，那就做三件事：1.找到容器中最大值；2.删除最大值；3.插入新的数据
+//找到最大值，最快的是最大堆，基于红黑树结构实现的set and multiset
+typedef multiset&lt;int,greater&lt;int&gt; &gt; intSet;//greater作用实现降序排列
+typedef multiset&lt;int ,greater&lt;int&gt; &gt;::iterator setItertor;
+void GetLeastNumbers(const vector&lt;int&gt;&amp; data, intSet&amp; leastNumber,int k){
+    leastNumber.clear();
+    if(k&lt;1||data.size()&lt;k)
+        return;
+    vector&lt;int&gt;::const_iterator iter=data.begin();
+    for(;iter!=data.end();++iter){
+
+        if(leastNumber.size()&lt;k)
+            leastNumber.insert(*iter);
+        else{
+            setItertor iterGreatest=leastNumber.begin();
+            if(*iter&lt;*(leastNumber.begin())){
+                leastNumber.erase(iterGreatest);
+                leastNumber.insert(*iter);
+            }
+        }
+    }
+}
+int main(){
+    int a[8]={4,5,1,6,2,7,3,8};
+
+    vector&lt;int&gt; data(a,a+8);
+    intSet leastNumber;
+    GetLeastNumbers(data,leastNumber,8);
+    cout&lt;&lt;&quot;the actual output numbers are:&quot;&lt;&lt;endl;
+    for(setItertor iter=leastNumber.begin();iter!=leastNumber.end();iter++)
+        cout&lt;&lt;*iter&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +232,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/02/“最小的K个数“/" data-title="最小的K个数 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +246,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/02/子数组最大和/" title="子数组最大和">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  子数组最大和</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/02/“数组中出现次数超过一半的数字hexo-new-post-“数组中出现次数超过一半的数字/"  title="数组中出现次数超过一半的数字">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>数组中出现次数超过一半的数字
 </span>
 </a>
 </div>

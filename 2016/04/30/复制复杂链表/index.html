@@ -4,23 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>复制复杂链表 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="//复制复杂链表
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+    ComplexListNode* m_pSibling;
+};
+void Insert(ComplexListNode* &amp;amp;p">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="复制复杂链表">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/04/30/复制复杂链表/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="//复制复杂链表
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+    ComplexListNode* m_pSibling;
+};
+void Insert(ComplexListNode* &amp;amp;p">
+<meta property="og:updated_time" content="2016-04-30T14:55:44.459Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="复制复杂链表">
+<meta name="twitter:description" content="//复制复杂链表
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+    ComplexListNode* m_pSibling;
+};
+void Insert(ComplexListNode* &amp;amp;p">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +109,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/04/30/复制复杂链表/" title="复制复杂链表" itemprop="url">复制复杂链表</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-04-30T14:54:35.000Z" itemprop="datePublished"> 发表于 2016-04-30</time>
     
   </p>
 </header>
@@ -102,7 +129,99 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<pre><code>//复制复杂链表
+#include &lt;iostream&gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+    ComplexListNode* m_pSibling;
+};
+void Insert(ComplexListNode* &amp;pHead,int data){
+    ComplexListNode* pNode=new ComplexListNode();
+    pNode-&gt;m_nValue=data;
+    pNode-&gt;m_pNext=NULL;
+    pNode-&gt;m_pSibling=NULL;
+    if(pHead==NULL)
+        pHead=pNode;
+    else{
+        pNode-&gt;m_pNext=pHead;
+        pHead=pNode;
+    }
+}
+void Print(ComplexListNode* &amp;pHead){
+    if(pHead==NULL)
+        return;
+    ComplexListNode* pNode=pHead;
+    while(pNode){
+        cout&lt;&lt;pNode-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        pNode=pNode-&gt;m_pNext;
+    }
+    cout&lt;&lt;endl;
+}
+//第一步复制各个节点，并形成链表
+void CloneNodes(ComplexListNode* pHead){
+    ComplexListNode *pNode=pHead;
+    while(pNode!=NULL){
+        ComplexListNode* pCloned=new ComplexListNode();
+        pCloned-&gt;m_nValue=pNode-&gt;m_nValue;
+        pCloned-&gt;m_pNext=pNode-&gt;m_pNext;
+        pCloned-&gt;m_pSibling=NULL;
+        pNode-&gt;m_pNext=pCloned;//插入Cloned节点
+        pNode=pCloned-&gt;m_pNext;   //依次往后挪
+    }
+}
+//复制原来节点m_pSibling指针的指向情况
+void ConnectSiblingNodes(ComplexListNode* pHead){
+    ComplexListNode* pNode=pHead;
+    while(pNode!=NULL){
+        ComplexListNode* pCloned=pNode-&gt;m_pNext;
+        if(pNode-&gt;m_pSibling!=NULL)
+                pCloned-&gt;m_pSibling=pNode-&gt;m_pSibling-&gt;m_pNext;
+        pNode=pCloned-&gt;m_pNext;
+    }
+}
+//按照奇偶位置拆分原始链表和复制链表
+ComplexListNode* ReconnectNodes(ComplexListNode* pHead){
+    ComplexListNode* pNode=pHead;
+    ComplexListNode* pClonedHead=NULL;
+    ComplexListNode* pClonedNode=NULL;
+    if(pNode!=NULL){
+        pClonedHead=pClonedNode=pNode-&gt;m_pNext;
+        pNode-&gt;m_pNext=pClonedNode-&gt;m_pNext;
+        pNode=pNode-&gt;m_pNext;
+        while(pNode!=NULL){
+            pClonedNode-&gt;m_pNext=pNode-&gt;m_pNext;
+            pClonedNode=pClonedNode-&gt;m_pNext;
+            pNode-&gt;m_pNext=pClonedNode-&gt;m_pNext;
+            pNode=pNode-&gt;m_pNext;
+
+        }
+        return pClonedHead;
+    }
+}
+ComplexListNode* Clone(ComplexListNode* pHead){
+    CloneNodes(pHead);
+    ConnectSiblingNodes(pHead);
+    return ReconnectNodes(pHead);
+}
+int main()
+{
+    ComplexListNode* l=NULL;
+    ComplexListNode* c=NULL;
+    Insert(l,1);
+    Insert(l,2);
+    Insert(l,3);
+    Insert(l,4);
+    Insert(l,5);
+    Print(l);
+
+    c=Clone(l);
+    Print(c);
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +233,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/04/30/复制复杂链表/" data-title="复制复杂链表 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +247,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/02/BST转换双向链表/" title="BST转换双向链表">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  BST转换双向链表</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/04/30/二叉树中和为给定值的路径/"  title="二叉树中和为给定值的路径">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>二叉树中和为给定值的路径
 </span>
 </a>
 </div>

@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-04-30T13:28:24.945Z</updated>
+  <updated>2016-05-02T14:56:39.653Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,680 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>子数组最大和</title>
+    <link href="http://wxjttxs.github.io/2016/05/02/%E5%AD%90%E6%95%B0%E7%BB%84%E6%9C%80%E5%A4%A7%E5%92%8C/"/>
+    <id>http://wxjttxs.github.io/2016/05/02/子数组最大和/</id>
+    <published>2016-05-02T14:54:25.000Z</published>
+    <updated>2016-05-02T14:56:39.653Z</updated>
+    
+    <content type="html">&lt;p&gt;//数组的最大子数组的和并返回&lt;br&gt;//动态规划分f(i)=pData[i] i=0 or f(i-1)&amp;lt;=0;&lt;br&gt;//f(i)=f(i-1)+pData[i]  i!=0 and f(i-)&amp;gt;0;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+bool g_InvalidInput=false;//标记结果0到底是无效输入还是 最大和是0
+int FindGreatestSumOfSubArray(int* pData,int nLength){
+    if(pData==NULL||nLength&amp;lt;=0){
+        g_InvalidInput=true;
+        return 0;
+    }
+    g_InvalidInput=false;
+    int nCurSum=0;
+    int nGreatestSum=0x80000000;
+    for(int i=0;i&amp;lt;nLength;i++){
+        if(nCurSum&amp;lt;=0)
+            nCurSum=pData[i];
+        else
+            nCurSum+=pData[i];
+        if(nCurSum&amp;gt;nGreatestSum)
+            nGreatestSum=nCurSum;
+    }
+
+
+return nGreatestSum;
+}
+
+int main()
+{
+    int a[]={1,-2,3,10,-4,7,2,-5};
+    cout&amp;lt;&amp;lt;FindGreatestSumOfSubArray(a,8);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//数组的最大子数组的和并返回&lt;br&gt;//动态规划分f(i)=pData[i] i=0 or f(i-1)&amp;lt;=0;&lt;br&gt;//f(i)=f(i-1)+pData[i]  i!=0 and f(i-)&amp;gt;0;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>最小的K个数</title>
+    <link href="http://wxjttxs.github.io/2016/05/02/%E2%80%9C%E6%9C%80%E5%B0%8F%E7%9A%84K%E4%B8%AA%E6%95%B0%E2%80%9C/"/>
+    <id>http://wxjttxs.github.io/2016/05/02/“最小的K个数“/</id>
+    <published>2016-05-02T14:24:15.000Z</published>
+    <updated>2016-05-02T14:25:53.110Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;set&amp;gt;
+#include&amp;lt;vector&amp;gt;
+
+using namespace std;
+//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
+//借鉴快排的划分
+
+//int Partition(int *a, int start ,int ent){
+//    if(a==NULL||start&amp;lt;0||ent&amp;lt;0)
+//        throw new exception();
+//    int temp=a[ent];//最后一个值作为基准
+//    int i=start-1;
+//    for(int j=start;j&amp;lt;ent;j++){
+//        if(a[j]&amp;lt;=temp){
+//            i++;
+//            swap(a[i],a[j]);
+//        }
+//    }
+//    swap(a[i+1],a[ent]);
+//    return i+1;
+//}
+//void GetLeastNumber(int *input,int n,int k){
+//   // int output[k]={0};
+//    if(input==NULL||n&amp;lt;=0||k&amp;lt;=0||k&amp;gt;n)
+//        return;
+//    int start=0;
+//    int endt=n-1;
+//    int index=Partition(input,start,endt);
+//    while(index!=k-1){
+//        if(index&amp;lt;k-1){
+//            start=index+1;
+//           index=Partition(input,start,endt);
+//        }
+//        else{
+//            endt=index-1;
+//            index=Partition(input,start,endt);
+//        }
+//    }
+//    for(int i=0;i&amp;lt;=index;i++){
+//
+//        cout&amp;lt;&amp;lt;input[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+//    }
+//    cout&amp;lt;&amp;lt;endl;
+//
+//}
+//int main()
+//{
+//    int a[]={4,5,1,6,2,7,3,8};
+//
+//    GetLeastNumber(a,8,6);
+//    return 0;
+//}
+
+//****************方法二********************************
+//上面的时间很快，但是会改变原始数据
+//所以用一个k大的容器 来装k个最小值，容器没有满那就直接插入。如果满了，那就做三件事：1.找到容器中最大值；2.删除最大值；3.插入新的数据
+//找到最大值，最快的是最大堆，基于红黑树结构实现的set and multiset
+typedef multiset&amp;lt;int,greater&amp;lt;int&amp;gt; &amp;gt; intSet;//greater作用实现降序排列
+typedef multiset&amp;lt;int ,greater&amp;lt;int&amp;gt; &amp;gt;::iterator setItertor;
+void GetLeastNumbers(const vector&amp;lt;int&amp;gt;&amp;amp; data, intSet&amp;amp; leastNumber,int k){
+    leastNumber.clear();
+    if(k&amp;lt;1||data.size()&amp;lt;k)
+        return;
+    vector&amp;lt;int&amp;gt;::const_iterator iter=data.begin();
+    for(;iter!=data.end();++iter){
+
+        if(leastNumber.size()&amp;lt;k)
+            leastNumber.insert(*iter);
+        else{
+            setItertor iterGreatest=leastNumber.begin();
+            if(*iter&amp;lt;*(leastNumber.begin())){
+                leastNumber.erase(iterGreatest);
+                leastNumber.insert(*iter);
+            }
+        }
+    }
+}
+int main(){
+    int a[8]={4,5,1,6,2,7,3,8};
+
+    vector&amp;lt;int&amp;gt; data(a,a+8);
+    intSet leastNumber;
+    GetLeastNumbers(data,leastNumber,8);
+    cout&amp;lt;&amp;lt;&amp;quot;the actual output numbers are:&amp;quot;&amp;lt;&amp;lt;endl;
+    for(setItertor iter=leastNumber.begin();iter!=leastNumber.end();iter++)
+        cout&amp;lt;&amp;lt;*iter&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    cout&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;set&amp;gt;
+#include&amp;lt;vector&amp;gt;
+
+using namespace std;
+//0(n)时间找到最小
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>数组中出现次数超过一半的数字</title>
+    <link href="http://wxjttxs.github.io/2016/05/02/%E2%80%9C%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97hexo-new-post-%E2%80%9C%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/02/“数组中出现次数超过一半的数字hexo-new-post-“数组中出现次数超过一半的数字/</id>
+    <published>2016-05-02T12:31:42.000Z</published>
+    <updated>2016-05-02T12:32:25.888Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//是不是有效输入
+bool IsValidMatrix(int * matrix,int length){
+    if(matrix==NULL||length&amp;lt;=0)
+        return false;
+    return  true;
+}
+//如果出现次数最多的也不能达到数组长度的一半怎么办呢
+bool IsMoreThanHalf(int* matrix,int length,int number){//number 是数组中出现次数最大的那个数
+    int countt=0;
+    for(int i=0;i&amp;lt;length;i++){
+        if(matrix[i]==number)
+            countt++;
+    }
+    if(countt*2&amp;lt;length)
+        return false;
+    return true;
+}
+int MoreThanHalfNum(int *matrix,int length){
+    if(IsValidMatrix(matrix,length)){
+        int MaxNumber=matrix[0];
+        int times=1;
+        for(int i=1;i&amp;lt;length;i++){//此后的数字相同的加1，不同的减1，直到times变成0，从下一个数字开始重头开始这个过程。
+            if(times==0){
+                MaxNumber=matrix[i];//重新开始  1,2,2
+                times=1;
+            }
+           else if(MaxNumber==matrix[i])
+                times++;
+            else{
+
+                times--;
+            }
+        }
+        if(IsMoreThanHalf(matrix,length,MaxNumber)){
+
+            return MaxNumber;
+        }
+
+
+        else
+            cout&amp;lt;&amp;lt;&amp;quot;无效&amp;quot;;
+    }
+
+}
+int main()
+{
+    int a[]={1};
+    cout&amp;lt;&amp;lt;MoreThanHalfNum(a,1);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//是不是有效输入
+bool IsValidMatrix(int * matrix,int length){
+    if(matrix==NULL||lengt
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>字符串全排列(去重)以及全组合（2^n-1）</title>
+    <link href="http://wxjttxs.github.io/2016/05/02/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%85%A8%E6%8E%92%E5%88%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/02/字符串全排列/</id>
+    <published>2016-05-02T07:26:54.000Z</published>
+    <updated>2016-05-02T11:43:51.677Z</updated>
+    
+    <content type="html">&lt;p&gt;//实现字符串每个字符 的全排列,并求取全排列的个数&lt;br&gt;//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；&lt;br&gt;//2.其次，把第一个字符和其后面的字符一一交换；&lt;br&gt;//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2&lt;/p&gt;
+&lt;p&gt;   //全排列&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;string&amp;gt;
+#include&amp;lt;assert.h&amp;gt;
+using namespace std;
+//  调试开关
+#define __tmain main
+
+#ifdef __tmain
+
+#define debug cout
+
+#else
+
+#define debug 0 &amp;amp;&amp;amp; cout
+
+#endif // __tmain
+class Solution{
+protected:
+    vector&amp;lt;string&amp;gt; m_res;//字符数组，存储排好序的字符串
+public:
+    void Permutation(string str){
+        int countt=0;
+        m_res.clear();
+        if(str.empty())
+            return ;
+
+        Perm(str,0);
+
+        sort(m_res.begin(),m_res.end());
+        //删除容器中重复 元素
+        vector&amp;lt;string&amp;gt;::iterator new_end;
+        new_end=unique(m_res.begin(),m_res.end());//把重复元素放在容器末尾
+        //assert(m_res.size()==N);
+        m_res.erase(new_end,m_res.end());//真正删除重复元素
+        //输出容器中元素
+        vector&amp;lt;string&amp;gt;::iterator iter=m_res.begin();
+        for(;iter!=m_res.end();iter++)
+        {
+            countt++;
+            cout&amp;lt;&amp;lt;*iter&amp;lt;&amp;lt;endl;
+        }
+        cout&amp;lt;&amp;lt;endl;
+        cout&amp;lt;&amp;lt;countt&amp;lt;&amp;lt;endl;
+       // return m_res;
+
+    }
+
+    void Perm(string str,int Begin){//str要排序的字符串，Begin代表排序部分的第一个字符的位置
+        if(str[Begin]==&amp;apos;\0&amp;apos;){//全部已经排好序
+           // debug&amp;lt;&amp;lt;str&amp;lt;&amp;lt;endl;
+            m_res.push_back(str);
+        }
+        for(int i=Begin;str[i]!=&amp;apos;\0&amp;apos;;i++){
+            if(i==Begin||str[i]!=str[Begin]){//排除重复
+                swap(str[i],str[Begin]);//排序部分第一个位置的字符全部找到
+                Perm(str,Begin+1);//递归排序之后的字符
+                swap(str[i],str[Begin]);
+
+            }
+        }
+    }
+};
+int __tmain( )
+{
+    Solution solu;
+    solu.Permutation(&amp;quot;abb&amp;quot;);
+
+    return 0;
+}
+
+
+//********************************************************************
+//组合。从n个字符中挑选m个字符放到组合当中。有两个方案：第一个字符放到组合当中，剩下的m-1个字符从n-1个字符中挑选，
+//另一种方案：第一个字符不放到组合当中，那么从剩下的n-1中挑选m-1个字符放到组合当中
+#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;cstring&amp;gt;
+using namespace std;
+#include&amp;lt;assert.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+
+void Combination(char *string ,int number,vector&amp;lt;char&amp;gt; &amp;amp;result);
+
+void Combination(char *string)
+{
+    assert(string != NULL);
+    vector&amp;lt;char&amp;gt; result;
+    int i , length = strlen(string);
+    for(i = 1 ; i &amp;lt;= length ; ++i)
+        Combination(string , i ,result);
+}
+
+void Combination(char *string ,int number , vector&amp;lt;char&amp;gt; &amp;amp;result)
+{
+    assert(string != NULL);
+    if(number == 0)
+    {
+        static int num = 1;
+        printf(&amp;quot;第%d个组合\t&amp;quot;,num++);
+
+        vector&amp;lt;char&amp;gt;::iterator iter = result.begin();
+        for( ; iter != result.end() ; ++iter)
+            printf(&amp;quot;%c&amp;quot;,*iter);
+        printf(&amp;quot;\n&amp;quot;);
+        return ;
+    }
+    if(*string == &amp;apos;\0&amp;apos;)
+        return ;
+    result.push_back(*string);
+    Combination(string + 1 , number - 1 , result);
+    result.pop_back();
+    Combination(string + 1 , number , result);
+}
+
+int main(void)
+{
+    char str[] = &amp;quot;abc&amp;quot;;
+    Combination(str);
+    return 0;
+}
+
+
+//******************************************************************
+//组合，位运算，没有解决重复问题,组合中出现这个字符，那么字符所在位置为1，否则为0.a:100,b:010...
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;string&amp;gt;
+#include&amp;lt;iostream&amp;gt;
+using namespace std;
+void Combination(string str){
+    int countt=0;
+    if(str.empty())
+        return;
+    int len=str.size();
+    for(int i=1;i&amp;lt;(1&amp;lt;&amp;lt;len);i++){//从0~2^n-1，中可能出现的情况
+        for(int j=0;j&amp;lt;len;j++){
+            if(i&amp;amp;(1&amp;lt;&amp;lt;j)){//这个位置上有数
+                cout&amp;lt;&amp;lt;str[j]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+            }
+        }
+        countt++;
+        cout&amp;lt;&amp;lt;endl;
+
+    }
+    cout&amp;lt;&amp;lt;countt;
+}
+int main(){
+    Combination(&amp;quot;abc&amp;quot;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   //&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;em&gt;**&lt;/em&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;br&gt;   //八皇后问题。不同行，不同列，不同斜角线。&lt;/p&gt;
+&lt;p&gt;#include&lt;iostream&gt;&lt;/iostream&gt;&lt;/p&gt;
+&lt;p&gt;#include&lt;stdio.h&gt;&lt;br&gt;using namespace std;&lt;br&gt;int count_number=0;&lt;br&gt;bool isDiagnal(int ColumnIndex[],int length){&lt;br&gt;    for(int i=0;i&amp;lt;length;i++){&lt;br&gt;        for(int j=i+1;j&amp;lt;length;j++){&lt;br&gt;            if(i-j==ColumnIndex[i]-ColumnIndex[j] || j-i==ColumnIndex[i]-ColumnIndex[j])//对角关系&lt;br&gt;                return false;&lt;br&gt;        }&lt;/stdio.h&gt;&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;}
+return true;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;}&lt;br&gt;void Print(int ColumnIndex[],int length){&lt;br&gt;    cout&amp;lt;&amp;lt;count_number&amp;lt;&amp;lt;”:”;&lt;br&gt;    for(int  i=0;i&amp;lt;length;i++){&lt;br&gt;        cout&amp;lt;&amp;lt;ColumnIndex[i]&amp;lt;&amp;lt;” “;//输出列&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;}
+cout&amp;lt;&amp;lt;endl;
+&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;}&lt;/p&gt;
+&lt;p&gt;void Permutation(int ColumnIndex[],int length,int index){&lt;br&gt;    if(index==length){//index代表排列好的列&lt;br&gt;        if(isDiagnal(ColumnIndex,length)){//状态合法，没有斜对角关系&lt;br&gt;            count_number++;//一次符合要求的状态&lt;br&gt;            Print(ColumnIndex,length);&lt;br&gt;        }&lt;br&gt;    }&lt;br&gt;    else{&lt;br&gt;        for(int i=index;i&amp;lt;length;i++){&lt;br&gt;            swap(ColumnIndex[index],ColumnIndex[i]);//第一个位置可能的情况&lt;br&gt;            Permutation(ColumnIndex,length,index+1);//递归后面的部分分成第一个元素以及剩下的元素&lt;br&gt;            swap(ColumnIndex[index],ColumnIndex[i]);&lt;br&gt;        }&lt;br&gt;    }&lt;br&gt;}&lt;br&gt;void EightQueen(){&lt;br&gt;    const int length=8;&lt;br&gt;    int ColumnIndex[length];&lt;br&gt;    for(int i=0;i&amp;lt;length;i++){&lt;br&gt;        ColumnIndex[i]=i;//下标表示行，值代表列&lt;br&gt;    }&lt;br&gt;    Permutation(ColumnIndex,length,0);&lt;br&gt;}&lt;/p&gt;
+&lt;p&gt;int main(void)&lt;br&gt;{&lt;br&gt;    EightQueen();&lt;br&gt;    return 0;&lt;br&gt;}&lt;/p&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//实现字符串每个字符 的全排列,并求取全排列的个数&lt;br&gt;//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；&lt;br&gt;//2.其次，把第一个字符和其后面的字符一一交换；&lt;br&gt;//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2&lt;/p&gt;
+&lt;p&gt;   /
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>BST转换双向链表</title>
+    <link href="http://wxjttxs.github.io/2016/05/02/BST%E8%BD%AC%E6%8D%A2%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/"/>
+    <id>http://wxjttxs.github.io/2016/05/02/BST转换双向链表/</id>
+    <published>2016-05-02T02:48:02.000Z</published>
+    <updated>2016-05-02T07:28:46.433Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;//实现二叉搜索树到双向链表的转换
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+void PrintFromTopToBottom(BinaryTreeNode* pTreeRoot){
+    if(!pTreeRoot)
+        return;
+    queue&amp;lt;BinaryTreeNode*&amp;gt; que;
+    que.push(pTreeRoot);
+    while(que.size()){
+        BinaryTreeNode* pNode=que.front();//指向队列的第一个元素，要被弹出的元素
+        que.pop();
+        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        if(pNode-&amp;gt;m_pLeft)//打印节点的左右子节点
+            que.push(pNode-&amp;gt;m_pLeft);
+        if(pNode-&amp;gt;m_pRight)
+            que.push(pNode-&amp;gt;m_pRight);
+    }
+}
+void Print(BinaryTreeNode*  &amp;amp;pHead){
+    if(pHead==NULL)
+        return ;
+    BinaryTreeNode* p=pHead;
+    while(p){
+        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        p=p-&amp;gt;m_pRight;
+    }
+    cout&amp;lt;&amp;lt;endl;
+}
+BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
+    //根据先序确定第一个数值确定根节点
+   //BinaryTreeNode *root;
+    int rootValue=startpreorder[0];
+    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
+    root-&amp;gt;m_nValue=rootValue;
+    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
+    if(startpreorder==endpreorder){
+        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
+            return root;
+        else
+            throw std::exception();
+    }
+    //在中序找到根节点所在位置
+    int*rootinoder=startinorder;
+     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
+        rootinoder++;
+     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
+         throw exception();
+     int leftLength=rootinoder-startinorder;
+     int* leftPreorderEnd=startpreorder+leftLength;
+     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
+     {
+         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
+     }
+    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
+        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
+    return root;
+}
+BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
+        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
+            return NULL;
+        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
+}
+void CovertNode(BinaryTreeNode* pNode,BinaryTreeNode** pLastNodeInList){
+    if(pNode==NULL)
+        return;
+    BinaryTreeNode* pCurrent=pNode;
+    if(pCurrent-&amp;gt;m_pLeft!=NULL)//转换左子树为排序的双向链表
+        CovertNode(pCurrent-&amp;gt;m_pLeft,pLastNodeInList);
+    pCurrent-&amp;gt;m_pLeft=*pLastNodeInList;//pCurrent指向根节点
+    if(*pLastNodeInList!=NULL)
+        (*pLastNodeInList)-&amp;gt;m_pRight=pCurrent;//连接上根节点
+    *pLastNodeInList=pCurrent;//当前双向链表的最后一个几点就是根节点
+    if(pCurrent-&amp;gt;m_pRight!=NULL)
+        CovertNode(pCurrent-&amp;gt;m_pRight,pLastNodeInList);
+
+}
+BinaryTreeNode* Covert(BinaryTreeNode* pRootOfTree){
+    BinaryTreeNode* pLastNodeInList=NULL;//双向链表为 空
+    CovertNode(pRootOfTree,&amp;amp;pLastNodeInList);
+    //pLastNodeInList指向双向链表的最后
+    //我们需要返回最后结点
+    BinaryTreeNode* pHeadOfList=pLastNodeInList;
+    while(pHeadOfList!=NULL &amp;amp;&amp;amp; pHeadOfList-&amp;gt;m_pLeft!=NULL)//最后找到双向链表的头结点
+        pHeadOfList=pHeadOfList-&amp;gt;m_pLeft;
+    return pHeadOfList;
+}
+int main()
+{
+    BinaryTreeNode* Btree;
+    int preorder[]={10,6,4,8,14,12,16};
+    int inorder[]={4,6,8,10,12,14,16};
+    Btree= Contrust(preorder,inorder,7);
+    PrintFromTopToBottom(Btree);
+    cout&amp;lt;&amp;lt;endl;
+
+    BinaryTreeNode* L=Covert(Btree);
+
+    Print(L);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;//实现二叉搜索树到双向链表的转换
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+ 
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>复制复杂链表</title>
+    <link href="http://wxjttxs.github.io/2016/04/30/%E5%A4%8D%E5%88%B6%E5%A4%8D%E6%9D%82%E9%93%BE%E8%A1%A8/"/>
+    <id>http://wxjttxs.github.io/2016/04/30/复制复杂链表/</id>
+    <published>2016-04-30T14:54:35.000Z</published>
+    <updated>2016-04-30T14:55:44.459Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;//复制复杂链表
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+    ComplexListNode* m_pSibling;
+};
+void Insert(ComplexListNode* &amp;amp;pHead,int data){
+    ComplexListNode* pNode=new ComplexListNode();
+    pNode-&amp;gt;m_nValue=data;
+    pNode-&amp;gt;m_pNext=NULL;
+    pNode-&amp;gt;m_pSibling=NULL;
+    if(pHead==NULL)
+        pHead=pNode;
+    else{
+        pNode-&amp;gt;m_pNext=pHead;
+        pHead=pNode;
+    }
+}
+void Print(ComplexListNode* &amp;amp;pHead){
+    if(pHead==NULL)
+        return;
+    ComplexListNode* pNode=pHead;
+    while(pNode){
+        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        pNode=pNode-&amp;gt;m_pNext;
+    }
+    cout&amp;lt;&amp;lt;endl;
+}
+//第一步复制各个节点，并形成链表
+void CloneNodes(ComplexListNode* pHead){
+    ComplexListNode *pNode=pHead;
+    while(pNode!=NULL){
+        ComplexListNode* pCloned=new ComplexListNode();
+        pCloned-&amp;gt;m_nValue=pNode-&amp;gt;m_nValue;
+        pCloned-&amp;gt;m_pNext=pNode-&amp;gt;m_pNext;
+        pCloned-&amp;gt;m_pSibling=NULL;
+        pNode-&amp;gt;m_pNext=pCloned;//插入Cloned节点
+        pNode=pCloned-&amp;gt;m_pNext;   //依次往后挪
+    }
+}
+//复制原来节点m_pSibling指针的指向情况
+void ConnectSiblingNodes(ComplexListNode* pHead){
+    ComplexListNode* pNode=pHead;
+    while(pNode!=NULL){
+        ComplexListNode* pCloned=pNode-&amp;gt;m_pNext;
+        if(pNode-&amp;gt;m_pSibling!=NULL)
+                pCloned-&amp;gt;m_pSibling=pNode-&amp;gt;m_pSibling-&amp;gt;m_pNext;
+        pNode=pCloned-&amp;gt;m_pNext;
+    }
+}
+//按照奇偶位置拆分原始链表和复制链表
+ComplexListNode* ReconnectNodes(ComplexListNode* pHead){
+    ComplexListNode* pNode=pHead;
+    ComplexListNode* pClonedHead=NULL;
+    ComplexListNode* pClonedNode=NULL;
+    if(pNode!=NULL){
+        pClonedHead=pClonedNode=pNode-&amp;gt;m_pNext;
+        pNode-&amp;gt;m_pNext=pClonedNode-&amp;gt;m_pNext;
+        pNode=pNode-&amp;gt;m_pNext;
+        while(pNode!=NULL){
+            pClonedNode-&amp;gt;m_pNext=pNode-&amp;gt;m_pNext;
+            pClonedNode=pClonedNode-&amp;gt;m_pNext;
+            pNode-&amp;gt;m_pNext=pClonedNode-&amp;gt;m_pNext;
+            pNode=pNode-&amp;gt;m_pNext;
+
+        }
+        return pClonedHead;
+    }
+}
+ComplexListNode* Clone(ComplexListNode* pHead){
+    CloneNodes(pHead);
+    ConnectSiblingNodes(pHead);
+    return ReconnectNodes(pHead);
+}
+int main()
+{
+    ComplexListNode* l=NULL;
+    ComplexListNode* c=NULL;
+    Insert(l,1);
+    Insert(l,2);
+    Insert(l,3);
+    Insert(l,4);
+    Insert(l,5);
+    Print(l);
+
+    c=Clone(l);
+    Print(c);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;//复制复杂链表
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct ComplexListNode{
+    int m_nValue;
+    ComplexListNode* m_pNext;
+
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>二叉树中和为给定值的路径</title>
@@ -937,25 +1611,6 @@ bool isodd(i
   </entry>
   
   <entry>
-    <title>旋转升序的最小值</title>
-    <link href="http://wxjttxs.github.io/2016/04/21/%E6%97%8B%E8%BD%AC%E5%8D%87%E5%BA%8F%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/"/>
-    <id>http://wxjttxs.github.io/2016/04/21/旋转升序的最小值/</id>
-    <published>2016-04-21T13:01:26.000Z</published>
-    <updated>2016-04-21T13:09:18.524Z</updated>
-    
-    <content type="html">&lt;p&gt;//找出旋转有sheng序数组的最小值&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int inorder(int *a,int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(a==NULL||n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;       throw exception();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int temp=a[0];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=1;i&amp;lt;n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(a[i]&amp;lt;temp)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            temp=a[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return temp;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int Minelement(int *a,int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int start=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int endt=n-1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int mid=start;//如果这个数字就是有序的 1 2 3 4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(a==NULL||n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(a[start]&amp;gt;=a[endt])&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(start==endt-1)&amp;#123;//找到最小值&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            mid=endt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            break;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        mid=(start+endt)/2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(a[endt]==a[start]&amp;amp;&amp;amp;a[mid]==a[start])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;              return inorder(a,n);//这里 必须再添加一个一个return，要不然就不会执行&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(a[mid]&amp;lt;=a[endt])&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            endt=mid;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        else if(a[mid]&amp;gt;=a[start])&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            start=mid;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return a[mid];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    //测试用例：本身有序&amp;#123;1,2,3,4,5,6&amp;#125;，a[mid]=a[start]=a[endt];还有正常情况下的&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int a[6]=&amp;#123;0,1,1,1,1,1&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;Minelement(a,6)&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//找出旋转有sheng序数组的最小值&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;lin
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
     <title>排序给定人数的年龄o(n)</title>
     <link href="http://wxjttxs.github.io/2016/04/21/%E6%8E%92%E5%BA%8F%E7%BB%99%E5%AE%9A%E4%BA%BA%E6%95%B0%E7%9A%84%E5%B9%B4%E9%BE%84o-n/"/>
     <id>http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/</id>
@@ -963,196 +1618,6 @@ bool isodd(i
     <updated>2016-04-21T13:04:03.523Z</updated>
     
     <content type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//实现上万个人的年龄的排序&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void ageSort(int *a,int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(a==NULL||n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    const  int Maxage=99;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int countAge[Maxage+1];//0~99,一共100个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;Maxage+1;i++)&amp;#123;//每种年龄出现的次数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countAge[i]=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        int age=a[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(age&amp;lt;0||age&amp;gt;Maxage)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            return;//输入不合法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countAge[age]++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int index=0;//排好序的下标&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   for(int i=0;i&amp;lt;Maxage;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     for(int j=0;j&amp;lt;countAge[i];j++)&amp;#123;//,来控制每个年龄出现的次数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        a[index++]=i;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int a[9]=&amp;#123;3,4,5,6,7,5,4,3,2&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ageSort(a,9);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;9;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;a[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>斐波那契你会了吗</title>
-    <link href="http://wxjttxs.github.io/2016/04/21/%E6%96%90%E6%B3%A2%E9%82%A3%E5%A5%91%E4%BD%A0%E4%BC%9A%E4%BA%86%E5%90%97/"/>
-    <id>http://wxjttxs.github.io/2016/04/21/斐波那契你会了吗/</id>
-    <published>2016-04-21T12:59:18.000Z</published>
-    <updated>2016-04-21T13:02:09.045Z</updated>
-    
-    <content type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//斐波那契 O(n)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using  namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int Fn(int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int f0=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int f1=1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int fn;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=2;i&amp;lt;=n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        fn=f0+f1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        f0=f1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        f1=fn;//不断的基于前者结果修正&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return fn;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;Fn(4);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>数字中有多少个1</title>
-    <link href="http://wxjttxs.github.io/2016/04/21/1%E7%9A%84%E4%B8%AA%E6%95%B0/"/>
-    <id>http://wxjttxs.github.io/2016/04/21/1的个数/</id>
-    <published>2016-04-21T12:55:36.000Z</published>
-    <updated>2016-04-21T12:57:41.248Z</updated>
-    
-    <content type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//这种算法的效率是o(n),也就是n多大，就进行多少次&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//int Numberof1(int n)&amp;#123;//最好不要修改n,因为如果是负数，那么有可能会出现死循环&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    int countt=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    unsigned int flag=1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    while(flag)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        if(n &amp;amp; flag)//这个数与1,2,4，8相与&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            countt++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        flag=flag&amp;lt;&amp;lt;1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    return countt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//下面这种可以提交速度到o(1的个数)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int Numberof1(int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int countt=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countt++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        n=n&amp;amp;(n-1);//这步操作可以消掉最右边的一位1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return countt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int temp=Numberof1(13);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout &amp;lt;&amp;lt; temp&amp;lt;&amp;lt; endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>链表和队列</title>
-    <link href="http://wxjttxs.github.io/2016/04/20/%E9%93%BE%E8%A1%A8%E5%92%8C%E9%98%9F%E5%88%97/"/>
-    <id>http://wxjttxs.github.io/2016/04/20/链表和队列/</id>
-    <published>2016-04-20T03:12:09.000Z</published>
-    <updated>2016-04-20T08:01:54.583Z</updated>
-    
-    <content type="html">&lt;p&gt;关于模板类的详细说明，&lt;a href=&quot;http://feihu.me/blog/2014/the-origin-and-usage-of-typename/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;参考&lt;/a&gt;&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;stack&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;/* run this program using the console pauser or add your own getch, system(&amp;quot;pause&amp;quot;) or input loop */&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template&amp;lt;typename T&amp;gt; class CQueue&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	public:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		CQueue(void)&amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		~CQueue(void)&amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		void appendTail(const  T&amp;amp; node);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		 T deleteHead();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		void output();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	private:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		stack&amp;lt;T&amp;gt; stack1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		stack&amp;lt;T&amp;gt; stack2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//插入元素&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template &amp;lt;typename T&amp;gt; void CQueue&amp;lt;T&amp;gt;::appendTail(const T&amp;amp; node)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    stack1.push(node);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//删除元素并返回&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template &amp;lt;typename T&amp;gt; T CQueue&amp;lt;T&amp;gt;::deleteHead()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(stack2.size()&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(stack1.size()&amp;gt;0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            stack2.push(stack1.top());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            stack1.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(stack2.size()==0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return 0;//throw  exception();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    T head=stack2.top();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    stack2.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template&amp;lt;typename T&amp;gt;void CQueue&amp;lt;T&amp;gt;::output()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	while(stack1.size()&amp;gt;0)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		T temp=stack1.top();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		cout&amp;lt;&amp;lt;temp&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;		stack1.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	cout&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main(int argc, char** argv) &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    CQueue&amp;lt;int&amp;gt; queu;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queu.appendTail(1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queu.appendTail(2);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queu.appendTail(3);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queu.appendTail(4);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    //queu.output();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int len=4;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(len&amp;gt;0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;queu.deleteHead()&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        --len;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;	return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-&lt;p&gt;接下来，实现两个队列完成栈的作用&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;stdlib.h&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;stack&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;queue&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template &amp;lt;typename T&amp;gt;class CStack&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;public:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    CStack(void)&amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ~CStack(void)&amp;#123;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void addhead(const T&amp;amp; node);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    T delethead();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;private:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queue&amp;lt;T&amp;gt; queue1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    queue&amp;lt;T&amp;gt; queue2;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template &amp;lt;typename T&amp;gt; void CStack&amp;lt;T&amp;gt;::addhead(const T&amp;amp; element)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(queue1.size()&amp;gt;0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        queue1.push(element);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else if(queue2.size()&amp;gt;0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        queue2.push(element);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        queue1.push(element);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//删除的实现更好理解一点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//画个图，会很直观&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;template &amp;lt;typename T&amp;gt; T CStack&amp;lt;T&amp;gt;::delethead()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(queue2.size()==0)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(queue1.size()&amp;gt;1)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            queue2.push(queue1.front());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            queue1.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        T&amp;amp; head=queue1.front();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        queue1.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(queue2.size()&amp;gt;1)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            queue1.push(queue2.front());&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            queue2.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        T&amp;amp; head=queue2.front();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        queue2.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    CStack&amp;lt;char&amp;gt; s;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    s.addhead(&amp;apos;a&amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    s.addhead(&amp;apos;b&amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    s.addhead(&amp;apos;c&amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;s.delethead()&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    s.addhead(&amp;apos;f&amp;apos;);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;s.delethead()&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;关于模板类的详细说明，&lt;a href=&quot;http://feihu.me/blog/2014/the-origin-and-usage-of-typename/&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;参考&lt;/a&gt;&lt;br&gt;&lt;figure class=&quot;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>构建二叉树</title>
-    <link href="http://wxjttxs.github.io/2016/04/20/%E6%9E%84%E5%BB%BA%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>http://wxjttxs.github.io/2016/04/20/构建二叉树/</id>
-    <published>2016-04-20T01:44:51.000Z</published>
-    <updated>2016-04-29T03:46:55.167Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&amp;gt;m_pLeft);
-        postorder(Btree-&amp;gt;m_pRight);
-        cout&amp;lt;&amp;lt;Btree-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-    }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&amp;gt;m_nValue!=pRoot2-&amp;gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&amp;gt;m_pLeft,pRoot2-&amp;gt;m_pLeft)&amp;amp;&amp;amp;DoesTree1haveTree2(pRoot1-&amp;gt;m_pRight,pRoot2-&amp;gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;amp;&amp;amp; pRoot2!=NULL){
-        if(pRoot1-&amp;gt;m_nValue==pRoot2-&amp;gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&amp;gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&amp;gt;m_pRight,pRoot2);
-
-    }
-     return result;
-}
-
-//****************************************************
-//求一棵二叉树的镜像
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;void MirrorBinaryTree(BinaryTreeNode&lt;em&gt; pNode){&lt;br&gt;    if(pNode==NULL)&lt;br&gt;        return;&lt;br&gt;    if(pNode-&amp;gt;m_pLeft==NULL &amp;amp;&amp;amp; pNode-&amp;gt;m_pRight==NULL)//叶子节点，没有左右子树&lt;br&gt;        return;&lt;br&gt;    BinaryTreeNode&lt;/em&gt; temp= pNode-&amp;gt;m_pLeft;//交换非叶子节点&lt;br&gt;    pNode-&amp;gt;m_pLeft=pNode-&amp;gt;m_pRight;&lt;br&gt;    pNode-&amp;gt;m_pRight=temp;&lt;br&gt;    if(pNode-&amp;gt;m_pLeft)&lt;br&gt;        MirrorBinaryTree(pNode-&amp;gt;m_pLeft);//递归交换非叶子节点的左右子树&lt;br&gt;    if(pNode-&amp;gt;m_pRight)&lt;br&gt;        MirrorBinaryTree(pNode-&amp;gt;m_pRight);&lt;/p&gt;
-&lt;p&gt;}&lt;br&gt;    int main(){&lt;br&gt;            BinaryTreeNode&lt;em&gt; Btree1,&lt;/em&gt;Btree2;&lt;br&gt;            int preorder1[]={10,8,9,2,4,7,7};&lt;br&gt;            int inorder1[]={9,8,4,2,7,10,7};&lt;br&gt;            int preorder2[]={8,9,2};&lt;br&gt;            int inorder2[]={9,8,2};&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&amp;lt;&amp;lt;endl;
-    //    postorder(Btree2);
-    //    cout&amp;lt;&amp;lt;endl&amp;lt;&amp;lt;&amp;quot;result:&amp;quot;;
-    //    cout&amp;lt;&amp;lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeN
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>关于链表必须知道的事</title>
-    <link href="http://wxjttxs.github.io/2016/04/18/%E5%85%B3%E4%BA%8E%E9%93%BE%E8%A1%A8%E5%BF%85%E9%A1%BB%E7%9F%A5%E9%81%93%E7%9A%84%E4%BA%8B/"/>
-    <id>http://wxjttxs.github.io/2016/04/18/关于链表必须知道的事/</id>
-    <published>2016-04-18T14:53:18.000Z</published>
-    <updated>2016-04-19T14:02:17.722Z</updated>
-    
-    <content type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;76&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;78&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;79&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;80&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;81&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;82&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;83&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;84&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;85&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;86&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;87&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;88&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;89&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;90&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;91&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;92&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;93&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;94&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;95&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;96&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;97&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;98&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;99&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;100&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;101&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;102&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;103&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;104&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt; //C++形式的链表的插入,遍历输出，链表倒序等操作&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;stack&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//节点类&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class Node&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    public:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        int data;//节点有数据，还有指向下一个指针&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node *next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node(int _data)&amp;#123;//显式构造函数，&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            data=_data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            next=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;class LinkList&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;public:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    LinkList()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        head=NULL;//显示构造函数，每次对新声明的链表类进行初始化，即表示创建一个新的“空”链表，只头指针，并且头指针值为NULL&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void Insert(Node *node,int position);//成员函数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void Output();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void Delete(int position);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    void Revers();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;private:&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node *head;//设置为类的私有成员，只有通过类的成员函数才能访问&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void LinkList::Insert(Node *node,int position)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(head==NULL)&amp;#123;//链表为空，头节点指向这个插入节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        head=node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(position==0)&amp;#123;//插入的节点作为新的头节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        node-&amp;gt;next=head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        head=node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node *current_node=head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int i=0;//从头开始遍历插入的位置&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for( ;current_node!=NULL&amp;amp;&amp;amp;i&amp;lt;position-1;i++)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current_node=current_node-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(i==position-1)&amp;#123;//找到插入位置的前一个&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        node-&amp;gt;next=current_node-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current_node-&amp;gt;next=node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void LinkList::Output()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(head==NULL)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node* current_node=head;//从头开始遍历&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(current_node!=NULL)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            cout&amp;lt;&amp;lt;current_node-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            current_node=current_node-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void LinkList::Delete(int position)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(head==NULL)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node *current=head;//从头遍历&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(position==0)&amp;#123;//s删掉头节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        head=head-&amp;gt;next;//下一个节点作为头指针&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        delete current;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int i=0;//记录遍历过的位置&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(current-&amp;gt;next!=NULL &amp;amp;&amp;amp; i&amp;lt;position-1)&amp;#123;//找到删除位置的前一个&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current=current-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        i++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(i==position-1)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node* delete_node=current-&amp;gt;next;//current代表的是删除位置的前一个&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current-&amp;gt;next=current-&amp;gt;next-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        delete delete_node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void LinkList::Revers()&amp;#123;//既然可以用栈，就可以改写成递归,但是链表是私有的所以不能改成递归&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    stack&amp;lt;Node*&amp;gt; nodes;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node* current=head;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(current!=NULL)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        nodes.push(current);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current=current-&amp;gt;next;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(!nodes.empty())&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        current=nodes.top();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;current-&amp;gt;data&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        nodes.pop();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt; &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main(void)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    LinkList link;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;10;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node* node=new Node(i);//为每个节点开辟一个空间,并赋值&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        link.Insert(node,i);//插入&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    link.Output();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    link.Delete(3);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    link.Output();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    link.Revers();&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;
-</content>
     
     <summary type="html">
     

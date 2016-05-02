@@ -4,23 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>字符串全排列(去重)以及全组合（2^n-1） | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="//实现字符串每个字符 的全排列,并求取全排列的个数//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；//2.其次，把第一个字符和其后面的字符一一交换；//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2
+   //全排列
+#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#in">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="字符串全排列(去重)以及全组合（2^n-1）">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/02/字符串全排列/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="//实现字符串每个字符 的全排列,并求取全排列的个数//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；//2.其次，把第一个字符和其后面的字符一一交换；//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2
+   //全排列
+#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#in">
+<meta property="og:updated_time" content="2016-05-02T11:43:51.677Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="字符串全排列(去重)以及全组合（2^n-1）">
+<meta name="twitter:description" content="//实现字符串每个字符 的全排列,并求取全排列的个数//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；//2.其次，把第一个字符和其后面的字符一一交换；//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2
+   //全排列
+#include&amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#in">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +97,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/05/02/字符串全排列/" title="字符串全排列(去重)以及全组合（2^n-1）" itemprop="url">字符串全排列(去重)以及全组合（2^n-1）</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-02T07:26:54.000Z" itemprop="datePublished"> 发表于 2016-05-02</time>
     
   </p>
 </header>
@@ -102,7 +117,173 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<p>//实现字符串每个字符 的全排列,并求取全排列的个数<br>//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；<br>//2.其次，把第一个字符和其后面的字符一一交换；<br>//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2</p>
+<p>   //全排列</p>
+<pre><code>#include&lt;iostream&gt;
+#include&lt;algorithm&gt;
+#include&lt;vector&gt;
+#include&lt;string&gt;
+#include&lt;assert.h&gt;
+using namespace std;
+//  调试开关
+#define __tmain main
+
+#ifdef __tmain
+
+#define debug cout
+
+#else
+
+#define debug 0 &amp;&amp; cout
+
+#endif // __tmain
+class Solution{
+protected:
+    vector&lt;string&gt; m_res;//字符数组，存储排好序的字符串
+public:
+    void Permutation(string str){
+        int countt=0;
+        m_res.clear();
+        if(str.empty())
+            return ;
+
+        Perm(str,0);
+
+        sort(m_res.begin(),m_res.end());
+        //删除容器中重复 元素
+        vector&lt;string&gt;::iterator new_end;
+        new_end=unique(m_res.begin(),m_res.end());//把重复元素放在容器末尾
+        //assert(m_res.size()==N);
+        m_res.erase(new_end,m_res.end());//真正删除重复元素
+        //输出容器中元素
+        vector&lt;string&gt;::iterator iter=m_res.begin();
+        for(;iter!=m_res.end();iter++)
+        {
+            countt++;
+            cout&lt;&lt;*iter&lt;&lt;endl;
+        }
+        cout&lt;&lt;endl;
+        cout&lt;&lt;countt&lt;&lt;endl;
+       // return m_res;
+
+    }
+
+    void Perm(string str,int Begin){//str要排序的字符串，Begin代表排序部分的第一个字符的位置
+        if(str[Begin]==&apos;\0&apos;){//全部已经排好序
+           // debug&lt;&lt;str&lt;&lt;endl;
+            m_res.push_back(str);
+        }
+        for(int i=Begin;str[i]!=&apos;\0&apos;;i++){
+            if(i==Begin||str[i]!=str[Begin]){//排除重复
+                swap(str[i],str[Begin]);//排序部分第一个位置的字符全部找到
+                Perm(str,Begin+1);//递归排序之后的字符
+                swap(str[i],str[Begin]);
+
+            }
+        }
+    }
+};
+int __tmain( )
+{
+    Solution solu;
+    solu.Permutation(&quot;abb&quot;);
+
+    return 0;
+}
+
+
+//********************************************************************
+//组合。从n个字符中挑选m个字符放到组合当中。有两个方案：第一个字符放到组合当中，剩下的m-1个字符从n-1个字符中挑选，
+//另一种方案：第一个字符不放到组合当中，那么从剩下的n-1中挑选m-1个字符放到组合当中
+#include&lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;cstring&gt;
+using namespace std;
+#include&lt;assert.h&gt;
+#include&lt;stdio.h&gt;
+
+void Combination(char *string ,int number,vector&lt;char&gt; &amp;result);
+
+void Combination(char *string)
+{
+    assert(string != NULL);
+    vector&lt;char&gt; result;
+    int i , length = strlen(string);
+    for(i = 1 ; i &lt;= length ; ++i)
+        Combination(string , i ,result);
+}
+
+void Combination(char *string ,int number , vector&lt;char&gt; &amp;result)
+{
+    assert(string != NULL);
+    if(number == 0)
+    {
+        static int num = 1;
+        printf(&quot;第%d个组合\t&quot;,num++);
+
+        vector&lt;char&gt;::iterator iter = result.begin();
+        for( ; iter != result.end() ; ++iter)
+            printf(&quot;%c&quot;,*iter);
+        printf(&quot;\n&quot;);
+        return ;
+    }
+    if(*string == &apos;\0&apos;)
+        return ;
+    result.push_back(*string);
+    Combination(string + 1 , number - 1 , result);
+    result.pop_back();
+    Combination(string + 1 , number , result);
+}
+
+int main(void)
+{
+    char str[] = &quot;abc&quot;;
+    Combination(str);
+    return 0;
+}
+
+
+//******************************************************************
+//组合，位运算，没有解决重复问题,组合中出现这个字符，那么字符所在位置为1，否则为0.a:100,b:010...
+#include&lt;stdio.h&gt;
+#include&lt;string.h&gt;
+#include&lt;string&gt;
+#include&lt;iostream&gt;
+using namespace std;
+void Combination(string str){
+    int countt=0;
+    if(str.empty())
+        return;
+    int len=str.size();
+    for(int i=1;i&lt;(1&lt;&lt;len);i++){//从0~2^n-1，中可能出现的情况
+        for(int j=0;j&lt;len;j++){
+            if(i&amp;(1&lt;&lt;j)){//这个位置上有数
+                cout&lt;&lt;str[j]&lt;&lt;&quot; &quot;;
+
+            }
+        }
+        countt++;
+        cout&lt;&lt;endl;
+
+    }
+    cout&lt;&lt;countt;
+}
+int main(){
+    Combination(&quot;abc&quot;);
+    return 0;
+}
+</code></pre><p>   //<strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><strong><em>**</em></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong></strong><br>   //八皇后问题。不同行，不同列，不同斜角线。</p>
+<p>#include<iostream></iostream></p>
+<p>#include<stdio.h><br>using namespace std;<br>int count_number=0;<br>bool isDiagnal(int ColumnIndex[],int length){<br>    for(int i=0;i&lt;length;i++){<br>        for(int j=i+1;j&lt;length;j++){<br>            if(i-j==ColumnIndex[i]-ColumnIndex[j] || j-i==ColumnIndex[i]-ColumnIndex[j])//对角关系<br>                return false;<br>        }</stdio.h></p>
+<pre><code>}
+return true;
+</code></pre><p>}<br>void Print(int ColumnIndex[],int length){<br>    cout&lt;&lt;count_number&lt;&lt;”:”;<br>    for(int  i=0;i&lt;length;i++){<br>        cout&lt;&lt;ColumnIndex[i]&lt;&lt;” “;//输出列</p>
+<pre><code>}
+cout&lt;&lt;endl;
+</code></pre><p>}</p>
+<p>void Permutation(int ColumnIndex[],int length,int index){<br>    if(index==length){//index代表排列好的列<br>        if(isDiagnal(ColumnIndex,length)){//状态合法，没有斜对角关系<br>            count_number++;//一次符合要求的状态<br>            Print(ColumnIndex,length);<br>        }<br>    }<br>    else{<br>        for(int i=index;i&lt;length;i++){<br>            swap(ColumnIndex[index],ColumnIndex[i]);//第一个位置可能的情况<br>            Permutation(ColumnIndex,length,index+1);//递归后面的部分分成第一个元素以及剩下的元素<br>            swap(ColumnIndex[index],ColumnIndex[i]);<br>        }<br>    }<br>}<br>void EightQueen(){<br>    const int length=8;<br>    int ColumnIndex[length];<br>    for(int i=0;i&lt;length;i++){<br>        ColumnIndex[i]=i;//下标表示行，值代表列<br>    }<br>    Permutation(ColumnIndex,length,0);<br>}</p>
+<p>int main(void)<br>{<br>    EightQueen();<br>    return 0;<br>}</p>
+  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +295,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/02/字符串全排列/" data-title="字符串全排列(去重)以及全组合（2^n-1） | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +309,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/02/“数组中出现次数超过一半的数字hexo-new-post-“数组中出现次数超过一半的数字/" title="数组中出现次数超过一半的数字">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  数组中出现次数超过一半的数字</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/02/BST转换双向链表/"  title="BST转换双向链表">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>BST转换双向链表
 </span>
 </a>
 </div>
