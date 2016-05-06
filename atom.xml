@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-02T14:56:39.653Z</updated>
+  <updated>2016-05-06T08:26:51.458Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,251 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>数组排成最小的数</title>
+    <link href="http://wxjttxs.github.io/2016/05/06/%E6%95%B0%E7%BB%84%E6%8E%92%E6%88%90%E6%9C%80%E5%B0%8F%E7%9A%84%E6%95%B0/"/>
+    <id>http://wxjttxs.github.io/2016/05/06/数组排成最小的数/</id>
+    <published>2016-05-06T08:17:20.000Z</published>
+    <updated>2016-05-06T08:26:51.458Z</updated>
+    
+    <content type="html">&lt;p&gt;//把数组中数字拼接起来，并打印最小的和&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+
+// int型整数用十进制表示最多只有10位
+const int g_MaxNumberLength=10;
+char* g_StrCombine1=new char[g_MaxNumberLength*2+1];
+char* g_StrCombine2=new char[g_MaxNumberLength*2+1];
+// 如果[strNumber1][strNumber2] &amp;gt; [strNumber2][strNumber1], 返回值大于0
+// 如果[strNumber1][strNumber2] = [strNumber2][strNumber1], 返回值等于0
+// 如果[strNumber1][strNumber2] &amp;lt; [strNumber2][strNumber1], 返回值小于0
+int compare(const void* strNumber1,const void* strNumber2){//比较mn   VS nm
+    strcpy(g_StrCombine1,*(const char**)strNumber1);
+    strcat(g_StrCombine1,*(const char**)strNumber2);
+
+    strcpy(g_StrCombine2,*(const char**)strNumber2);
+    strcat(g_StrCombine2,*(const char**)strNumber1);
+    return strcmp(g_StrCombine1,g_StrCombine2);
+}
+void PrintMinNumber(int *numbers,int length){
+    if(numbers==NULL||length&amp;lt;0)
+        return ;
+    char** strNumbers=(char**)(new int[length]);
+    for(int i=0;i&amp;lt;length;i++){
+        strNumbers[i]=new char[g_MaxNumberLength+1];
+        sprintf(strNumbers[i],&amp;quot;%d&amp;quot;,numbers[i]);
+        //数值转换为字符串，比如numbers存储的是{3,32,321}，那么//strNumber存储的是{&amp;quot;3&amp;quot;,&amp;quot;32&amp;quot;,&amp;quot;321&amp;quot;}
+    }
+    qsort(strNumbers,length,sizeof(char*),compare);//对字符串数组进行排序，由小到大
+    for(int i=0;i&amp;lt;length;i++)
+        printf(&amp;quot;%s&amp;quot;,strNumbers[i]);
+    printf(&amp;quot;\n&amp;quot;);
+    for(int i=0;i&amp;lt;length;i++)
+        delete[] strNumbers[i];
+    delete[] strNumbers;
+}
+int main()
+{
+    int a[]={3,32,321};
+    PrintMinNumber(a,3);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//把数组中数字拼接起来，并打印最小的和&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>找到第n个ugly number</title>
+    <link href="http://wxjttxs.github.io/2016/05/06/%E6%89%BE%E5%88%B0%E7%AC%ACn%E4%B8%AAugly-number/"/>
+    <id>http://wxjttxs.github.io/2016/05/06/找到第n个ugly-number/</id>
+    <published>2016-05-06T08:15:23.000Z</published>
+    <updated>2016-05-06T14:39:20.786Z</updated>
+    
+    <content type="html">&lt;p&gt;//因子只包含2,3,5的数叫做丑数,&lt;br&gt;//找到第n个丑数，1是第一个&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//***********************第一种方法***********************
+//按照定义，暴力查找
+//bool IsUglyNumber(int n){
+//    while(n%2==0)
+//        n/=2;
+//    while(n%3==0)
+//        n/=3;
+//    while(n%5==0)
+//        n/=5;
+//    return (n==1)?true:false;
+//}
+//int GetUglyNumber(int index){
+//    if(index&amp;lt;0)
+//        return 0;
+//    int number=0;
+//    int uglyFound=0;
+//    while(uglyFound&amp;lt;index){
+//        ++number;
+//        if(IsUglyNumber(number))
+//            ++uglyFound;
+//    }
+//    return number;
+//
+//}
+//**********************第二种方法***********************
+//保存已经排好序的丑数
+int Min(int n1,int n2,int n3){
+    int mint=(n1&amp;lt;n2)?n1:n2;
+    mint=(mint&amp;lt;n3)?mint:n3;
+    return mint;
+}
+int GetUglyNumber(int index){
+    if(index&amp;lt;0)
+        return 0;
+    int *pUglyNumbers=new int[index];
+    pUglyNumbers[0]=1;
+    int nextUglyIndex=1;
+    int *pMultiply2=pUglyNumbers;
+    int *pMultiply3=pUglyNumbers;
+    int *pMultiply5=pUglyNumbers;
+    while(nextUglyIndex&amp;lt;index){
+        int mint=Min(*pMultiply2*2,*pMultiply3*3,*pMultiply5*5);
+            pUglyNumbers[nextUglyIndex]=mint;
+            while(*pMultiply2*2&amp;lt;=pUglyNumbers[nextUglyIndex])
+                ++pMultiply2;
+            while(*pMultiply3*3&amp;lt;=pUglyNumbers[nextUglyIndex])
+                ++pMultiply3;
+            while(*pMultiply5*5&amp;lt;=pUglyNumbers[nextUglyIndex])
+                ++pMultiply5;
+            ++nextUglyIndex;
+    }
+    int ugly=pUglyNumbers[nextUglyIndex-1];
+    delete[] pUglyNumbers;
+    return ugly;
+}
+int main()
+{
+    cout &amp;lt;&amp;lt;GetUglyNumber(4) &amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//因子只包含2,3,5的数叫做丑数,&lt;br&gt;//找到第n个丑数，1是第一个&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//***********************第一种方法*****
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>从1到N整数中1出现的次数</title>
+    <link href="http://wxjttxs.github.io/2016/05/03/%E4%BB%8E1%E5%88%B0N%E6%95%B4%E6%95%B0%E4%B8%AD1%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/"/>
+    <id>http://wxjttxs.github.io/2016/05/03/从1到N整数中1出现的次数/</id>
+    <published>2016-05-03T11:31:40.000Z</published>
+    <updated>2016-05-03T11:32:41.043Z</updated>
+    
+    <content type="html">&lt;p&gt;//给定数字N，计算从1~N中各个数字位上包含1的个位&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;cstring&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+//方法1，暴力穷举,一个数需要o(logn),一共需要n*O(logn)
+int NumberOf1(unsigned int n){
+    int number=0;
+    while(n){//从个位往高位计算给定的数字n包含的数字1的个数
+        if(n%10==1)
+            number++;
+
+        n=n/10;
+    }
+    return  number;
+}
+int NumberOf1Between1AndN(unsigned int n){
+    int number=0;
+    for(int i=1;i&amp;lt;=n;i++)
+        number+=NumberOf1(i);
+    return number;
+}
+//方法二，递归
+//数字转换为 字符串更方便//递归一次去掉一位，所以时间复杂度编程O(logn)
+int PowerBase10(unsigned int n){
+    int result=1;
+    for(unsigned int i=0;i&amp;lt;n;i++)
+        result*=10;
+    return result;
+}
+int NumberOf1(const char* strN){
+    if(!strN||*strN&amp;lt;&amp;apos;0&amp;apos;||*strN&amp;gt;&amp;apos;9&amp;apos;||*strN==&amp;apos;\0&amp;apos;)
+        return 0;
+    int first=*strN-&amp;apos;0&amp;apos;;
+    unsigned int length=static_cast&amp;lt;unsigned int&amp;gt;(strlen(strN));
+    if(length==1&amp;amp;&amp;amp;first==0)
+        return 0;
+    if(length==1&amp;amp;&amp;amp; first&amp;gt;0)
+        return 1;
+    //假设strN=&amp;quot;21345&amp;quot;
+    //numberFirstDigit是数字10000~19999的第一个位中的数目
+    int numFirstDigit=0;
+    if(first&amp;gt;1)
+        numFirstDigit=PowerBase10(length-1);
+    else if(first==1)
+        numFirstDigit=atoi(strN+1)+1;
+    //numberOtherDigits是1346~21346除第一位之外的数位中的数目
+    int numOtherDigits=first*(length-1)*PowerBase10(length-2);
+    //numRecursive是1~1345中的数目
+    int numRecursive=NumberOf1(strN+1);
+    return numFirstDigit+numOtherDigits+numRecursive;
+}
+
+int NumberOf1Between1AndN(int n){
+    if(n&amp;lt;=0)
+        return 0;
+    char strN[50];
+    sprintf(strN,&amp;quot;%d&amp;quot;,n);
+    return NumberOf1(strN);
+}
+
+int main()
+{
+    cout&amp;lt;&amp;lt;NumberOf1Between1AndN(21345);
+    //cout&amp;lt;&amp;lt;PowerBase10(2);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//给定数字N，计算从1~N中各个数字位上包含1的个位&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;cstring
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>子数组最大和</title>
@@ -1555,73 +1800,6 @@ bool isodd(i
     <summary type="html">
     
       &lt;p&gt;引入对typedef struct and struct 的结构的比较。&lt;a href=&quot;http://wenku.baidu.com/view/484d1f0b52ea551810a6875c&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;百度文库&lt;/a
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>post打印1~n的最大</title>
-    <link href="http://wxjttxs.github.io/2016/04/22/post%E6%89%93%E5%8D%B01-n%E7%9A%84%E6%9C%80%E5%A4%A7/"/>
-    <id>http://wxjttxs.github.io/2016/04/22/post打印1-n的最大/</id>
-    <published>2016-04-22T01:28:32.000Z</published>
-    <updated>2016-04-22T02:15:59.958Z</updated>
-    
-    <content type="html">&lt;p&gt;##字符串表示大树问题&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;76&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;78&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;79&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;80&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;81&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;82&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;83&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;84&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;85&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;86&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;87&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;88&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;89&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;90&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;91&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;92&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;93&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;94&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;95&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;96&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;97&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;98&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;string&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;memory.h&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//判断什么到达最大的n位数是重中之重,第一位进1时候一定达到最大位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//bool Increment(char* number)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    int n=strlen(number);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    bool isOverflow=false;//最低位是否进位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    int nTakeOver=0;//每一位上的进位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    for(int i=n-1;i&amp;gt;=0;i--)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        int ithNum=number[i]-&amp;apos;0&amp;apos;+nTakeOver;//第i位上的数字,这个地方是“-”，由字符转换成数字是“-”，而由数字转换成字符是“+”&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        if(i==n-1)//最高位那么就加1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            ithNum++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        if(ithNum&amp;gt;=10)&amp;#123;//第i位有进位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                if(i==0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                    isOverflow=true;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                else&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                    ithNum-=10;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                    nTakeOver=1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                    number[i]=&amp;apos;0&amp;apos;+ithNum;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//                &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        else&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            number[i]=&amp;apos;0&amp;apos;+ithNum;//没有进位，还没到最大&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            break;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    return isOverflow;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//void PrintNumber(char* number)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    bool isBegin0=true;//从第一个不是0开头的数字开始打印&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    int n=strlen(number);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    for(int i=0;i&amp;lt;n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        if(isBegin0 &amp;amp;&amp;amp; number[i]!=&amp;apos;0&amp;apos;)//不是以0开头&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            isBegin0=false;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        if(!isBegin0)//开头不是0就输出&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//            cout&amp;lt;&amp;lt;number[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    cout&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//void Print1ToMaxofNdigits(int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    if(n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    char* number=new char[n+1];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    memset(number,&amp;apos;0&amp;apos;,n);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    number[n]=&amp;apos;\0&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    while(!Increment(number))&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        PrintNumber(number);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    delete []number;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//int main()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    Print1ToMaxofNdigits(2);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void PrintNumber(char* number)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    bool isBegin0=true;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int n=strlen(number);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(isBegin0&amp;amp;&amp;amp;number[i]!=&amp;apos;0&amp;apos;)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            isBegin0=false;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(!isBegin0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            cout&amp;lt;&amp;lt;number[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void Print1ToMaxofNdigitsRecursively(char* number,int n, int index)&amp;#123;//把每一位都值成0~9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(index==n-1)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        PrintNumber(number);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;10;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        number[index+1]=i+&amp;apos;0&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Print1ToMaxofNdigitsRecursively(number,n,index+1);//递归打印下一位&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void Print1ToMaxofNdigits(int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    char* number=new char(n+1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    number[n]=&amp;apos;\0&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;10;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        number[0]=i+&amp;apos;0&amp;apos;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Print1ToMaxofNdigitsRecursively(number,n,0);//从第一位开始打印&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Print1ToMaxofNdigits(-1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##字符串表示大树问题&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/sp
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>post错误处理方式</title>
-    <link href="http://wxjttxs.github.io/2016/04/21/post%E9%94%99%E8%AF%AF%E5%A4%84%E7%90%86%E6%96%B9%E5%BC%8F/"/>
-    <id>http://wxjttxs.github.io/2016/04/21/post错误处理方式/</id>
-    <published>2016-04-21T14:22:15.000Z</published>
-    <updated>2016-04-21T14:22:29.992Z</updated>
-    
-    <content type="html">&lt;p&gt;##三种处理错误异常的方式&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为不同的出错原因定义不同异常类型，逻辑清晰明了；     
-          缺：有些语言（C）不支持异常，抛出异常可能对性能有负面影响
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;##实现阶乘陷阱多多&lt;br&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include &amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//以为pow(x,n)很简单，但是好多陷阱,比如指数为负，底数为0，所以需要错误处理(全局变量)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//基本而且完整的代码&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;bool flag_error=false;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//double PowerUnsignedExp(double base,unsigned int exp)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    double result=1.0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    if(exp==0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        return 1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    for(int i=0;i&amp;lt;exp;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//        result*=base;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//    return result;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;//下面联系一下效率更高的一种。首先 x^n=x^(n/2)*x^(n/2)(n为偶数)；n为奇数（x^n=x^((n-1)/2)*...*x）&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;double PowerUnsignedExp(double base,unsigned int exp)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(exp==0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return 1;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    double result=PowerUnsignedExp(base,exp&amp;gt;&amp;gt;1);//右移一位除以2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    result*=result;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(exp&amp;amp;0x1==1)//这个数为奇数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        result*=base;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return result;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;bool equalt(double a,double b)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return ((a-b&amp;lt;0.0000001)&amp;amp;&amp;amp;(b-a)&amp;lt;0.0000001)?1:0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;double Power(double base, int exponent)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    flag_error=false;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(equalt(base,0.0))&amp;#123;//底数W为0&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        flag_error=true;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return 0;//因为底数为0造成的返回结果为0，&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    unsigned int absExp=(exponent&amp;lt;0)?(-exponent):exponent;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    double result=PowerUnsignedExp(base,absExp);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(exponent&amp;lt;0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        result=1.0/result;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return result;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout &amp;lt;&amp;lt;Power(10,3) &amp;lt;&amp;lt; endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;##三种处理错误异常的方式&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;         
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>排序给定人数的年龄o(n)</title>
-    <link href="http://wxjttxs.github.io/2016/04/21/%E6%8E%92%E5%BA%8F%E7%BB%99%E5%AE%9A%E4%BA%BA%E6%95%B0%E7%9A%84%E5%B9%B4%E9%BE%84o-n/"/>
-    <id>http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/</id>
-    <published>2016-04-21T13:01:26.000Z</published>
-    <updated>2016-04-21T13:04:03.523Z</updated>
-    
-    <content type="html">&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;//实现上万个人的年龄的排序&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void ageSort(int *a,int n)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(a==NULL||n&amp;lt;=0)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    const  int Maxage=99;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int countAge[Maxage+1];//0~99,一共100个数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;Maxage+1;i++)&amp;#123;//每种年龄出现的次数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countAge[i]=0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;n;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        int age=a[i];&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(age&amp;lt;0||age&amp;gt;Maxage)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            return;//输入不合法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        countAge[age]++;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int index=0;//排好序的下标&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   for(int i=0;i&amp;lt;Maxage;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     for(int j=0;j&amp;lt;countAge[i];j++)&amp;#123;//,来控制每个年龄出现的次数&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        a[index++]=i;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;     &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;   &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int a[9]=&amp;#123;3,4,5,6,7,5,4,3,2&amp;#125;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    ageSort(a,9);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    for(int i=0;i&amp;lt;9;i++)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;a[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class
     
     </summary>
     
