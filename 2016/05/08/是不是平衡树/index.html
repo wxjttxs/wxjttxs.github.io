@@ -4,50 +4,50 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>数组排成最小的数 | happy happy</title>
+    <title>是不是平衡树 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//把数组中数字拼接起来，并打印最小的和
+    <meta name="description" content="//平衡二叉树的概念：左右子树的深度相差不超过1//判断一棵二叉树是不是平衡二叉树
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组排成最小的数">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/index.html">
+<meta property="og:title" content="是不是平衡树">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/08/是不是平衡树/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta property="og:description" content="//平衡二叉树的概念：左右子树的深度相差不超过1//判断一棵二叉树是不是平衡二叉树
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
-<meta property="og:updated_time" content="2016-05-06T08:26:51.458Z">
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树">
+<meta property="og:updated_time" content="2016-05-08T14:41:33.443Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组排成最小的数">
-<meta name="twitter:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta name="twitter:title" content="是不是平衡树">
+<meta name="twitter:description" content="//平衡二叉树的概念：左右子树的深度相差不超过1//判断一棵二叉树是不是平衡二叉树
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -109,14 +109,14 @@ c">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/06/数组排成最小的数/" title="数组排成最小的数" itemprop="url">数组排成最小的数</a>
+      <a href="/2016/05/08/是不是平衡树/" title="是不是平衡树" itemprop="url">是不是平衡树</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-06T08:17:20.000Z" itemprop="datePublished"> 发表于 2016-05-06</time>
+    <time datetime="2016-05-08T14:40:57.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
     
   </p>
 </header>
@@ -129,49 +129,104 @@ c">
 		
 		</div>
 		
-		<p>//把数组中数字拼接起来，并打印最小的和</p>
+		<p>//平衡二叉树的概念：左右子树的深度相差不超过1<br>//判断一棵二叉树是不是平衡二叉树</p>
 <pre><code>#include &lt;iostream&gt;
-#include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
-#include&lt;algorithm&gt;
+
 using namespace std;
-
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-char* g_StrCombine1=new char[g_MaxNumberLength*2+1];
-char* g_StrCombine2=new char[g_MaxNumberLength*2+1];
-// 如果[strNumber1][strNumber2] &gt; [strNumber2][strNumber1], 返回值大于0
-// 如果[strNumber1][strNumber2] = [strNumber2][strNumber1], 返回值等于0
-// 如果[strNumber1][strNumber2] &lt; [strNumber2][strNumber1], 返回值小于0
-int compare(const void* strNumber1,const void* strNumber2){//比较mn   VS nm
-    strcpy(g_StrCombine1,*(const char**)strNumber1);
-    strcat(g_StrCombine1,*(const char**)strNumber2);
-
-    strcpy(g_StrCombine2,*(const char**)strNumber2);
-    strcat(g_StrCombine2,*(const char**)strNumber1);
-    return strcmp(g_StrCombine1,g_StrCombine2);
-}
-void PrintMinNumber(int *numbers,int length){
-    if(numbers==NULL||length&lt;0)
-        return ;
-    char** strNumbers=(char**)(new int[length]);
-    for(int i=0;i&lt;length;i++){
-        strNumbers[i]=new char[g_MaxNumberLength+1];
-        sprintf(strNumbers[i],&quot;%d&quot;,numbers[i]);
-        //数值转换为字符串，比如numbers存储的是{3,32,321}，那么//strNumber存储的是{&quot;3&quot;,&quot;32&quot;,&quot;321&quot;}
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树
+BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
+    //根据先序确定第一个数值确定根节点
+   //BinaryTreeNode *root;
+    int rootValue=startpreorder[0];
+    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
+    root-&gt;m_nValue=rootValue;
+    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
+    if(startpreorder==endpreorder){
+        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
+            return root;
+        else
+            throw std::exception();
     }
-    qsort(strNumbers,length,sizeof(char*),compare);//对字符串数组进行排序，由小到大
-    for(int i=0;i&lt;length;i++)
-        printf(&quot;%s&quot;,strNumbers[i]);
-    printf(&quot;\n&quot;);
-    for(int i=0;i&lt;length;i++)
-        delete[] strNumbers[i];
-    delete[] strNumbers;
+    //在中序找到根节点所在位置
+    int*rootinoder=startinorder;
+     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
+        rootinoder++;
+     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
+         throw exception();
+     int leftLength=rootinoder-startinorder;
+     int* leftPreorderEnd=startpreorder+leftLength;
+     if(leftLength&gt;0)//左子树的长度,构建左子树
+     {
+         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
+     }
+    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
+        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
+    return root;
+}
+BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
+        if(preorder==NULL||inorder==NULL||length&lt;=0)
+            return NULL;
+        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
+}
+//*****************方法一****************************
+////二叉树的深度
+//    int TreeDepth(BinaryTreeNode* pRoot){
+//        if(!pRoot)
+//            return 0;
+//    //    if(!pRoot-&gt;m_pLeft &amp;&amp; !pRoot-&gt;m_pRight)//不需要
+//    //        return 1;
+//
+//        //else{
+//            int nLeft=TreeDepth(pRoot-&gt;m_pLeft);
+//            int nRight=TreeDepth(pRoot-&gt;m_pRight);
+//            return (nLeft&gt;nRight)?(nLeft+1):(nRight+1);
+//      //  }
+//
+//    }
+//bool IsBalanced(BinaryTreeNode* pRoot){
+//    if(pRoot==NULL)
+//        return true;
+//    int left=TreeDepth(pRoot-&gt;m_pLeft);
+//    int right=TreeDepth(pRoot-&gt;m_pRight);
+//    int diff= left-right;
+//    if(diff&gt;1 ||diff&lt;-1)
+//        return false;
+//    return IsBalanced(pRoot-&gt;m_pLeft)&amp;&amp;IsBalanced(pRoot-&gt;m_pRight);
+//}
+//***********************方法二***********************88
+//每个节点遍历一遍，就能判断二叉树是不是平衡的；采用后序遍历,遍历一个节点的时候，它的左右子树已经遍历过了。
+//在遍历节点的时候记录 它的深度，就能一边遍历，一边判断每个节点是不是平衡的
+bool IsBalancedCore(BinaryTreeNode* pRoot, int* pDepth){
+    if(pRoot==NULL){
+        *pDepth=0;
+        return true;
+    }
+    int left,right;
+    if(IsBalancedCore(pRoot-&gt;m_pLeft,&amp;left)&amp;&amp; IsBalancedCore(pRoot-&gt;m_pRight,&amp;right)){
+        int diff=left-right;
+        if(diff&lt;=1 &amp;&amp; diff&gt;=-1){
+            *pDepth=1+(left&gt;right?left:right);
+            return true;
+        }
+    }
+    return false;
+}
+bool IsBalanced(BinaryTreeNode* pRoot){
+    int depth=0;
+    return IsBalancedCore(pRoot,&amp;depth);
 }
 int main()
 {
-    int a[]={3,32,321};
-    PrintMinNumber(a,3);
+    BinaryTreeNode* Btree;
+    int preorder[]={10,5,4,7,12};
+    int inorder[]={4,5,7,10,12};
+    Btree= Contrust(preorder,inorder,5);
+    cout&lt;&lt;IsBalanced(Btree);
     return 0;
 }
 </code></pre>  
@@ -186,7 +241,7 @@ int main()
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/" data-title="数组排成最小的数 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/08/是不是平衡树/" data-title="是不是平衡树 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -199,19 +254,11 @@ int main()
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/05/07/post第一个只出现一次的字符/" title="第一个只出现一次的字符">
-  <strong>上一篇：</strong><br/>
-  <span>
-  第一个只出现一次的字符</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/05/06/找到第n个ugly-number/"  title="找到第n个ugly number">
+<a href="/2016/05/08/二叉树的深度/"  title="二叉树的深度">
  <strong>下一篇：</strong><br/> 
- <span>找到第n个ugly number
+ <span>二叉树的深度
 </span>
 </a>
 </div>

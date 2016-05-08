@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-06T08:26:51.458Z</updated>
+  <updated>2016-05-08T14:41:33.443Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,551 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>是不是平衡树</title>
+    <link href="http://wxjttxs.github.io/2016/05/08/%E6%98%AF%E4%B8%8D%E6%98%AF%E5%B9%B3%E8%A1%A1%E6%A0%91/"/>
+    <id>http://wxjttxs.github.io/2016/05/08/是不是平衡树/</id>
+    <published>2016-05-08T14:40:57.000Z</published>
+    <updated>2016-05-08T14:41:33.443Z</updated>
+    
+    <content type="html">&lt;p&gt;//平衡二叉树的概念：左右子树的深度相差不超过1&lt;br&gt;//判断一棵二叉树是不是平衡二叉树&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树
+BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
+    //根据先序确定第一个数值确定根节点
+   //BinaryTreeNode *root;
+    int rootValue=startpreorder[0];
+    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
+    root-&amp;gt;m_nValue=rootValue;
+    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
+    if(startpreorder==endpreorder){
+        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
+            return root;
+        else
+            throw std::exception();
+    }
+    //在中序找到根节点所在位置
+    int*rootinoder=startinorder;
+     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
+        rootinoder++;
+     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
+         throw exception();
+     int leftLength=rootinoder-startinorder;
+     int* leftPreorderEnd=startpreorder+leftLength;
+     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
+     {
+         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
+     }
+    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
+        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
+    return root;
+}
+BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
+        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
+            return NULL;
+        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
+}
+//*****************方法一****************************
+////二叉树的深度
+//    int TreeDepth(BinaryTreeNode* pRoot){
+//        if(!pRoot)
+//            return 0;
+//    //    if(!pRoot-&amp;gt;m_pLeft &amp;amp;&amp;amp; !pRoot-&amp;gt;m_pRight)//不需要
+//    //        return 1;
+//
+//        //else{
+//            int nLeft=TreeDepth(pRoot-&amp;gt;m_pLeft);
+//            int nRight=TreeDepth(pRoot-&amp;gt;m_pRight);
+//            return (nLeft&amp;gt;nRight)?(nLeft+1):(nRight+1);
+//      //  }
+//
+//    }
+//bool IsBalanced(BinaryTreeNode* pRoot){
+//    if(pRoot==NULL)
+//        return true;
+//    int left=TreeDepth(pRoot-&amp;gt;m_pLeft);
+//    int right=TreeDepth(pRoot-&amp;gt;m_pRight);
+//    int diff= left-right;
+//    if(diff&amp;gt;1 ||diff&amp;lt;-1)
+//        return false;
+//    return IsBalanced(pRoot-&amp;gt;m_pLeft)&amp;amp;&amp;amp;IsBalanced(pRoot-&amp;gt;m_pRight);
+//}
+//***********************方法二***********************88
+//每个节点遍历一遍，就能判断二叉树是不是平衡的；采用后序遍历,遍历一个节点的时候，它的左右子树已经遍历过了。
+//在遍历节点的时候记录 它的深度，就能一边遍历，一边判断每个节点是不是平衡的
+bool IsBalancedCore(BinaryTreeNode* pRoot, int* pDepth){
+    if(pRoot==NULL){
+        *pDepth=0;
+        return true;
+    }
+    int left,right;
+    if(IsBalancedCore(pRoot-&amp;gt;m_pLeft,&amp;amp;left)&amp;amp;&amp;amp; IsBalancedCore(pRoot-&amp;gt;m_pRight,&amp;amp;right)){
+        int diff=left-right;
+        if(diff&amp;lt;=1 &amp;amp;&amp;amp; diff&amp;gt;=-1){
+            *pDepth=1+(left&amp;gt;right?left:right);
+            return true;
+        }
+    }
+    return false;
+}
+bool IsBalanced(BinaryTreeNode* pRoot){
+    int depth=0;
+    return IsBalancedCore(pRoot,&amp;amp;depth);
+}
+int main()
+{
+    BinaryTreeNode* Btree;
+    int preorder[]={10,5,4,7,12};
+    int inorder[]={4,5,7,10,12};
+    Btree= Contrust(preorder,inorder,5);
+    cout&amp;lt;&amp;lt;IsBalanced(Btree);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//平衡二叉树的概念：左右子树的深度相差不超过1&lt;br&gt;//判断一棵二叉树是不是平衡二叉树&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct BinaryTreeNode{
+    i
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>二叉树的深度</title>
+    <link href="http://wxjttxs.github.io/2016/05/08/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6/"/>
+    <id>http://wxjttxs.github.io/2016/05/08/二叉树的深度/</id>
+    <published>2016-05-08T13:40:22.000Z</published>
+    <updated>2016-05-08T13:41:04.539Z</updated>
+    
+    <content type="html">&lt;p&gt;//查找二叉树的深度，也就是从根节点到叶子节点所有路径中，最长路径的节点数目&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//构建二叉树
+BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
+    //根据先序确定第一个数值确定根节点
+   //BinaryTreeNode *root;
+    int rootValue=startpreorder[0];
+    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
+    root-&amp;gt;m_nValue=rootValue;
+    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
+    if(startpreorder==endpreorder){
+        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
+            return root;
+        else
+            throw std::exception();
+    }
+    //在中序找到根节点所在位置
+    int*rootinoder=startinorder;
+     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
+        rootinoder++;
+     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
+         throw exception();
+     int leftLength=rootinoder-startinorder;
+     int* leftPreorderEnd=startpreorder+leftLength;
+     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
+     {
+         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
+     }
+    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
+        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
+    return root;
+}
+BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
+        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
+            return NULL;
+        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
+}
+//二叉树的深度：如果树只有一个节点，那么树的深度就是1；如果没有右子树，
+//那么就等于左子树的深度+1；没有左子树的情况类似；如果左右子树都存在，那么就等于两个子树路径较大的那个+1
+int TreeDepth(BinaryTreeNode* pRoot){
+    if(!pRoot)
+        return 0;
+//    if(!pRoot-&amp;gt;m_pLeft &amp;amp;&amp;amp; !pRoot-&amp;gt;m_pRight)//不需要
+//        return 1;
+
+    //else{
+        int nLeft=TreeDepth(pRoot-&amp;gt;m_pLeft);
+        int nRight=TreeDepth(pRoot-&amp;gt;m_pRight);
+        return (nLeft&amp;gt;nRight)?(nLeft+1):(nRight+1);
+  //  }
+
+}
+int main()
+{
+    BinaryTreeNode* Btree;
+    int preorder[]={10,5,4,7,12};
+    int inorder[]={4,5,7,10,12};
+    Btree= Contrust(preorder,inorder,5);
+    cout&amp;lt;&amp;lt;TreeDepth(Btree);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//查找二叉树的深度，也就是从根节点到叶子节点所有路径中，最长路径的节点数目&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+struct BinaryTreeNode{
+    int m_nV
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>指定数字在排序数组中出现的次数</title>
+    <link href="http://wxjttxs.github.io/2016/05/08/%E6%8C%87%E5%AE%9A%E6%95%B0%E5%AD%97%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/"/>
+    <id>http://wxjttxs.github.io/2016/05/08/指定数字在排序数组中出现的次数/</id>
+    <published>2016-05-08T13:05:56.000Z</published>
+    <updated>2016-05-08T13:06:20.332Z</updated>
+    
+    <content type="html">&lt;p&gt;//得到已经排序的数组中指定数字k出现的次数&lt;br&gt;//已经排好序，所以想到用二分查找算法；&lt;br&gt;//重复次数=最后一次出现的位置-第一次出现的位置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+int GetFirstK(int *data,int length,int k, int start,int endd){
+    if(start&amp;gt;endd)
+        return -1;
+    int mid=(start+endd)/2;//一分为二
+    int midData=data[mid];
+    if(midData==k){//中间恰好等于k，那么第一个k的位置要么就是这个中间；要么位于前半段数组
+        if((data[mid-1]!=k &amp;amp;&amp;amp; mid&amp;gt;0) || mid==0)
+            return mid;
+        else
+            endd=mid-1;
+    }
+    else if(midData&amp;gt;k)
+        endd=mid-1;
+    else
+        start=mid+1;
+    return GetFirstK(data,length,k,start,endd);
+}
+int GetLastK(int *data,int length,int k,int start, int endd){
+    if(data==NULL||start&amp;gt;endd)
+        return -1;
+    int mid=(start+endd)/2;//一分为二
+    int midData=data[mid];
+    if(midData==k){//中间恰好等于k，那么最后一个k的位置要么就是这个中间；要么位于后半段数组
+        if((data[mid+1]!=k &amp;amp;&amp;amp; mid+1&amp;lt;length) || mid+1==length){
+            return mid;
+        }
+        else
+            start=mid+1;
+    }
+    else if(midData&amp;lt;k){
+        start =mid+1;
+    }
+    else
+        endd=mid-1;
+    return GetLastK(data,length,k,start,endd);
+
+}
+int GetKNumbers(int *data,int length,int k){
+    if(!data || length&amp;lt;=0)
+        return -1;
+    int number=0;
+    int first=GetFirstK(data,length,k,0,length-1);
+    int endd=GetLastK(data,length,k,0,length-1);
+    if(first&amp;gt;-1 &amp;amp;&amp;amp; endd&amp;gt;-1)
+        number= endd-first+1;
+    return number;
+}
+int main()
+{
+    int data[]={1,2,3,3,3,3,4,5};
+    cout&amp;lt;&amp;lt;GetKNumbers(data,8,1);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//得到已经排序的数组中指定数字k出现的次数&lt;br&gt;//已经排好序，所以想到用二分查找算法；&lt;br&gt;//重复次数=最后一次出现的位置-第一次出现的位置&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>两个链表的第一个公共节点</title>
+    <link href="http://wxjttxs.github.io/2016/05/08/%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9/"/>
+    <id>http://wxjttxs.github.io/2016/05/08/两个链表的第一个公共节点/</id>
+    <published>2016-05-08T07:06:14.000Z</published>
+    <updated>2016-05-08T07:06:54.040Z</updated>
+    
+    <content type="html">&lt;p&gt;//得到两个链表第一个公共节点并返回&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+typedef struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
+
+
+void Insert(List&amp;amp; pHead,int data){
+    ListNode* p=new ListNode;
+    p-&amp;gt;m_nValue=data;
+    p-&amp;gt;m_pNext=NULL;
+    if(pHead==NULL)
+        pHead=p;
+    else{
+        p-&amp;gt;m_pNext=pHead;
+        pHead=p;
+    }
+
+}
+void Print(List&amp;amp; pHead){
+    if(pHead==NULL)
+        return ;
+    ListNode* p=pHead;
+    while(p){
+        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        p=p-&amp;gt;m_pNext;
+    }
+    cout&amp;lt;&amp;lt;endl;
+}
+
+unsigned int GetListLength(ListNode* pHead);
+
+int FindFirstCommonNode( ListNode *pHead1, ListNode *pHead2)
+{
+    // 得到两个链表的长度
+    unsigned int nLength1 = GetListLength(pHead1);
+    unsigned int nLength2 = GetListLength(pHead2);
+    int nLengthDif = nLength1 - nLength2;
+
+    ListNode* pListHeadLong = pHead1;
+    ListNode* pListHeadShort = pHead2;
+    if(nLength2 &amp;gt; nLength1)
+    {
+        pListHeadLong = pHead2;
+        pListHeadShort = pHead1;
+        nLengthDif = nLength2 - nLength1;
+    }
+
+    // 先在长链表上走几步，再同时在两个链表上遍历
+    for(int i = 0; i &amp;lt; nLengthDif; ++ i)
+        pListHeadLong = pListHeadLong-&amp;gt;m_pNext;
+
+    while((pListHeadLong != NULL) &amp;amp;&amp;amp;
+        (pListHeadShort != NULL) &amp;amp;&amp;amp;
+        (pListHeadLong-&amp;gt;m_nValue != pListHeadShort-&amp;gt;m_nValue))
+    {
+        pListHeadLong = pListHeadLong-&amp;gt;m_pNext;
+        pListHeadShort = pListHeadShort-&amp;gt;m_pNext;
+    }
+    if(!pListHeadLong &amp;amp;&amp;amp; !pListHeadShort)//没有公共节点
+
+        return 0;
+    if(pListHeadLong-&amp;gt;m_nValue == pListHeadShort-&amp;gt;m_nValue){
+        ListNode* pFisrtCommonNode = pListHeadLong;// 得到第一个公共结点
+        return pFisrtCommonNode-&amp;gt;m_nValue;
+    }
+
+
+}
+
+unsigned int GetListLength(ListNode* pHead)
+{
+    unsigned int nLength = 0;
+    ListNode* pNode = pHead;
+    while(pNode != NULL)
+    {
+        ++ nLength;
+        pNode = pNode-&amp;gt;m_pNext;
+    }
+
+    return nLength;
+}
+
+int main()
+{
+    List l1=NULL;
+    Insert(l1,7);
+    Insert(l1,6);
+    Insert(l1,3);
+    Insert(l1,2);
+    Insert(l1,1);
+    Print(l1);
+
+
+    List l2=NULL;
+    Insert(l2,7);
+    Insert(l2,7);
+    Insert(l2,5);
+    Insert(l2,4);
+    Print(l2);
+    int tmp=FindFirstCommonNode(l1,l2);
+    cout&amp;lt;&amp;lt;tmp;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//得到两个链表第一个公共节点并返回&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+typedef struct ListNode{
+    int
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>逆序对</title>
+    <link href="http://wxjttxs.github.io/2016/05/07/post%E9%80%86%E5%BA%8F%E5%AF%B9/"/>
+    <id>http://wxjttxs.github.io/2016/05/07/post逆序对/</id>
+    <published>2016-05-07T09:00:04.000Z</published>
+    <updated>2016-05-08T11:56:14.493Z</updated>
+    
+    <content type="html">&lt;p&gt;//一个数组中的元素构成的逆序对数目&lt;br&gt;//分治法，递归，类似于堆排序&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+int InversePairsCore(int* data, int* cpy,int start, int endd){
+    if(start==endd){
+        cpy[start]=data[start];
+        return 0;
+    }
+    int half_len=(endd-start)/2;
+    int left=InversePairsCore(cpy,data,start,start+half_len);//子数组内部构成的逆序对,有两步操作：1是统计逆序对数目；2是排序（方便计算子数组间的逆序数数目）
+    int right=InversePairsCore(cpy,data,start+half_len+1,endd);//注意前两个参数的顺序。第一个参数代表的是排好序的数组。
+
+    int i=start+half_len;//子数组之间的逆序对,子数组是有序的
+    int j=endd;
+    int cpyIndex=endd;
+    int countt=0;
+    while(i&amp;gt;=start &amp;amp;&amp;amp; j&amp;gt;=start+half_len+1){
+         if(data[i]&amp;gt;data[j]){
+            cpy[cpyIndex--]=data[i--];//从右往左，从大往小放进辅助数组中
+            countt+=j-start-half_len;//j代表的右边子数组中大的那个数字,所以它之前的数字均能与左边子数组构成逆序对
+         }
+         else{
+            cpy[cpyIndex--]=data[j--];
+         }
+    }
+    for(;i&amp;gt;=start;i--){//j到头了，终止退出循环
+        cpy[cpyIndex--]=data[i];
+    }
+    for(;j&amp;gt;=start+half_len+1;j--)
+        cpy[cpyIndex--]=data[j];
+    return left+right+countt;
+}
+int InversePairs(int *data,int length){
+    if(data==NULL||length&amp;lt;=0)
+        return 0;
+    int *cpy=new int [length];//辅助数组
+    for(int i=0;i&amp;lt;length;i++){
+        cpy[i]=data[i];
+    }
+    int countt=InversePairsCore(data,cpy,0,length-1);
+    delete[] cpy;
+    return countt;
+}
+int main()
+{
+    int a[]={7,5,6,4};
+    cout &amp;lt;&amp;lt; InversePairs(a,4)&amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//一个数组中的元素构成的逆序对数目&lt;br&gt;//分治法，递归，类似于堆排序&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+int InversePairsCore(int* data, int*
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>第一个只出现一次的字符</title>
+    <link href="http://wxjttxs.github.io/2016/05/07/post%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/"/>
+    <id>http://wxjttxs.github.io/2016/05/07/post第一个只出现一次的字符/</id>
+    <published>2016-05-07T07:45:45.000Z</published>
+    <updated>2016-05-07T09:00:45.903Z</updated>
+    
+    <content type="html">&lt;p&gt;//考察哈希表；字符串&lt;br&gt;//第一个只出现一次&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+char FirstNotReaptingChar(char* pString){
+    if(!pString)
+        return &amp;apos;\0&amp;apos;;
+    const int tableSize=256;
+    unsigned int hashTable[tableSize];
+    for(int i=0;i&amp;lt;tableSize;i++)
+        hashTable[i]=0;
+    char* pHashKey=pString;//第一遍统计各个字符出现的次数，字符作为下标
+    while(*pHashKey!=&amp;apos;\0&amp;apos;)
+        hashTable[*(pHashKey++)]++;
+    pHashKey=pString;//第二遍，从头开始找第一次只出现一遍的字符。
+    while(*pHashKey!=&amp;apos;\0&amp;apos;){
+        if(hashTable[*pHashKey]==1)
+            return *pHashKey;
+        pHashKey++;
+    }
+    return &amp;apos;\0&amp;apos;;
+
+}
+int main()
+{
+    cout &amp;lt;&amp;lt;FirstNotReaptingChar(&amp;quot;aaaccdeff&amp;quot;)&amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//考察哈希表；字符串&lt;br&gt;//第一个只出现一次&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+char FirstNotReaptingChar(char* pString){
+    if
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>数组排成最小的数</title>
@@ -88,14 +633,13 @@ int main()
     <link href="http://wxjttxs.github.io/2016/05/06/%E6%89%BE%E5%88%B0%E7%AC%ACn%E4%B8%AAugly-number/"/>
     <id>http://wxjttxs.github.io/2016/05/06/找到第n个ugly-number/</id>
     <published>2016-05-06T08:15:23.000Z</published>
-    <updated>2016-05-06T14:39:20.786Z</updated>
+    <updated>2016-05-07T03:53:28.348Z</updated>
     
     <content type="html">&lt;p&gt;//因子只包含2,3,5的数叫做丑数,&lt;br&gt;//找到第n个丑数，1是第一个&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
 
 using namespace std;
 //***********************第一种方法***********************
-//按照定义，暴力查找
 //bool IsUglyNumber(int n){
 //    while(n%2==0)
 //        n/=2;
@@ -129,25 +673,27 @@ int GetUglyNumber(int index){
     if(index&amp;lt;0)
         return 0;
     int *pUglyNumbers=new int[index];
-    pUglyNumbers[0]=1;
-    int nextUglyIndex=1;
-    int *pMultiply2=pUglyNumbers;
-    int *pMultiply3=pUglyNumbers;
-    int *pMultiply5=pUglyNumbers;
+    pUglyNumbers[0]=1;//保存已经排好序的丑数
+    int nextUglyIndex=1;//第i个丑数的位置
+    int *pMultiplu2=pUglyNumbers;
+    int *pMultiplu3=pUglyNumbers;
+    int *pMultiplu5=pUglyNumbers;
     while(nextUglyIndex&amp;lt;index){
-        int mint=Min(*pMultiply2*2,*pMultiply3*3,*pMultiply5*5);
-            pUglyNumbers[nextUglyIndex]=mint;
-            while(*pMultiply2*2&amp;lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply2;
-            while(*pMultiply3*3&amp;lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply3;
-            while(*pMultiply5*5&amp;lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply5;
-            ++nextUglyIndex;
+        int mintt=Min(*pMultiplu2*2,*pMultiplu3*3,*pMultiplu5*5);//取比当前最大丑数大的最小值
+        pUglyNumbers[nextUglyIndex]=mintt;
+        while(*pMultiplu2*2&amp;lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu2;//这个位置之前的数乘2都比当前丑数的最大值要小;退出时候均比当前最大丑数大的最小值
+        while(*pMultiplu3*3&amp;lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu3;
+        while(*pMultiplu5*5&amp;lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu5;
+        ++nextUglyIndex;
+
     }
     int ugly=pUglyNumbers[nextUglyIndex-1];
     delete[] pUglyNumbers;
     return ugly;
+
 }
 int main()
 {
@@ -1316,490 +1862,6 @@ int main()
 #include&amp;lt;assert.h&amp;gt;
 using namespace std;
 template &amp;lt;typen
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>今日头条</title>
-    <link href="http://wxjttxs.github.io/2016/04/27/%E4%BB%8A%E6%97%A5%E5%A4%B4%E6%9D%A1/"/>
-    <id>http://wxjttxs.github.io/2016/04/27/今日头条/</id>
-    <published>2016-04-27T13:28:24.000Z</published>
-    <updated>2016-04-27T13:28:25.006Z</updated>
-    
-    <content type="html"></content>
-    
-    <summary type="html">
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>合并链表</title>
-    <link href="http://wxjttxs.github.io/2016/04/27/%E5%90%88%E5%B9%B6%E9%93%BE%E8%A1%A8/"/>
-    <id>http://wxjttxs.github.io/2016/04/27/合并链表/</id>
-    <published>2016-04-27T06:59:54.000Z</published>
-    <updated>2016-04-27T07:11:15.350Z</updated>
-    
-    <content type="html">&lt;p&gt;//原来有序的两个链表合并之后依然有序&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext;
-}ListNode, *List;//必须是一个链表
-
-
-void Insert(List&amp;amp; pHead,int data){
-    ListNode* p=new ListNode;
-    p-&amp;gt;m_nValue=data;
-    p-&amp;gt;m_pNext=NULL;
-    if(pHead==NULL)
-        pHead=p;
-    else{
-        p-&amp;gt;m_pNext=pHead;
-        pHead=p;
-    }
-
-}
-void Print(List&amp;amp; pHead){
-    if(pHead==NULL)
-        return ;
-    ListNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-List Merge(List&amp;amp; L1, List&amp;amp; L2){
-    ListNode* p1=L1;
-    ListNode* p2=L2;
-    ListNode* pMergeHead=NULL;
-    if(L1==NULL)
-        return L2;
-    else if(L2==NULL)
-        return L1;
-    if((p1-&amp;gt;m_nValue) &amp;gt; (p2-&amp;gt;m_nValue)){
-        pMergeHead=p1;
-        pMergeHead-&amp;gt;m_pNext=Merge(p1-&amp;gt;m_pNext,p2);
-    }
-    else{
-        pMergeHead=p2;
-        pMergeHead-&amp;gt;m_pNext=Merge(p1,p2-&amp;gt;m_pNext);
-    }
-    return pMergeHead;
-}
-int main()
-{
-
-    List L=NULL;
-    List S=NULL;
-    Insert(L,1);
-    Insert(L,2);
-    Insert(L,3);
-    Insert(L,4);
-    Print(L);
-    Insert(S,2);
-    Insert(S,3);
-    Insert(S,4);
-    Insert(S,5);
-    Print(S);
-    List tt=Merge(L,S);
-    ListNode* p=tt;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
-&lt;pre&gt;&lt;code&gt;//还记得typedef struct and struct的区别吗？
-下面的结果也是正确的  理解为ListNode *=List；
-&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext;
-};//必须是一个链表
-
-
-void Insert(ListNode* &amp;amp;pHead,int data){
-    ListNode* p=new ListNode;
-    p-&amp;gt;m_nValue=data;
-    p-&amp;gt;m_pNext=NULL;
-    if(pHead==NULL)
-        pHead=p;
-    else{
-        p-&amp;gt;m_pNext=pHead;
-        pHead=p;
-    }
-
-}
-void Print(ListNode* &amp;amp;pHead){//ListNode* 链表，&amp;amp;pHead不会改变头结点
-    if(pHead==NULL)
-        return ;
-    ListNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-//ListNode* FindKthTotail(ListNode* pHead, int k){
-//    if(pHead==NULL||k&amp;lt;=0)//非法输入
-//        return NULL;
-//    ListNode* p1=pHead, *p2=pHead;
-//
-//    for(int i=0;i&amp;lt;k-1;i++){
-//        if(p1-&amp;gt;m_pNext!=NULL){
-//            p1=p1-&amp;gt;m_pNext;//第一个指针走k-1步
-//        }
-//        else
-//            return NULL;//长度不够k个节点
-//     }
-//
-//
-//    while(p1-&amp;gt;m_pNext!=NULL){
-//            p2=p2-&amp;gt;m_pNext;
-//            p1=p1-&amp;gt;m_pNext;
-//    }
-//    return p2;
-//}
-//ListNode *ReverseList(List &amp;amp;L){
-//    ListNode* pNode=L;
-//    List ReverseHead=NULL;
-//    ListNode* pPre=NULL;//前一个节点
-//    while(pNode!=NULL){
-//        ListNode* pNext=pNode-&amp;gt;m_pNext;//保存后一个节点，不至于反转时候丢失
-//
-//        if(pNext==NULL)
-//            ReverseHead=pNode;//就一个节点
-//        pNode-&amp;gt;m_pNext=pPre;//实现反转
-//        pPre=pNode;
-//        pNode=pNext;//继续下一对节点的反转
-//    }
-//    return ReverseHead;
-//}
-ListNode  *Merge(ListNode  *L1, ListNode  *L2){
-    ListNode* p1=L1;
-    ListNode* p2=L2;
-    ListNode* pMergeHead=NULL;
-    if(L1==NULL)
-        return L2;
-    else if(L2==NULL)
-        return L1;
-    if((p1-&amp;gt;m_nValue) &amp;gt; (p2-&amp;gt;m_nValue)){
-        pMergeHead=p1;
-        pMergeHead-&amp;gt;m_pNext=Merge(p1-&amp;gt;m_pNext,p2);
-    }
-    else{
-        pMergeHead=p2;
-        pMergeHead-&amp;gt;m_pNext=Merge(p1,p2-&amp;gt;m_pNext);
-    }
-    return pMergeHead;
-}
-int main()
-{
-
-    ListNode  *L=NULL;
-    ListNode  *S=NULL;
-    Insert(L,1);
-    Insert(L,2);
-    Insert(L,3);
-    Insert(L,4);
-    Print(L);
-    Insert(S,2);
-    Insert(S,3);
-    Insert(S,4);
-    Insert(S,5);
-    Print(S);
-    ListNode* p=Merge(L,S);
-   // ListNode* p=tt;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//原来有序的两个链表合并之后依然有序&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNod
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>链表反转</title>
-    <link href="http://wxjttxs.github.io/2016/04/27/%E9%93%BE%E8%A1%A8%E5%8F%8D%E8%BD%AC/"/>
-    <id>http://wxjttxs.github.io/2016/04/27/链表反转/</id>
-    <published>2016-04-27T03:29:09.000Z</published>
-    <updated>2016-04-27T03:30:13.730Z</updated>
-    
-    <content type="html">&lt;p&gt;//反转链表注意别断链&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext;
-}ListNode, *List;//必须是一个链表
-
-
-void Insert(List&amp;amp; pHead,int data){
-    ListNode* p=new ListNode;
-    p-&amp;gt;m_nValue=data;
-    p-&amp;gt;m_pNext=NULL;
-    if(pHead==NULL)
-        pHead=p;
-    else{
-        p-&amp;gt;m_pNext=pHead;
-        pHead=p;
-    }
-
-}
-void Print(List&amp;amp; pHead){
-    if(pHead==NULL)
-        return ;
-    ListNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-ListNode *ReverseList(List &amp;amp;L){
-    ListNode* pNode=L;
-    List ReverseHead=NULL;
-    ListNode* pPre=NULL;//前一个节点
-    while(pNode!=NULL){
-        ListNode* pNext=pNode-&amp;gt;m_pNext;//保存后一个节点，不至于反转时候丢失
-
-        if(pNext==NULL)
-            ReverseHead=pNode;//就一个节点
-        pNode-&amp;gt;m_pNext=pPre;//实现反转
-        pPre=pNode;
-        pNode=pNext;//继续下一对节点的反转
-    }
-    return ReverseHead;
-}
-int main()
-{
-    ListNode *p;
-    List L=NULL;
-    Insert(L,5);
-    Insert(L,2);
-    Insert(L,3);
-    Insert(L,4);
-    Print(L);
-    p=ReverseList(L);
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//反转链表注意别断链&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNe
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>查找倒数第k个节点</title>
-    <link href="http://wxjttxs.github.io/2016/04/27/%E6%9F%A5%E6%89%BE%E5%80%92%E6%95%B0%E7%AC%ACk%E4%B8%AA%E8%8A%82%E7%82%B9/"/>
-    <id>http://wxjttxs.github.io/2016/04/27/查找倒数第k个节点/</id>
-    <published>2016-04-27T02:51:00.000Z</published>
-    <updated>2016-04-27T02:53:20.655Z</updated>
-    
-    <content type="html">&lt;p&gt;在O(1)时间实现&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext;
-}ListNode, *List;//必须是一个链表
-
-
-void Insert(List&amp;amp; pHead,int data){
-    ListNode* p=new ListNode;
-    p-&amp;gt;m_nValue=data;
-    p-&amp;gt;m_pNext=NULL;
-    if(pHead==NULL)
-        pHead=p;
-    else{
-        p-&amp;gt;m_pNext=pHead;
-        pHead=p;
-    }
-
-}
-void Print(List&amp;amp; pHead){
-    if(pHead==NULL)
-        return ;
-    ListNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-ListNode* FindKthTotail(ListNode* pHead, int k){
-    if(pHead==NULL||k&amp;lt;=0)//非法输入
-        return NULL;
-    ListNode* p1=pHead, *p2=pHead;
-
-    for(int i=0;i&amp;lt;k-1;i++){
-        if(p1-&amp;gt;m_pNext!=NULL){
-            p1=p1-&amp;gt;m_pNext;//第一个指针走k-1步
-        }
-        else
-            return NULL;//长度不够k个节点
-     }
-
-
-    while(p1-&amp;gt;m_pNext!=NULL){
-            p2=p2-&amp;gt;m_pNext;
-            p1=p1-&amp;gt;m_pNext;
-    }
-    return p2;
-}
-int main()
-{
-    ListNode *p;
-    ListNode* L=NULL;
-    Insert(L,1);
-    Insert(L,2);
-    Insert(L,3);
-    Insert(L,4);
-    Print(L);
-    p=FindKthTotail(L,4);
-    cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;在O(1)时间实现&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>特定要求的排序：奇数移动到偶数前面</title>
-    <link href="http://wxjttxs.github.io/2016/04/27/%E7%89%B9%E5%AE%9A%E8%A6%81%E6%B1%82%E7%9A%84%E6%8E%92%E5%BA%8F%EF%BC%9A%E5%A5%87%E6%95%B0%E7%A7%BB%E5%8A%A8%E5%88%B0%E5%81%B6%E6%95%B0%E5%89%8D%E9%9D%A2/"/>
-    <id>http://wxjttxs.github.io/2016/04/27/特定要求的排序：奇数移动到偶数前面/</id>
-    <published>2016-04-27T02:07:30.000Z</published>
-    <updated>2016-04-27T02:09:29.838Z</updated>
-    
-    <content type="html">&lt;p&gt;//偶数移动到奇数后面,定义两个指针&lt;br&gt;//这个要求也可以改成别的，比如正数移到负数前面，只需要重写isodd()即可&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-using namespace std;
-
-bool isodd(int n){
-    return n&amp;amp;0x01;
-}
-void ReorderOddEven(int *m,int length){
-    if(m==NULL||length&amp;lt;=0)
-        return;
-    int *pBegin=m;
-    int *pEnd=m+length-1;
-    while(pBegin&amp;lt;pEnd){
-        //向后移动pBegin直到指向偶数
-        while(pBegin&amp;lt;pEnd &amp;amp;&amp;amp; isodd(*pBegin))
-            pBegin++;
-        //向前移动EnD,直到指向奇数
-        while(pBegin&amp;lt;pEnd &amp;amp;&amp;amp; !isodd(*pEnd))
-            pEnd--;
-        if(pBegin&amp;lt;pEnd){
-            swap(*pBegin,*pEnd);
-        }
-    }
-    for(int i=0;i&amp;lt;length;i++)
-        cout&amp;lt;&amp;lt;m[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-}
-
-int main()
-{
-    int a[]={1,3,5,2,4};
-    ReorderOddEven(a,5);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//偶数移动到奇数后面,定义两个指针&lt;br&gt;//这个要求也可以改成别的，比如正数移到负数前面，只需要重写isodd()即可&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-using namespace std;
-
-bool isodd(i
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>O(1)删除指定节点</title>
-    <link href="http://wxjttxs.github.io/2016/04/26/O-1-%E5%88%A0%E9%99%A4%E6%8C%87%E5%AE%9A%E8%8A%82%E7%82%B9/"/>
-    <id>http://wxjttxs.github.io/2016/04/26/O-1-删除指定节点/</id>
-    <published>2016-04-26T15:21:25.000Z</published>
-    <updated>2016-04-27T01:16:28.222Z</updated>
-    
-    <content type="html">&lt;p&gt;引入对typedef struct and struct 的结构的比较。&lt;a href=&quot;http://wenku.baidu.com/view/484d1f0b52ea551810a6875c&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;百度文库&lt;/a&gt;&lt;br&gt;在C 和C++中有三种定义结构的方法&lt;br&gt;1.//这种方法可以在C and C++中定义一个S1结构体&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;typedef struct{
-
-   }S1;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;2.//只能在C++使用&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;struct S2{
-   };
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;3.//这种方法并没有定义结构体，而是定义了一个S3的结构变量，编译器会为S3分配内存&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;struct{
-  }S3;
-&lt;/code&gt;&lt;/pre&gt;&lt;figure class=&quot;highlight plain&quot;&gt;&lt;table&gt;&lt;tr&gt;&lt;td class=&quot;gutter&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;1&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;2&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;3&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;4&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;5&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;6&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;7&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;8&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;9&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;10&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;11&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;12&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;13&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;14&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;15&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;16&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;17&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;18&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;19&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;20&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;21&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;22&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;23&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;24&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;25&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;26&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;27&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;28&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;29&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;30&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;31&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;32&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;33&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;34&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;35&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;36&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;37&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;38&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;39&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;40&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;41&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;42&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;43&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;44&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;45&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;46&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;47&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;48&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;49&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;50&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;51&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;52&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;53&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;54&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;55&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;56&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;57&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;58&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;59&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;60&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;61&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;62&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;63&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;64&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;65&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;66&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;67&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;68&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;69&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;70&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;71&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;72&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;73&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;74&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;75&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;76&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;77&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;78&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;79&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;80&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;81&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;82&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;83&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;84&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;td class=&quot;code&quot;&gt;&lt;pre&gt;&lt;span class=&quot;line&quot;&gt;#include&amp;lt;iostream&amp;gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;using namespace std;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;typedef struct Node&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int m_nValue;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node* m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;Node,*List;//必须添加typedef&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void InsertNode(List&amp;amp; L,int data)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node* p=new Node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    p-&amp;gt;m_nValue=data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    p-&amp;gt;m_pNext=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(NULL==L)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        L=p;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else&amp;#123;//采用头插法&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        p-&amp;gt;m_pNext=L;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        L=p;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void DeleteNode(List&amp;amp; L, Node* pToBeDeleted)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node* p=new Node;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(!L||!pToBeDeleted)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        return;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(pToBeDeleted==L)&amp;#123;//删除头结点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        L=L-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        delete pToBeDeleted;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        pToBeDeleted=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        if(pToBeDeleted-&amp;gt;m_pNext==NULL)&amp;#123;//尾节点&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            p=L;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            while(p-&amp;gt;m_pNext!=pToBeDeleted)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;                p=p-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            p-&amp;gt;m_pNext=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            delete pToBeDeleted;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            pToBeDeleted=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        else&amp;#123;//中间节点,用后一个数据直接覆盖前一个数据&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           p=pToBeDeleted-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           pToBeDeleted-&amp;gt;m_nValue=p-&amp;gt;m_nValue;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           pToBeDeleted-&amp;gt;m_pNext=p-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           delete p;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;           p=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;void PrintNode(List&amp;amp; L)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    if(NULL==L);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    else&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        Node* p=L;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(p)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            p=p-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cout&amp;lt;&amp;lt;endl;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;int main()&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    List L=NULL;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    int data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    Node* p;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    InsertNode(L,1);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    InsertNode(L,2);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    InsertNode(L,3);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    InsertNode(L,4);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    PrintNode(L);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cout&amp;lt;&amp;lt;&amp;quot;输入删除节点：&amp;quot;;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    cin&amp;gt;&amp;gt;data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    while(data)&amp;#123;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        p=L;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        while(p-&amp;gt;m_nValue!=data&amp;amp;&amp;amp; p)&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;            p=p-&amp;gt;m_pNext;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        DeleteNode(L,p);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        PrintNode(L);&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;        cin&amp;gt;&amp;gt;data;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    &amp;#125;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;    return 0;&lt;/span&gt;&lt;br&gt;&lt;span class=&quot;line&quot;&gt;&amp;#125;&lt;/span&gt;&lt;br&gt;&lt;/pre&gt;&lt;/td&gt;&lt;/tr&gt;&lt;/table&gt;&lt;/figure&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;引入对typedef struct and struct 的结构的比较。&lt;a href=&quot;http://wenku.baidu.com/view/484d1f0b52ea551810a6875c&quot; target=&quot;_blank&quot; rel=&quot;external&quot;&gt;百度文库&lt;/a
     
     </summary>
     

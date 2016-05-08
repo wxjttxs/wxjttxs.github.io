@@ -4,50 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>数组排成最小的数 | happy happy</title>
+    <title>逆序对 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//把数组中数字拼接起来，并打印最小的和
+    <meta name="description" content="//一个数组中的元素构成的逆序对数目//分治法，递归，类似于堆排序
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+int InversePairsCore(int* data, int* cpy,int start, int endd){
+    if(start==endd){
+        cpy[start]=data[start];">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组排成最小的数">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/index.html">
+<meta property="og:title" content="逆序对">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/07/post逆序对/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta property="og:description" content="//一个数组中的元素构成的逆序对数目//分治法，递归，类似于堆排序
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
-<meta property="og:updated_time" content="2016-05-06T08:26:51.458Z">
+using namespace std;
+int InversePairsCore(int* data, int* cpy,int start, int endd){
+    if(start==endd){
+        cpy[start]=data[start];">
+<meta property="og:updated_time" content="2016-05-08T11:56:14.493Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组排成最小的数">
-<meta name="twitter:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta name="twitter:title" content="逆序对">
+<meta name="twitter:description" content="//一个数组中的元素构成的逆序对数目//分治法，递归，类似于堆排序
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+int InversePairsCore(int* data, int* cpy,int start, int endd){
+    if(start==endd){
+        cpy[start]=data[start];">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -109,14 +100,14 @@ c">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/06/数组排成最小的数/" title="数组排成最小的数" itemprop="url">数组排成最小的数</a>
+      <a href="/2016/05/07/post逆序对/" title="逆序对" itemprop="url">逆序对</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-06T08:17:20.000Z" itemprop="datePublished"> 发表于 2016-05-06</time>
+    <time datetime="2016-05-07T09:00:04.000Z" itemprop="datePublished"> 发表于 2016-05-07</time>
     
   </p>
 </header>
@@ -129,49 +120,54 @@ c">
 		
 		</div>
 		
-		<p>//把数组中数字拼接起来，并打印最小的和</p>
+		<p>//一个数组中的元素构成的逆序对数目<br>//分治法，递归，类似于堆排序</p>
 <pre><code>#include &lt;iostream&gt;
-#include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
-#include&lt;algorithm&gt;
+
 using namespace std;
-
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-char* g_StrCombine1=new char[g_MaxNumberLength*2+1];
-char* g_StrCombine2=new char[g_MaxNumberLength*2+1];
-// 如果[strNumber1][strNumber2] &gt; [strNumber2][strNumber1], 返回值大于0
-// 如果[strNumber1][strNumber2] = [strNumber2][strNumber1], 返回值等于0
-// 如果[strNumber1][strNumber2] &lt; [strNumber2][strNumber1], 返回值小于0
-int compare(const void* strNumber1,const void* strNumber2){//比较mn   VS nm
-    strcpy(g_StrCombine1,*(const char**)strNumber1);
-    strcat(g_StrCombine1,*(const char**)strNumber2);
-
-    strcpy(g_StrCombine2,*(const char**)strNumber2);
-    strcat(g_StrCombine2,*(const char**)strNumber1);
-    return strcmp(g_StrCombine1,g_StrCombine2);
-}
-void PrintMinNumber(int *numbers,int length){
-    if(numbers==NULL||length&lt;0)
-        return ;
-    char** strNumbers=(char**)(new int[length]);
-    for(int i=0;i&lt;length;i++){
-        strNumbers[i]=new char[g_MaxNumberLength+1];
-        sprintf(strNumbers[i],&quot;%d&quot;,numbers[i]);
-        //数值转换为字符串，比如numbers存储的是{3,32,321}，那么//strNumber存储的是{&quot;3&quot;,&quot;32&quot;,&quot;321&quot;}
+int InversePairsCore(int* data, int* cpy,int start, int endd){
+    if(start==endd){
+        cpy[start]=data[start];
+        return 0;
     }
-    qsort(strNumbers,length,sizeof(char*),compare);//对字符串数组进行排序，由小到大
-    for(int i=0;i&lt;length;i++)
-        printf(&quot;%s&quot;,strNumbers[i]);
-    printf(&quot;\n&quot;);
-    for(int i=0;i&lt;length;i++)
-        delete[] strNumbers[i];
-    delete[] strNumbers;
+    int half_len=(endd-start)/2;
+    int left=InversePairsCore(cpy,data,start,start+half_len);//子数组内部构成的逆序对,有两步操作：1是统计逆序对数目；2是排序（方便计算子数组间的逆序数数目）
+    int right=InversePairsCore(cpy,data,start+half_len+1,endd);//注意前两个参数的顺序。第一个参数代表的是排好序的数组。
+
+    int i=start+half_len;//子数组之间的逆序对,子数组是有序的
+    int j=endd;
+    int cpyIndex=endd;
+    int countt=0;
+    while(i&gt;=start &amp;&amp; j&gt;=start+half_len+1){
+         if(data[i]&gt;data[j]){
+            cpy[cpyIndex--]=data[i--];//从右往左，从大往小放进辅助数组中
+            countt+=j-start-half_len;//j代表的右边子数组中大的那个数字,所以它之前的数字均能与左边子数组构成逆序对
+         }
+         else{
+            cpy[cpyIndex--]=data[j--];
+         }
+    }
+    for(;i&gt;=start;i--){//j到头了，终止退出循环
+        cpy[cpyIndex--]=data[i];
+    }
+    for(;j&gt;=start+half_len+1;j--)
+        cpy[cpyIndex--]=data[j];
+    return left+right+countt;
+}
+int InversePairs(int *data,int length){
+    if(data==NULL||length&lt;=0)
+        return 0;
+    int *cpy=new int [length];//辅助数组
+    for(int i=0;i&lt;length;i++){
+        cpy[i]=data[i];
+    }
+    int countt=InversePairsCore(data,cpy,0,length-1);
+    delete[] cpy;
+    return countt;
 }
 int main()
 {
-    int a[]={3,32,321};
-    PrintMinNumber(a,3);
+    int a[]={7,5,6,4};
+    cout &lt;&lt; InversePairs(a,4)&lt;&lt; endl;
     return 0;
 }
 </code></pre>  
@@ -186,7 +182,7 @@ int main()
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/" data-title="数组排成最小的数 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/07/post逆序对/" data-title="逆序对 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -200,18 +196,18 @@ int main()
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/07/post第一个只出现一次的字符/" title="第一个只出现一次的字符">
+ <a href="/2016/05/08/两个链表的第一个公共节点/" title="两个链表的第一个公共节点">
   <strong>上一篇：</strong><br/>
   <span>
-  第一个只出现一次的字符</span>
+  两个链表的第一个公共节点</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/06/找到第n个ugly-number/"  title="找到第n个ugly number">
+<a href="/2016/05/07/post第一个只出现一次的字符/"  title="第一个只出现一次的字符">
  <strong>下一篇：</strong><br/> 
- <span>找到第n个ugly number
+ <span>第一个只出现一次的字符
 </span>
 </a>
 </div>

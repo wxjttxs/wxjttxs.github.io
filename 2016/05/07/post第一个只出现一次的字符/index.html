@@ -4,50 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>数组排成最小的数 | happy happy</title>
+    <title>第一个只出现一次的字符 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//把数组中数字拼接起来，并打印最小的和
+    <meta name="description" content="//考察哈希表；字符串//第一个只出现一次
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+char FirstNotReaptingChar(char* pString){
+    if(!pString)
+        return &amp;apos;\0&amp;apos;;
+    const int tableSize=256;
+    unsigne">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组排成最小的数">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/index.html">
+<meta property="og:title" content="第一个只出现一次的字符">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/07/post第一个只出现一次的字符/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta property="og:description" content="//考察哈希表；字符串//第一个只出现一次
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
-<meta property="og:updated_time" content="2016-05-06T08:26:51.458Z">
+using namespace std;
+char FirstNotReaptingChar(char* pString){
+    if(!pString)
+        return &amp;apos;\0&amp;apos;;
+    const int tableSize=256;
+    unsigne">
+<meta property="og:updated_time" content="2016-05-07T09:00:45.903Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组排成最小的数">
-<meta name="twitter:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta name="twitter:title" content="第一个只出现一次的字符">
+<meta name="twitter:description" content="//考察哈希表；字符串//第一个只出现一次
 #include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+using namespace std;
+char FirstNotReaptingChar(char* pString){
+    if(!pString)
+        return &amp;apos;\0&amp;apos;;
+    const int tableSize=256;
+    unsigne">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -109,14 +106,14 @@ c">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/06/数组排成最小的数/" title="数组排成最小的数" itemprop="url">数组排成最小的数</a>
+      <a href="/2016/05/07/post第一个只出现一次的字符/" title="第一个只出现一次的字符" itemprop="url">第一个只出现一次的字符</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-06T08:17:20.000Z" itemprop="datePublished"> 发表于 2016-05-06</time>
+    <time datetime="2016-05-07T07:45:45.000Z" itemprop="datePublished"> 发表于 2016-05-07</time>
     
   </p>
 </header>
@@ -129,49 +126,32 @@ c">
 		
 		</div>
 		
-		<p>//把数组中数字拼接起来，并打印最小的和</p>
+		<p>//考察哈希表；字符串<br>//第一个只出现一次</p>
 <pre><code>#include &lt;iostream&gt;
-#include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
-#include&lt;algorithm&gt;
+
 using namespace std;
-
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-char* g_StrCombine1=new char[g_MaxNumberLength*2+1];
-char* g_StrCombine2=new char[g_MaxNumberLength*2+1];
-// 如果[strNumber1][strNumber2] &gt; [strNumber2][strNumber1], 返回值大于0
-// 如果[strNumber1][strNumber2] = [strNumber2][strNumber1], 返回值等于0
-// 如果[strNumber1][strNumber2] &lt; [strNumber2][strNumber1], 返回值小于0
-int compare(const void* strNumber1,const void* strNumber2){//比较mn   VS nm
-    strcpy(g_StrCombine1,*(const char**)strNumber1);
-    strcat(g_StrCombine1,*(const char**)strNumber2);
-
-    strcpy(g_StrCombine2,*(const char**)strNumber2);
-    strcat(g_StrCombine2,*(const char**)strNumber1);
-    return strcmp(g_StrCombine1,g_StrCombine2);
-}
-void PrintMinNumber(int *numbers,int length){
-    if(numbers==NULL||length&lt;0)
-        return ;
-    char** strNumbers=(char**)(new int[length]);
-    for(int i=0;i&lt;length;i++){
-        strNumbers[i]=new char[g_MaxNumberLength+1];
-        sprintf(strNumbers[i],&quot;%d&quot;,numbers[i]);
-        //数值转换为字符串，比如numbers存储的是{3,32,321}，那么//strNumber存储的是{&quot;3&quot;,&quot;32&quot;,&quot;321&quot;}
+char FirstNotReaptingChar(char* pString){
+    if(!pString)
+        return &apos;\0&apos;;
+    const int tableSize=256;
+    unsigned int hashTable[tableSize];
+    for(int i=0;i&lt;tableSize;i++)
+        hashTable[i]=0;
+    char* pHashKey=pString;//第一遍统计各个字符出现的次数，字符作为下标
+    while(*pHashKey!=&apos;\0&apos;)
+        hashTable[*(pHashKey++)]++;
+    pHashKey=pString;//第二遍，从头开始找第一次只出现一遍的字符。
+    while(*pHashKey!=&apos;\0&apos;){
+        if(hashTable[*pHashKey]==1)
+            return *pHashKey;
+        pHashKey++;
     }
-    qsort(strNumbers,length,sizeof(char*),compare);//对字符串数组进行排序，由小到大
-    for(int i=0;i&lt;length;i++)
-        printf(&quot;%s&quot;,strNumbers[i]);
-    printf(&quot;\n&quot;);
-    for(int i=0;i&lt;length;i++)
-        delete[] strNumbers[i];
-    delete[] strNumbers;
+    return &apos;\0&apos;;
+
 }
 int main()
 {
-    int a[]={3,32,321};
-    PrintMinNumber(a,3);
+    cout &lt;&lt;FirstNotReaptingChar(&quot;aaaccdeff&quot;)&lt;&lt; endl;
     return 0;
 }
 </code></pre>  
@@ -186,7 +166,7 @@ int main()
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/" data-title="数组排成最小的数 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/07/post第一个只出现一次的字符/" data-title="第一个只出现一次的字符 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -200,18 +180,18 @@ int main()
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/07/post第一个只出现一次的字符/" title="第一个只出现一次的字符">
+ <a href="/2016/05/07/post逆序对/" title="逆序对">
   <strong>上一篇：</strong><br/>
   <span>
-  第一个只出现一次的字符</span>
+  逆序对</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/06/找到第n个ugly-number/"  title="找到第n个ugly number">
+<a href="/2016/05/06/数组排成最小的数/"  title="数组排成最小的数">
  <strong>下一篇：</strong><br/> 
- <span>找到第n个ugly number
+ <span>数组排成最小的数
 </span>
 </a>
 </div>

@@ -16,10 +16,9 @@
 
 using namespace std;
 //***********************第一种方法***********************
-//按照定义，暴力查找
 //bool IsUglyNumber(int n){
 //    while(n%2==0)
-//">
+//        n/=2;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="找到第n个ugly number">
 <meta property="og:url" content="http://wxjttxs.github.io/2016/05/06/找到第n个ugly-number/index.html">
@@ -29,11 +28,10 @@ using namespace std;
 
 using namespace std;
 //***********************第一种方法***********************
-//按照定义，暴力查找
 //bool IsUglyNumber(int n){
 //    while(n%2==0)
-//">
-<meta property="og:updated_time" content="2016-05-06T14:39:20.786Z">
+//        n/=2;">
+<meta property="og:updated_time" content="2016-05-07T03:53:28.348Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="找到第n个ugly number">
 <meta name="twitter:description" content="//因子只包含2,3,5的数叫做丑数,//找到第n个丑数，1是第一个
@@ -41,10 +39,9 @@ using namespace std;
 
 using namespace std;
 //***********************第一种方法***********************
-//按照定义，暴力查找
 //bool IsUglyNumber(int n){
 //    while(n%2==0)
-//">
+//        n/=2;">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -131,7 +128,6 @@ using namespace std;
 
 using namespace std;
 //***********************第一种方法***********************
-//按照定义，暴力查找
 //bool IsUglyNumber(int n){
 //    while(n%2==0)
 //        n/=2;
@@ -165,25 +161,27 @@ int GetUglyNumber(int index){
     if(index&lt;0)
         return 0;
     int *pUglyNumbers=new int[index];
-    pUglyNumbers[0]=1;
-    int nextUglyIndex=1;
-    int *pMultiply2=pUglyNumbers;
-    int *pMultiply3=pUglyNumbers;
-    int *pMultiply5=pUglyNumbers;
+    pUglyNumbers[0]=1;//保存已经排好序的丑数
+    int nextUglyIndex=1;//第i个丑数的位置
+    int *pMultiplu2=pUglyNumbers;
+    int *pMultiplu3=pUglyNumbers;
+    int *pMultiplu5=pUglyNumbers;
     while(nextUglyIndex&lt;index){
-        int mint=Min(*pMultiply2*2,*pMultiply3*3,*pMultiply5*5);
-            pUglyNumbers[nextUglyIndex]=mint;
-            while(*pMultiply2*2&lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply2;
-            while(*pMultiply3*3&lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply3;
-            while(*pMultiply5*5&lt;=pUglyNumbers[nextUglyIndex])
-                ++pMultiply5;
-            ++nextUglyIndex;
+        int mintt=Min(*pMultiplu2*2,*pMultiplu3*3,*pMultiplu5*5);//取比当前最大丑数大的最小值
+        pUglyNumbers[nextUglyIndex]=mintt;
+        while(*pMultiplu2*2&lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu2;//这个位置之前的数乘2都比当前丑数的最大值要小;退出时候均比当前最大丑数大的最小值
+        while(*pMultiplu3*3&lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu3;
+        while(*pMultiplu5*5&lt;=pUglyNumbers[nextUglyIndex])
+            ++pMultiplu5;
+        ++nextUglyIndex;
+
     }
     int ugly=pUglyNumbers[nextUglyIndex-1];
     delete[] pUglyNumbers;
     return ugly;
+
 }
 int main()
 {

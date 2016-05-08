@@ -4,50 +4,53 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>数组排成最小的数 | happy happy</title>
+    <title>两个链表的第一个公共节点 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//把数组中数字拼接起来，并打印最小的和
+    <meta name="description" content="//得到两个链表第一个公共节点并返回
 #include &amp;lt;iostream&amp;gt;
 #include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
 using namespace std;
+typedef struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+
+void Insert(Lis">
 <meta property="og:type" content="article">
-<meta property="og:title" content="数组排成最小的数">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/index.html">
+<meta property="og:title" content="两个链表的第一个公共节点">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/08/两个链表的第一个公共节点/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta property="og:description" content="//得到两个链表第一个公共节点并返回
 #include &amp;lt;iostream&amp;gt;
 #include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
 using namespace std;
+typedef struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
-<meta property="og:updated_time" content="2016-05-06T08:26:51.458Z">
+
+void Insert(Lis">
+<meta property="og:updated_time" content="2016-05-08T07:06:54.040Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="数组排成最小的数">
-<meta name="twitter:description" content="//把数组中数字拼接起来，并打印最小的和
+<meta name="twitter:title" content="两个链表的第一个公共节点">
+<meta name="twitter:description" content="//得到两个链表第一个公共节点并返回
 #include &amp;lt;iostream&amp;gt;
 #include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
 using namespace std;
+typedef struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-c">
+
+void Insert(Lis">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -109,14 +112,14 @@ c">
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/05/06/数组排成最小的数/" title="数组排成最小的数" itemprop="url">数组排成最小的数</a>
+      <a href="/2016/05/08/两个链表的第一个公共节点/" title="两个链表的第一个公共节点" itemprop="url">两个链表的第一个公共节点</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-05-06T08:17:20.000Z" itemprop="datePublished"> 发表于 2016-05-06</time>
+    <time datetime="2016-05-08T07:06:14.000Z" itemprop="datePublished"> 发表于 2016-05-08</time>
     
   </p>
 </header>
@@ -129,49 +132,111 @@ c">
 		
 		</div>
 		
-		<p>//把数组中数字拼接起来，并打印最小的和</p>
+		<p>//得到两个链表第一个公共节点并返回</p>
 <pre><code>#include &lt;iostream&gt;
 #include&lt;stdio.h&gt;
-#include&lt;string.h&gt;
-#include&lt;algorithm&gt;
 using namespace std;
+typedef struct ListNode{
+    int m_nValue;
+    ListNode* m_pNext;
+}ListNode, *List;//必须是一个链表
 
-// int型整数用十进制表示最多只有10位
-const int g_MaxNumberLength=10;
-char* g_StrCombine1=new char[g_MaxNumberLength*2+1];
-char* g_StrCombine2=new char[g_MaxNumberLength*2+1];
-// 如果[strNumber1][strNumber2] &gt; [strNumber2][strNumber1], 返回值大于0
-// 如果[strNumber1][strNumber2] = [strNumber2][strNumber1], 返回值等于0
-// 如果[strNumber1][strNumber2] &lt; [strNumber2][strNumber1], 返回值小于0
-int compare(const void* strNumber1,const void* strNumber2){//比较mn   VS nm
-    strcpy(g_StrCombine1,*(const char**)strNumber1);
-    strcat(g_StrCombine1,*(const char**)strNumber2);
 
-    strcpy(g_StrCombine2,*(const char**)strNumber2);
-    strcat(g_StrCombine2,*(const char**)strNumber1);
-    return strcmp(g_StrCombine1,g_StrCombine2);
-}
-void PrintMinNumber(int *numbers,int length){
-    if(numbers==NULL||length&lt;0)
-        return ;
-    char** strNumbers=(char**)(new int[length]);
-    for(int i=0;i&lt;length;i++){
-        strNumbers[i]=new char[g_MaxNumberLength+1];
-        sprintf(strNumbers[i],&quot;%d&quot;,numbers[i]);
-        //数值转换为字符串，比如numbers存储的是{3,32,321}，那么//strNumber存储的是{&quot;3&quot;,&quot;32&quot;,&quot;321&quot;}
+void Insert(List&amp; pHead,int data){
+    ListNode* p=new ListNode;
+    p-&gt;m_nValue=data;
+    p-&gt;m_pNext=NULL;
+    if(pHead==NULL)
+        pHead=p;
+    else{
+        p-&gt;m_pNext=pHead;
+        pHead=p;
     }
-    qsort(strNumbers,length,sizeof(char*),compare);//对字符串数组进行排序，由小到大
-    for(int i=0;i&lt;length;i++)
-        printf(&quot;%s&quot;,strNumbers[i]);
-    printf(&quot;\n&quot;);
-    for(int i=0;i&lt;length;i++)
-        delete[] strNumbers[i];
-    delete[] strNumbers;
+
 }
+void Print(List&amp; pHead){
+    if(pHead==NULL)
+        return ;
+    ListNode* p=pHead;
+    while(p){
+        cout&lt;&lt;p-&gt;m_nValue&lt;&lt;&quot; &quot;;
+        p=p-&gt;m_pNext;
+    }
+    cout&lt;&lt;endl;
+}
+
+unsigned int GetListLength(ListNode* pHead);
+
+int FindFirstCommonNode( ListNode *pHead1, ListNode *pHead2)
+{
+    // 得到两个链表的长度
+    unsigned int nLength1 = GetListLength(pHead1);
+    unsigned int nLength2 = GetListLength(pHead2);
+    int nLengthDif = nLength1 - nLength2;
+
+    ListNode* pListHeadLong = pHead1;
+    ListNode* pListHeadShort = pHead2;
+    if(nLength2 &gt; nLength1)
+    {
+        pListHeadLong = pHead2;
+        pListHeadShort = pHead1;
+        nLengthDif = nLength2 - nLength1;
+    }
+
+    // 先在长链表上走几步，再同时在两个链表上遍历
+    for(int i = 0; i &lt; nLengthDif; ++ i)
+        pListHeadLong = pListHeadLong-&gt;m_pNext;
+
+    while((pListHeadLong != NULL) &amp;&amp;
+        (pListHeadShort != NULL) &amp;&amp;
+        (pListHeadLong-&gt;m_nValue != pListHeadShort-&gt;m_nValue))
+    {
+        pListHeadLong = pListHeadLong-&gt;m_pNext;
+        pListHeadShort = pListHeadShort-&gt;m_pNext;
+    }
+    if(!pListHeadLong &amp;&amp; !pListHeadShort)//没有公共节点
+
+        return 0;
+    if(pListHeadLong-&gt;m_nValue == pListHeadShort-&gt;m_nValue){
+        ListNode* pFisrtCommonNode = pListHeadLong;// 得到第一个公共结点
+        return pFisrtCommonNode-&gt;m_nValue;
+    }
+
+
+}
+
+unsigned int GetListLength(ListNode* pHead)
+{
+    unsigned int nLength = 0;
+    ListNode* pNode = pHead;
+    while(pNode != NULL)
+    {
+        ++ nLength;
+        pNode = pNode-&gt;m_pNext;
+    }
+
+    return nLength;
+}
+
 int main()
 {
-    int a[]={3,32,321};
-    PrintMinNumber(a,3);
+    List l1=NULL;
+    Insert(l1,7);
+    Insert(l1,6);
+    Insert(l1,3);
+    Insert(l1,2);
+    Insert(l1,1);
+    Print(l1);
+
+
+    List l2=NULL;
+    Insert(l2,7);
+    Insert(l2,7);
+    Insert(l2,5);
+    Insert(l2,4);
+    Print(l2);
+    int tmp=FindFirstCommonNode(l1,l2);
+    cout&lt;&lt;tmp;
     return 0;
 }
 </code></pre>  
@@ -186,7 +251,7 @@ int main()
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/05/06/数组排成最小的数/" data-title="数组排成最小的数 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/08/两个链表的第一个公共节点/" data-title="两个链表的第一个公共节点 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -200,18 +265,18 @@ int main()
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/05/07/post第一个只出现一次的字符/" title="第一个只出现一次的字符">
+ <a href="/2016/05/08/指定数字在排序数组中出现的次数/" title="指定数字在排序数组中出现的次数">
   <strong>上一篇：</strong><br/>
   <span>
-  第一个只出现一次的字符</span>
+  指定数字在排序数组中出现的次数</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/05/06/找到第n个ugly-number/"  title="找到第n个ugly number">
+<a href="/2016/05/07/post逆序对/"  title="逆序对">
  <strong>下一篇：</strong><br/> 
- <span>找到第n个ugly number
+ <span>逆序对
 </span>
 </a>
 </div>
