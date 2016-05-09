@@ -4,38 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>post错误处理方式 | happy happy</title>
+    <title>数组中只出现一次的两个数字 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+    <meta name="description" content="//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。
+
+#include &amp;lt;">
 <meta property="og:type" content="article">
-<meta property="og:title" content="post错误处理方式">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/post错误处理方式/index.html">
+<meta property="og:title" content="数组中只出现一次的两个数字">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/09/数组中只出现一次的两个数字/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
-<meta property="og:updated_time" content="2016-04-21T14:22:29.992Z">
+<meta property="og:description" content="//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。
+
+#include &amp;lt;">
+<meta property="og:updated_time" content="2016-05-09T02:17:14.185Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="post错误处理方式">
-<meta name="twitter:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+<meta name="twitter:title" content="数组中只出现一次的两个数字">
+<meta name="twitter:description" content="//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。
+
+#include &amp;lt;">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -97,14 +88,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式" itemprop="url">post错误处理方式</a>
+      <a href="/2016/05/09/数组中只出现一次的两个数字/" title="数组中只出现一次的两个数字" itemprop="url">数组中只出现一次的两个数字</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T14:22:15.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-09T02:16:17.000Z" itemprop="datePublished"> 发表于 2016-05-09</time>
     
   </p>
 </header>
@@ -117,15 +108,60 @@
 		
 		</div>
 		
-		<p>##三种处理错误异常的方式</p>
-<pre><code>返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为不同的出错原因定义不同异常类型，逻辑清晰明了；     
-          缺：有些语言（C）不支持异常，抛出异常可能对性能有负面影响
-</code></pre><p>##实现阶乘陷阱多多<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//以为pow(x,n)很简单，但是好多陷阱,比如指数为负，底数为0，所以需要错误处理(全局变量)</span><br><span class="line">//基本而且完整的代码</span><br><span class="line">bool flag_error=false;</span><br><span class="line">//double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">//    double result=1.0;</span><br><span class="line">//    if(exp==0)</span><br><span class="line">//        return 1;</span><br><span class="line">//    for(int i=0;i&lt;exp;i++)&#123;</span><br><span class="line">//        result*=base;</span><br><span class="line">//    &#125;</span><br><span class="line">//    return result;</span><br><span class="line">//&#125;</span><br><span class="line">//下面联系一下效率更高的一种。首先 x^n=x^(n/2)*x^(n/2)(n为偶数)；n为奇数（x^n=x^((n-1)/2)*...*x）</span><br><span class="line">double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">    if(exp==0)</span><br><span class="line">        return 1;</span><br><span class="line">    double result=PowerUnsignedExp(base,exp&gt;&gt;1);//右移一位除以2</span><br><span class="line"></span><br><span class="line">    result*=result;</span><br><span class="line">    if(exp&amp;0x1==1)//这个数为奇数</span><br><span class="line">        result*=base;</span><br><span class="line">    return result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">bool equalt(double a,double b)&#123;</span><br><span class="line">    return ((a-b&lt;0.0000001)&amp;&amp;(b-a)&lt;0.0000001)?1:0;</span><br><span class="line">&#125;</span><br><span class="line">double Power(double base, int exponent)&#123;</span><br><span class="line">    flag_error=false;</span><br><span class="line"></span><br><span class="line">    if(equalt(base,0.0))&#123;//底数W为0</span><br><span class="line">        flag_error=true;</span><br><span class="line">        return 0;//因为底数为0造成的返回结果为0，</span><br><span class="line">    &#125;</span><br><span class="line">    unsigned int absExp=(exponent&lt;0)?(-exponent):exponent;</span><br><span class="line">    double result=PowerUnsignedExp(base,absExp);</span><br><span class="line">    if(exponent&lt;0)</span><br><span class="line">        result=1.0/result;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt;Power(10,3) &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-  
+		<blockquote>
+<p>//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字<br>//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素<br>//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。<br>//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+
+//最右边1的位置
+unsigned int FindFirst1Bit(int num);
+//从右边数起的indexBit位是不是1
+bool IsBit1(int num,unsigned int indexBit);
+//主要实现
+void FindNumberAppearOnce(int *data,int length){
+    if(data==NULL || length&lt;2)//,int &amp;num1,int &amp;num2
+        return ;
+    int resExclusiveOr=0;
+    for(int i=0;i&lt;length;i++){
+        resExclusiveOr^=data[i];
+    }
+    unsigned int indexOf1=FindFirst1Bit(resExclusiveOr);//根据异或结果找到右边起第一个1
+    int num[2]={0};
+   // num1=num2=0;//两个只出现一次的数字
+    for(int j=0;j&lt;length;j++){
+        if(IsBit1(data[j],indexOf1))
+            num[0]^=data[j];
+        else
+            num[1]^=data[j];
+    }
+    for(int i=0;i&lt;2;i++)
+        cout&lt;&lt; num[i]&lt;&lt;&quot; &quot;;
+}
+//找到最右边第一个1的位置
+unsigned int FindFirst1Bit(int num){
+    int indexBit=0;
+    while(((num&amp;1)==0) &amp;&amp; (indexBit&lt;8 * sizeof(int))){
+        num=num&gt;&gt;1;
+        ++indexBit;
+    }
+    return  indexBit;
+}
+//从右边起indexBit位是不是1
+bool IsBit1(int num,unsigned int indexBit){
+    num=num&gt;&gt;indexBit;
+    return (num&amp;1);
+}
+int main()
+{
+    int data[]={2,4,3,6,3,2,5,5};
+   // int a,b;
+    FindNumberAppearOnce(data,8);
+  //  cout&lt;&lt;a&lt;&lt;&quot; &quot;&lt;&lt;b;
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -137,7 +173,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/post错误处理方式/" data-title="post错误处理方式 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/09/数组中只出现一次的两个数字/" data-title="数组中只出现一次的两个数字 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,18 +187,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/22/post打印1-n的最大/" title="post打印1~n的最大">
+ <a href="/2016/05/09/和为S，输出数组的子序列/" title="和为S，输出数组的子序列">
   <strong>上一篇：</strong><br/>
   <span>
-  post打印1~n的最大</span>
+  和为S，输出数组的子序列</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/08/是不是平衡树/"  title="是不是平衡树">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>是不是平衡树
 </span>
 </a>
 </div>

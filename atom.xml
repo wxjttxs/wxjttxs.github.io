@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-08T14:41:33.443Z</updated>
+  <updated>2016-05-09T15:16:37.526Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,471 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>圆圈剩下的数字</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/%E5%9C%86%E5%9C%88%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/圆圈剩下的数字/</id>
+    <published>2016-05-09T15:16:13.000Z</published>
+    <updated>2016-05-09T15:16:37.526Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构&lt;br&gt;//要么通过数学建模找到规律&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;list&amp;gt;
+using namespace std;
+//**********************方法一环形结构****************************
+//std::list本身并不是一个环形结构，因此每当迭代器扫描到末尾时候，我们要把迭代器移到链表头部，
+//Lists将元素按顺序储存在链表中. 与 向量(vectors)相比, 它允许快速的插入和删除，但是随机访问却比较慢.
+int LastRemaining(unsigned int n,unsigned int m){
+    if(n&amp;lt;1 || m&amp;lt;1)
+        return -1;
+    unsigned int i=0;
+    list&amp;lt;int&amp;gt; numbers;
+    for(i=0;i&amp;lt;n;i++)
+        numbers.push_back(i);//0~n-1
+    list&amp;lt;int&amp;gt;::iterator current=numbers.begin();
+    while(numbers.size()&amp;gt;1){
+        for(int i=1;i&amp;lt;m;i++){//找到第m个要删除的位置
+            current++;//current指向要删除的位置
+            if(current==numbers.end())
+                current=numbers.begin();
+
+        }
+        list&amp;lt;int&amp;gt;::iterator next=++current;
+        if(next==numbers.end())
+            next=numbers.begin();
+        --current;
+        numbers.erase(current);
+        current=next;
+    }
+    return *(current);
+}
+//**********************方法二数学建模****************************
+//令f(n,m)表示从0开始删除第m个数字后的剩下的数字；第一个删除的数字是（m-1)%n，为了简单表示，我们令k=（m-1)%n。剩下的数字0,1,2，，，，k-1,k+1,k+2..n-1;
+//下一次从k+1开始计数。相当于形成这样的序列：k+1,k+2...0,1...k-1。剩下的序列也是关于n,m的函数。但是这个序列的规律和最初的规律不一样。因此记为f&amp;apos;(n-1,m).
+//最初序列剩下的数字一定是删除一个数字之后的序列最后剩下的数字，即f(n,m)=f&amp;apos;(n-1,m).
+//定义一种映射 ，使得k+1,k+2...0,1...k-1 -》0,1.。。n-2，p(x)=(x-k-1)%n.逆映射p&amp;apos;(x)=(x+k+1)%n
+//f(n,m)=f&amp;apos;(n-1,m)=p&amp;apos;(f(n-1,m))=[f(n-1,m)+k+1]%n=[f(n-1,m)+m]%n;
+//综上，递归公式：f(n,m)=0   n=1
+//                      =[f(n-1,m)+m]%n  n&amp;gt;1
+
+int LastRemaining(unsigned int n,unsigned int m){
+    if(n&amp;lt;1 ||m&amp;lt;1)
+        return -1;
+    int last=0;
+    for(int i=2;i&amp;lt;=n;i++)
+        last=(last+m)%i;
+    return last;
+}
+int main()
+{
+    int data[]={3,4,5,6,7,8};
+    for(int i=0;i&amp;lt;6;i++)
+
+        cout&amp;lt;&amp;lt;LastRemaining(data[i],3)&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    cout&amp;lt;&amp;lt;endl;
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构&lt;br&gt;//要么通过数学建模找到规律&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostre
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>扑克牌是不是顺子</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/%E6%89%91%E5%85%8B%E7%89%8C%E6%98%AF%E4%B8%8D%E6%98%AF%E9%A1%BA%E5%AD%90/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/扑克牌是不是顺子/</id>
+    <published>2016-05-09T10:33:45.000Z</published>
+    <updated>2016-05-09T10:34:19.965Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//从扑克牌中抽出五张，判断是不是顺子，A用1表示；JQK用11,12,13表示；大小王看成任意数字&lt;br&gt;//首先排序数组，然后统计0的个数和数组中间隔数，如果0的个数&amp;gt;=间隔，返回true。&lt;br&gt;//还有需要注意，如果数组中有两个数字相同，那么不可能是顺子了。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+
+int compare(const void *arg1,const void *arg2){
+    return *(int*)arg1-*(int*)arg2;
+}
+bool IsContinuous(int *data,int length){
+    if(data==NULL ||length&amp;lt;1)
+        return false;
+
+    qsort(data,length,sizeof(int),compare);//排序
+
+    int numberOfZero=0;//0的个数，间隔的数目
+    int numberOfGap=0;
+
+    //统计0的个数
+    for(int i=0;i&amp;lt;length;i++){
+        if(data[i]==0)
+            numberOfZero++;
+    }
+    //统计间隔数目
+    int small=numberOfZero;//必须从这个开始，因为0不能算在这个里面，代表的是任意
+    int big=small+1;
+    while(big&amp;lt;length){
+        //两个数相等，对子不可能是顺子
+        if(data[small]==data[big])
+            return false;
+        numberOfGap+=data[big]-data[small]-1;//比如 1  3   4  5
+        small=big;//两个指针，依次往后挪
+        big++;
+    }
+    return (numberOfGap&amp;lt;=numberOfZero)?true:false;
+
+}
+int main()
+{
+    int data[]={2,4,5,6,0};
+    cout&amp;lt;&amp;lt;IsContinuous(data,5);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//从扑克牌中抽出五张，判断是不是顺子，A用1表示；JQK用11,12,13表示；大小王看成任意数字&lt;br&gt;//首先排序数组，然后统计0的个数和数组中间隔数，如果0的个数&amp;gt;=间隔，返回true。&lt;br&gt;//还有需要注意，如果数组中有两个数字相
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>n个骰子和为S的次数以及相应的概率</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/n%E4%B8%AA%E9%AA%B0%E5%AD%90%E5%92%8C%E4%B8%BAS%E7%9A%84%E6%AC%A1%E6%95%B0%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%BA%94%E7%9A%84%E6%A6%82%E7%8E%87/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/n个骰子和为S的次数以及相应的概率/</id>
+    <published>2016-05-09T09:10:41.000Z</published>
+    <updated>2016-05-09T09:11:12.215Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。&lt;br&gt;//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。&lt;br&gt;//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和&lt;br&gt;//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)&lt;br&gt;n&amp;gt;0,n&amp;lt;=S&amp;lt;=6&lt;em&gt;n //      =0  n&amp;gt;S  or  S&amp;gt;6&lt;/em&gt;k&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;cmath&amp;gt;
+using namespace std;
+const int FACE_NUM=6;//骰子的面数
+//函数功能：N个骰子的向上一面的和
+//函数参数：骰子数目
+
+void PrintSumProbabilityOfDices(int n){
+    if(n&amp;lt;=0)
+        return;
+    int *pSum=new int[n*FACE_NUM+1];//和的种类
+    double total=pow(6.0,n);//和的所有可能性
+    int sizee=n*FACE_NUM;
+    int i,j,k;
+    //初始化
+    pSum[0]=0;//没有骰子
+    for(i=1;i&amp;lt;=FACE_NUM;i++)
+        pSum[i]=1;//只有一个骰子,和的可能性为1~6，只可能出现一次
+    for(;i&amp;lt;=sizee;i++)
+        pSum[i]=0;//数组初始化0
+    for(i=2;i&amp;lt;=n;i++){//骰子数目从2~n
+        for(j=i*FACE_NUM;j&amp;gt;=i;j--){//i个骰子和的范围是i~i*FACE_NUM，j代表的是可能的和的种类
+            pSum[j]=0;//每次要清零
+            for(k=1;k&amp;lt;=6 &amp;amp;&amp;amp; j&amp;gt;=k;k++){//这个就是F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)
+                pSum[j]+=pSum[j-k];
+            }
+        }
+        //不可能的情况
+        for(j=i-1;j&amp;gt;=0;j--)
+            pSum[j]=0;
+    }
+   //打印结果
+   for(i=0;i&amp;lt;=sizee;i++){
+        cout&amp;lt;&amp;lt;&amp;quot;sum= &amp;quot;&amp;lt;&amp;lt;i&amp;lt;&amp;lt;&amp;quot;, p= &amp;quot;&amp;lt;&amp;lt;pSum[i]/total&amp;lt;&amp;lt;endl;
+   }
+}
+int main()
+{
+    PrintSumProbabilityOfDices(3);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。&lt;br&gt;//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。&lt;br&gt;//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>翻转单词顺序 VS 左旋转字符串</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/%E7%BF%BB%E8%BD%AC%E5%8D%95%E8%AF%8D%E9%A1%BA%E5%BA%8F-VS-%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/翻转单词顺序-VS-左旋转字符串/</id>
+    <published>2016-05-09T03:01:09.000Z</published>
+    <updated>2016-05-09T08:10:16.222Z</updated>
+    
+    <content type="html">&lt;p&gt;//一个字符串。要求翻转单词顺序，但是单词内部字符顺序不变&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+using namespace std;
+//翻转一个单词
+void Reverse(char* pBegin,char* pEnd){
+    if(pBegin==NULL || pEnd==NULL)
+        return;
+    while(pBegin&amp;lt;pEnd){
+        char temp=*pBegin;
+        *pBegin=*pEnd;
+        *pEnd=temp;
+        pBegin++;
+        pEnd--;
+    }
+}
+char* ReverseSentence(char *pData)
+{
+    if(pData == NULL)
+        return NULL;
+
+    char *pBegin = pData;
+
+    char *pEnd = pData+strlen(pData)-1;
+
+    // 翻转整个句子
+    Reverse(pBegin, pEnd);
+
+    // 翻转句子中的每个单词
+    pBegin = pEnd = pData;
+    while(*pEnd!=&amp;apos;\0&amp;apos;){
+        if(*pEnd!=&amp;apos; &amp;apos;)
+            pEnd++;
+        else{
+            Reverse(pBegin,pEnd-1);//空格前一个
+            pBegin=++pEnd;//pBegin指向空格后一个
+        }
+    }
+    Reverse(pBegin,pEnd-1);//最后一个单词，pEnd指向&amp;apos;\0&amp;apos;
+    return pData;
+}
+
+//********************左旋转n位字符**************************
+//前n位看做空格前字母，比如“hello world”
+char* LeftRotateString(char* pStr,int n){
+    if(pStr!=NULL){
+        int length=static_cast&amp;lt;int&amp;gt;(strlen(pStr));
+        if(length&amp;gt;0 &amp;amp;&amp;amp; n&amp;gt;0 &amp;amp;&amp;amp;n&amp;lt;length){//输入是有效的
+            char* pFirstBegin=pStr;
+            char* pFirstEnd=pStr+n-1;
+            char* pSecondBegin=pStr+n;
+            char* pSecondEnd=pStr+length-1;
+            Reverse(pFirstBegin,pFirstEnd);//旋转第一段
+            Reverse(pSecondBegin,pSecondEnd);//旋转第二段
+            Reverse(pFirstBegin,pSecondEnd);//旋转整个单词
+        }
+    }
+    return pStr;
+}
+int main()
+{
+      char sentence[]=&amp;quot;stu dent!&amp;quot;;
+      char *reverced=ReverseSentence(sentence);
+      cout&amp;lt;&amp;lt;reverced&amp;lt;&amp;lt;endl;
+
+      char sentence1[]=&amp;quot;abcdefg&amp;quot;;
+      char *reverced1=LeftRotateString(sentence1,7);
+     // char *reverced1=LeftRotateString(“abcdef”,2);不承认这样的赋值方式
+      cout&amp;lt;&amp;lt;reverced1&amp;lt;&amp;lt;endl;
+      return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//一个字符串。要求翻转单词顺序，但是单词内部字符顺序不变&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+using namespace std;
+//翻转一个单词
+void Revers
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>和为S，输出数组的子序列</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/%E5%92%8C%E4%B8%BAS%EF%BC%8C%E8%BE%93%E5%87%BA%E6%95%B0%E7%BB%84%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/和为S，输出数组的子序列/</id>
+    <published>2016-05-09T02:57:04.000Z</published>
+    <updated>2016-05-09T02:58:07.869Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWithSum(int *data,int length,int s){
+//    bool flag=false;
+//    if(data==NULL ||length&amp;lt;1)
+//        return;
+//    int ahead=0;
+//    int behind=length-1;
+//    while(ahead&amp;lt;behind){
+//        if(data[ahead]+data[behind]==s){
+//            flag=true;
+//            break;//找到就跳出循环，不然就死了
+//        }
+//        else if(data[ahead]+data[behind]&amp;gt;s)
+//            behind--;
+//        else
+//            ahead++;
+//    }
+//    if(flag){
+//        cout&amp;lt;&amp;lt;data[ahead]&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;data[behind];
+//    }
+//    else
+//        cout&amp;lt;&amp;lt;&amp;quot;not found&amp;quot;&amp;lt;&amp;lt;endl;
+//}
+//************拓展*********************************8
+//找到连续正数序列（1,2,3.。。。。S）中和为S的序列，打印出来,至少为3
+void PrintContinueSequence(int small, int big){
+    for(int i=small;i&amp;lt;=big;i++)
+        cout&amp;lt;&amp;lt;i&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    cout&amp;lt;&amp;lt;endl;
+}
+void FindContinueSequence(int sum){
+    if(sum&amp;lt;3)
+        return ;
+    int small=1;
+    int big=2;
+    int mid=(sum+1)/2;//因为是递增，所以最小的数不可能超过中间值
+    int curSum=small+big;
+    while(small&amp;lt;mid){
+        if(curSum==sum){
+            PrintContinueSequence(small,big);
+        }
+        while(curSum&amp;gt;sum &amp;amp;&amp;amp; small&amp;lt;mid){
+            curSum-=small;//先减去已经在里面的小的数值
+            small++;
+
+            if(curSum==sum)
+                PrintContinueSequence(small,big);
+        }
+        big++;
+        curSum+=big;//后加上不在里面的大的数值
+    }
+}
+int main()
+{
+//    int data[]={1,2,3,7,11,15};
+//    FindNumbersWithSum(data,6,1);
+      FindContinueSequence(13);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWith
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>数组中只出现一次的两个数字</title>
+    <link href="http://wxjttxs.github.io/2016/05/09/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E5%AD%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/09/数组中只出现一次的两个数字/</id>
+    <published>2016-05-09T02:16:17.000Z</published>
+    <updated>2016-05-09T02:17:14.185Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字&lt;br&gt;//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素&lt;br&gt;//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。&lt;br&gt;//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+
+//最右边1的位置
+unsigned int FindFirst1Bit(int num);
+//从右边数起的indexBit位是不是1
+bool IsBit1(int num,unsigned int indexBit);
+//主要实现
+void FindNumberAppearOnce(int *data,int length){
+    if(data==NULL || length&amp;lt;2)//,int &amp;amp;num1,int &amp;amp;num2
+        return ;
+    int resExclusiveOr=0;
+    for(int i=0;i&amp;lt;length;i++){
+        resExclusiveOr^=data[i];
+    }
+    unsigned int indexOf1=FindFirst1Bit(resExclusiveOr);//根据异或结果找到右边起第一个1
+    int num[2]={0};
+   // num1=num2=0;//两个只出现一次的数字
+    for(int j=0;j&amp;lt;length;j++){
+        if(IsBit1(data[j],indexOf1))
+            num[0]^=data[j];
+        else
+            num[1]^=data[j];
+    }
+    for(int i=0;i&amp;lt;2;i++)
+        cout&amp;lt;&amp;lt; num[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+}
+//找到最右边第一个1的位置
+unsigned int FindFirst1Bit(int num){
+    int indexBit=0;
+    while(((num&amp;amp;1)==0) &amp;amp;&amp;amp; (indexBit&amp;lt;8 * sizeof(int))){
+        num=num&amp;gt;&amp;gt;1;
+        ++indexBit;
+    }
+    return  indexBit;
+}
+//从右边起indexBit位是不是1
+bool IsBit1(int num,unsigned int indexBit){
+    num=num&amp;gt;&amp;gt;indexBit;
+    return (num&amp;amp;1);
+}
+int main()
+{
+    int data[]={2,4,3,6,3,2,5,5};
+   // int a,b;
+    FindNumberAppearOnce(data,8);
+  //  cout&amp;lt;&amp;lt;a&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;b;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字&lt;br&gt;//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素&lt;br&gt;//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>是不是平衡树</title>
@@ -1357,511 +1822,6 @@ using namespace std;
 struct BinaryTreeNode{
     int m_nValue;
  
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>复制复杂链表</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/%E5%A4%8D%E5%88%B6%E5%A4%8D%E6%9D%82%E9%93%BE%E8%A1%A8/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/复制复杂链表/</id>
-    <published>2016-04-30T14:54:35.000Z</published>
-    <updated>2016-04-30T14:55:44.459Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//复制复杂链表
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct ComplexListNode{
-    int m_nValue;
-    ComplexListNode* m_pNext;
-    ComplexListNode* m_pSibling;
-};
-void Insert(ComplexListNode* &amp;amp;pHead,int data){
-    ComplexListNode* pNode=new ComplexListNode();
-    pNode-&amp;gt;m_nValue=data;
-    pNode-&amp;gt;m_pNext=NULL;
-    pNode-&amp;gt;m_pSibling=NULL;
-    if(pHead==NULL)
-        pHead=pNode;
-    else{
-        pNode-&amp;gt;m_pNext=pHead;
-        pHead=pNode;
-    }
-}
-void Print(ComplexListNode* &amp;amp;pHead){
-    if(pHead==NULL)
-        return;
-    ComplexListNode* pNode=pHead;
-    while(pNode){
-        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        pNode=pNode-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-//第一步复制各个节点，并形成链表
-void CloneNodes(ComplexListNode* pHead){
-    ComplexListNode *pNode=pHead;
-    while(pNode!=NULL){
-        ComplexListNode* pCloned=new ComplexListNode();
-        pCloned-&amp;gt;m_nValue=pNode-&amp;gt;m_nValue;
-        pCloned-&amp;gt;m_pNext=pNode-&amp;gt;m_pNext;
-        pCloned-&amp;gt;m_pSibling=NULL;
-        pNode-&amp;gt;m_pNext=pCloned;//插入Cloned节点
-        pNode=pCloned-&amp;gt;m_pNext;   //依次往后挪
-    }
-}
-//复制原来节点m_pSibling指针的指向情况
-void ConnectSiblingNodes(ComplexListNode* pHead){
-    ComplexListNode* pNode=pHead;
-    while(pNode!=NULL){
-        ComplexListNode* pCloned=pNode-&amp;gt;m_pNext;
-        if(pNode-&amp;gt;m_pSibling!=NULL)
-                pCloned-&amp;gt;m_pSibling=pNode-&amp;gt;m_pSibling-&amp;gt;m_pNext;
-        pNode=pCloned-&amp;gt;m_pNext;
-    }
-}
-//按照奇偶位置拆分原始链表和复制链表
-ComplexListNode* ReconnectNodes(ComplexListNode* pHead){
-    ComplexListNode* pNode=pHead;
-    ComplexListNode* pClonedHead=NULL;
-    ComplexListNode* pClonedNode=NULL;
-    if(pNode!=NULL){
-        pClonedHead=pClonedNode=pNode-&amp;gt;m_pNext;
-        pNode-&amp;gt;m_pNext=pClonedNode-&amp;gt;m_pNext;
-        pNode=pNode-&amp;gt;m_pNext;
-        while(pNode!=NULL){
-            pClonedNode-&amp;gt;m_pNext=pNode-&amp;gt;m_pNext;
-            pClonedNode=pClonedNode-&amp;gt;m_pNext;
-            pNode-&amp;gt;m_pNext=pClonedNode-&amp;gt;m_pNext;
-            pNode=pNode-&amp;gt;m_pNext;
-
-        }
-        return pClonedHead;
-    }
-}
-ComplexListNode* Clone(ComplexListNode* pHead){
-    CloneNodes(pHead);
-    ConnectSiblingNodes(pHead);
-    return ReconnectNodes(pHead);
-}
-int main()
-{
-    ComplexListNode* l=NULL;
-    ComplexListNode* c=NULL;
-    Insert(l,1);
-    Insert(l,2);
-    Insert(l,3);
-    Insert(l,4);
-    Insert(l,5);
-    Print(l);
-
-    c=Clone(l);
-    Print(c);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//复制复杂链表
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct ComplexListNode{
-    int m_nValue;
-    ComplexListNode* m_pNext;
-
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>二叉树中和为给定值的路径</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E5%92%8C%E4%B8%BA%E7%BB%99%E5%AE%9A%E5%80%BC%E7%9A%84%E8%B7%AF%E5%BE%84/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/二叉树中和为给定值的路径/</id>
-    <published>2016-04-30T13:27:40.000Z</published>
-    <updated>2016-04-30T13:28:24.945Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//给定二叉树和一个值，找到二叉树中和等于这个值的路径
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-#include&amp;lt;vector&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void FindAllPath(BinaryTreeNode* pRoot,int expectedSum,vector&amp;lt;int&amp;gt;&amp;amp; path,int currentSum){
-    currentSum+=pRoot-&amp;gt;m_nValue;
-    path.push_back(pRoot-&amp;gt;m_nValue);
-    bool isLeaf=(pRoot-&amp;gt;m_pLeft==NULL)&amp;amp;&amp;amp;(pRoot-&amp;gt;m_pRight==NULL);
-    //叶子节点，并且路径上的节点的和等于期望的和
-    if(currentSum==expectedSum &amp;amp;&amp;amp; isLeaf){
-        cout&amp;lt;&amp;lt;&amp;quot;the path is found:&amp;quot;;
-        vector&amp;lt;int&amp;gt;::iterator iter=path.begin();
-        for(;iter!=path.end();iter++)
-            cout&amp;lt;&amp;lt;*iter&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        cout&amp;lt;&amp;lt;endl;
-    }
-    //不是叶子节点，那就继续遍历左右子树
-    if(pRoot-&amp;gt;m_pLeft)
-        FindAllPath(pRoot-&amp;gt;m_pLeft,expectedSum,path,currentSum);
-    if(pRoot-&amp;gt;m_pRight)
-        FindAllPath(pRoot-&amp;gt;m_pRight,expectedSum,path,currentSum);
-    //是叶子节点，但是路径的和并不等于期望的和,那就回退
-    path.pop_back();
-}
-void FindPath(BinaryTreeNode* pRoot,int expectedSum){
-    if(pRoot==NULL)
-        return;
-    vector&amp;lt;int&amp;gt; path;
-    int currentSum=0;
-    FindAllPath(pRoot,expectedSum,path,currentSum);
-}
-int main()
-{
-    BinaryTreeNode* Btree;
-    int preorder[]={10,5,4,7,12};
-    int inorder[]={4,5,7,10,12};
-    Btree= Contrust(preorder,inorder,5);
-    FindPath(Btree,22);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//给定二叉树和一个值，找到二叉树中和等于这个值的路径
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-#include&amp;lt;vector&amp;gt;
-using namespace std;
-struct Bi
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>后序序列可以构成BST？</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/%E5%90%8E%E5%BA%8F%E5%BA%8F%E5%88%97%E5%8F%AF%E4%BB%A5%E6%9E%84%E6%88%90BST%EF%BC%9F/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/后序序列可以构成BST？/</id>
-    <published>2016-04-30T12:35:43.000Z</published>
-    <updated>2016-04-30T12:36:25.367Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//判断一个后序序列是不是二叉搜索树的后序遍历序列
-//二叉搜索树的左子树＜根节点；右子树大于根节点
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-bool SequenceIsBST(int *sequence, int length){
-    if(sequence==NULL || length&amp;lt;=0)
-        return false;
-    int root=sequence[length-1];
-    int i=0;
-    for(;i&amp;lt;length-1;i++)
-    {
-        if(sequence[i]&amp;gt;root)
-            break;
-    }
-    int j=i;
-    for(;j&amp;lt;length-1;j++){
-        if(sequence[j]&amp;lt;root)
-            return false;
-    }
-    //上面的过程找到了左右子树
-    bool left=true;//左子树是BST吗？
-    if(i&amp;gt;0)//左子树存在
-        left=SequenceIsBST(sequence,i);
-    bool right=true;
-    if(i&amp;lt;length-1)//存在右子树
-        right=SequenceIsBST(sequence+i,j);
-    return (left&amp;amp;&amp;amp;right);
-}
-int main()
-{
-    int a[]={5,7,6,9,11,10,8};
-    cout&amp;lt;&amp;lt;SequenceIsBST(a,7);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//判断一个后序序列是不是二叉搜索树的后序遍历序列
-//二叉搜索树的左子树＜根节点；右子树大于根节点
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-bool SequenceIsBST(int *sequen
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>按层打印二叉树(广度优先遍历)</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/%E6%8C%89%E5%B1%82%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/按层打印二叉树/</id>
-    <published>2016-04-30T11:51:36.000Z</published>
-    <updated>2016-04-30T11:54:24.189Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//根据先序和中序构建二叉树,然后按层打印每个节点,队列
-#include  &amp;lt;iostream&amp;gt;
-#include&amp;lt;queue&amp;gt;
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void PrintFromTopToBottom(BinaryTreeNode* pTreeRoot){
-    if(!pTreeRoot)
-        return;
-    queue&amp;lt;BinaryTreeNode*&amp;gt; que;
-    que.push(pTreeRoot);
-    while(que.size()){
-        BinaryTreeNode* pNode=que.front();//指向队列的第一个元素，要被弹出的元素
-        que.pop();
-        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        if(pNode-&amp;gt;m_pLeft)//打印节点的左右子节点
-            que.push(pNode-&amp;gt;m_pLeft);
-        if(pNode-&amp;gt;m_pRight)
-            que.push(pNode-&amp;gt;m_pRight);
-    }
-}
-int main(){
-    BinaryTreeNode* Btree;
-    int preorder[]={8,6,5,7,10,9,11};
-    int inorder[]={5,6,7,8,9,10,11};
-    Btree= Contrust(preorder,inorder,7);
-    PrintFromTopToBottom(Btree);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//根据先序和中序构建二叉树,然后按层打印每个节点,队列
-#include  &amp;lt;iostream&amp;gt;
-#include&amp;lt;queue&amp;gt;
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-stru
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>弹入序列 VS 弹出序列</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/%E5%BC%B9%E5%85%A5%E5%BA%8F%E5%88%97-VS-%E5%BC%B9%E5%87%BA%E5%BA%8F%E5%88%97/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/弹入序列-VS-弹出序列/</id>
-    <published>2016-04-30T07:26:15.000Z</published>
-    <updated>2016-04-30T11:26:19.827Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//给定输入序列，判断给定的输出序列是不是真的
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-using namespace std;
-
- bool IsPopOrder(const int* pPush, const int* pPop, int length){
-    bool flag=false;
-    if(pPush !=NULL  &amp;amp;&amp;amp; pPop!=NULL &amp;amp;&amp;amp; length&amp;gt;0){
-        stack&amp;lt;int&amp;gt; stackData;//存取输入数据的栈,辅助栈
-        const int* pNextPush=pPush;
-        const int* pNextPop=pPop;
-        while(pNextPop-pPop&amp;lt; length){
-            while(stackData.empty()|| stackData.top()!=*pNextPop){//辅助栈的元素不等于
-                if(pNextPush-pPush==length)
-                    break;
-                stackData.push(*pNextPush);
-                pNextPush++;
-            }
-            if(stackData.top()!=*pNextPop)//找到最后也没有在 输入栈的栈顶元素找到输出栈的下一个元素,说明输出序列与输入不匹配
-                break;
-            stackData.pop();//找到匹配的元素
-            pNextPop++;
-        }
-        if(stackData.empty() &amp;amp;&amp;amp; (pNextPop-pPop)==length)
-            flag=true;
-
-    }
-    return flag;
- }
-int main()
-{
-    const int push[]={1,2,3,4,5};
-    const int pop[]={4,5,3,2,1};
-    cout&amp;lt;&amp;lt;IsPopOrder(push,pop,5);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//给定输入序列，判断给定的输出序列是不是真的
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-using namespace std;
-
- bool IsPopOrder(const int* pPush, 
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>O(1)找到栈的最小值</title>
-    <link href="http://wxjttxs.github.io/2016/04/30/O-1-%E6%89%BE%E5%88%B0%E6%A0%88%E7%9A%84%E6%9C%80%E5%B0%8F%E5%80%BC/"/>
-    <id>http://wxjttxs.github.io/2016/04/30/O-1-找到栈的最小值/</id>
-    <published>2016-04-30T07:14:19.000Z</published>
-    <updated>2016-04-30T07:14:58.735Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//O(1)时间找到栈中最小元素
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-#include&amp;lt;assert.h&amp;gt;
-using namespace std;
-template &amp;lt;typename T&amp;gt; class StackWithMin{
-public:
-    StackWithMin(void){};
-    ~StackWithMin(void) {};
-    void push(const T&amp;amp; value);
-    void pop();
-   const T minV();
-private:
-    stack&amp;lt;T&amp;gt; m_data;//原始的数据栈
-    stack&amp;lt;T&amp;gt; m_min;//存放每次 压入栈的最小值
-};
-template &amp;lt;typename T&amp;gt; void StackWithMin&amp;lt;T&amp;gt;::push(const T&amp;amp;value){
-    m_data.push(value);
-    if(m_min.size()==0||value&amp;lt;m_min.top()){//辅助栈为空或者栈顶元素比新新输入的元素大，那么就把这个元素送入辅助栈
-        m_min.push(value);
-    }
-    else
-        m_min.push(m_min.top());//比如m_data 有的是3,4 ,那么m_min就会相应的是 3 3
-}
-template &amp;lt;typename T&amp;gt; void StackWithMin&amp;lt;T&amp;gt;::pop(){
-    assert(m_data.size()&amp;gt;0 &amp;amp;&amp;amp; m_min.size()&amp;gt;0);
-    m_data.pop();
-    m_min.pop();
-}
-template &amp;lt;typename T&amp;gt;const T StackWithMin&amp;lt;T&amp;gt;::minV(){
-    assert(m_data.size()&amp;gt;0&amp;amp;&amp;amp; m_min.size()&amp;gt;0);
-    return m_min.top();
-}
-int main()
-{
-    StackWithMin&amp;lt;int&amp;gt; s;
-    s.push(3);
-    s.push(4);
-    s.push(2);
-    s.push(1);
-    cout&amp;lt;&amp;lt;s.minV();
-    cout&amp;lt;&amp;lt;endl;
-    s.pop();
-    cout&amp;lt;&amp;lt;s.minV();
-    cout&amp;lt;&amp;lt;endl;
-    s.pop();
-    cout&amp;lt;&amp;lt;s.minV();
-    cout&amp;lt;&amp;lt;endl;
-    s.push(0);
-    cout&amp;lt;&amp;lt;s.minV();
-    cout&amp;lt;&amp;lt;endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//O(1)时间找到栈中最小元素
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stack&amp;gt;
-#include&amp;lt;assert.h&amp;gt;
-using namespace std;
-template &amp;lt;typen
     
     </summary>
     

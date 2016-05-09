@@ -4,38 +4,53 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>post错误处理方式 | happy happy</title>
+    <title>和为S，输出数组的子序列 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+    <meta name="description" content="//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWithSum(int *data,int length,int s){
+//    bool flag=false;
+//    if(data==">
 <meta property="og:type" content="article">
-<meta property="og:title" content="post错误处理方式">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/post错误处理方式/index.html">
+<meta property="og:title" content="和为S，输出数组的子序列">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/09/和为S，输出数组的子序列/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
-<meta property="og:updated_time" content="2016-04-21T14:22:29.992Z">
+<meta property="og:description" content="//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWithSum(int *data,int length,int s){
+//    bool flag=false;
+//    if(data==">
+<meta property="og:updated_time" content="2016-05-09T02:58:07.869Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="post错误处理方式">
-<meta name="twitter:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+<meta name="twitter:title" content="和为S，输出数组的子序列">
+<meta name="twitter:description" content="//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWithSum(int *data,int length,int s){
+//    bool flag=false;
+//    if(data==">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -97,14 +112,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式" itemprop="url">post错误处理方式</a>
+      <a href="/2016/05/09/和为S，输出数组的子序列/" title="和为S，输出数组的子序列" itemprop="url">和为S，输出数组的子序列</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T14:22:15.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-09T02:57:04.000Z" itemprop="datePublished"> 发表于 2016-05-09</time>
     
   </p>
 </header>
@@ -117,15 +132,73 @@
 		
 		</div>
 		
-		<p>##三种处理错误异常的方式</p>
-<pre><code>返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为不同的出错原因定义不同异常类型，逻辑清晰明了；     
-          缺：有些语言（C）不支持异常，抛出异常可能对性能有负面影响
-</code></pre><p>##实现阶乘陷阱多多<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//以为pow(x,n)很简单，但是好多陷阱,比如指数为负，底数为0，所以需要错误处理(全局变量)</span><br><span class="line">//基本而且完整的代码</span><br><span class="line">bool flag_error=false;</span><br><span class="line">//double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">//    double result=1.0;</span><br><span class="line">//    if(exp==0)</span><br><span class="line">//        return 1;</span><br><span class="line">//    for(int i=0;i&lt;exp;i++)&#123;</span><br><span class="line">//        result*=base;</span><br><span class="line">//    &#125;</span><br><span class="line">//    return result;</span><br><span class="line">//&#125;</span><br><span class="line">//下面联系一下效率更高的一种。首先 x^n=x^(n/2)*x^(n/2)(n为偶数)；n为奇数（x^n=x^((n-1)/2)*...*x）</span><br><span class="line">double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">    if(exp==0)</span><br><span class="line">        return 1;</span><br><span class="line">    double result=PowerUnsignedExp(base,exp&gt;&gt;1);//右移一位除以2</span><br><span class="line"></span><br><span class="line">    result*=result;</span><br><span class="line">    if(exp&amp;0x1==1)//这个数为奇数</span><br><span class="line">        result*=base;</span><br><span class="line">    return result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">bool equalt(double a,double b)&#123;</span><br><span class="line">    return ((a-b&lt;0.0000001)&amp;&amp;(b-a)&lt;0.0000001)?1:0;</span><br><span class="line">&#125;</span><br><span class="line">double Power(double base, int exponent)&#123;</span><br><span class="line">    flag_error=false;</span><br><span class="line"></span><br><span class="line">    if(equalt(base,0.0))&#123;//底数W为0</span><br><span class="line">        flag_error=true;</span><br><span class="line">        return 0;//因为底数为0造成的返回结果为0，</span><br><span class="line">    &#125;</span><br><span class="line">    unsigned int absExp=(exponent&lt;0)?(-exponent):exponent;</span><br><span class="line">    double result=PowerUnsignedExp(base,absExp);</span><br><span class="line">    if(exponent&lt;0)</span><br><span class="line">        result=1.0/result;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt;Power(10,3) &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-  
+		<pre><code>//数组已经排好序，假设升序。
+//当给定和为S,返回数组中两个数使得他们和为s
+
+
+#include &lt;iostream&gt;
+
+using namespace std;
+//找到排序数组和为S的两个数
+//void FindNumbersWithSum(int *data,int length,int s){
+//    bool flag=false;
+//    if(data==NULL ||length&lt;1)
+//        return;
+//    int ahead=0;
+//    int behind=length-1;
+//    while(ahead&lt;behind){
+//        if(data[ahead]+data[behind]==s){
+//            flag=true;
+//            break;//找到就跳出循环，不然就死了
+//        }
+//        else if(data[ahead]+data[behind]&gt;s)
+//            behind--;
+//        else
+//            ahead++;
+//    }
+//    if(flag){
+//        cout&lt;&lt;data[ahead]&lt;&lt;&quot; &quot;&lt;&lt;data[behind];
+//    }
+//    else
+//        cout&lt;&lt;&quot;not found&quot;&lt;&lt;endl;
+//}
+//************拓展*********************************8
+//找到连续正数序列（1,2,3.。。。。S）中和为S的序列，打印出来,至少为3
+void PrintContinueSequence(int small, int big){
+    for(int i=small;i&lt;=big;i++)
+        cout&lt;&lt;i&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+}
+void FindContinueSequence(int sum){
+    if(sum&lt;3)
+        return ;
+    int small=1;
+    int big=2;
+    int mid=(sum+1)/2;//因为是递增，所以最小的数不可能超过中间值
+    int curSum=small+big;
+    while(small&lt;mid){
+        if(curSum==sum){
+            PrintContinueSequence(small,big);
+        }
+        while(curSum&gt;sum &amp;&amp; small&lt;mid){
+            curSum-=small;//先减去已经在里面的小的数值
+            small++;
+
+            if(curSum==sum)
+                PrintContinueSequence(small,big);
+        }
+        big++;
+        curSum+=big;//后加上不在里面的大的数值
+    }
+}
+int main()
+{
+//    int data[]={1,2,3,7,11,15};
+//    FindNumbersWithSum(data,6,1);
+      FindContinueSequence(13);
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -137,7 +210,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/post错误处理方式/" data-title="post错误处理方式 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/09/和为S，输出数组的子序列/" data-title="和为S，输出数组的子序列 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,18 +224,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/22/post打印1-n的最大/" title="post打印1~n的最大">
+ <a href="/2016/05/09/翻转单词顺序-VS-左旋转字符串/" title="翻转单词顺序 VS 左旋转字符串">
   <strong>上一篇：</strong><br/>
   <span>
-  post打印1~n的最大</span>
+  翻转单词顺序 VS 左旋转字符串</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/09/数组中只出现一次的两个数字/"  title="数组中只出现一次的两个数字">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>数组中只出现一次的两个数字
 </span>
 </a>
 </div>

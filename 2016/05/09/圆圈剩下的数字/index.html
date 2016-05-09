@@ -4,38 +4,38 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>post错误处理方式 | happy happy</title>
+    <title>圆圈剩下的数字 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+    <meta name="description" content="//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构//要么通过数学建模找到规律
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;list&amp;gt;
+using namespace std;
+//**********************方法一环形结构***************************">
 <meta property="og:type" content="article">
-<meta property="og:title" content="post错误处理方式">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/post错误处理方式/index.html">
+<meta property="og:title" content="圆圈剩下的数字">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/09/圆圈剩下的数字/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
-<meta property="og:updated_time" content="2016-04-21T14:22:29.992Z">
+<meta property="og:description" content="//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构//要么通过数学建模找到规律
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;list&amp;gt;
+using namespace std;
+//**********************方法一环形结构***************************">
+<meta property="og:updated_time" content="2016-05-09T15:16:37.526Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="post错误处理方式">
-<meta name="twitter:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+<meta name="twitter:title" content="圆圈剩下的数字">
+<meta name="twitter:description" content="//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构//要么通过数学建模找到规律
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;list&amp;gt;
+using namespace std;
+//**********************方法一环形结构***************************">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -97,14 +97,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式" itemprop="url">post错误处理方式</a>
+      <a href="/2016/05/09/圆圈剩下的数字/" title="圆圈剩下的数字" itemprop="url">圆圈剩下的数字</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T14:22:15.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-09T15:16:13.000Z" itemprop="datePublished"> 发表于 2016-05-09</time>
     
   </p>
 </header>
@@ -117,15 +117,67 @@
 		
 		</div>
 		
-		<p>##三种处理错误异常的方式</p>
-<pre><code>返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为不同的出错原因定义不同异常类型，逻辑清晰明了；     
-          缺：有些语言（C）不支持异常，抛出异常可能对性能有负面影响
-</code></pre><p>##实现阶乘陷阱多多<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//以为pow(x,n)很简单，但是好多陷阱,比如指数为负，底数为0，所以需要错误处理(全局变量)</span><br><span class="line">//基本而且完整的代码</span><br><span class="line">bool flag_error=false;</span><br><span class="line">//double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">//    double result=1.0;</span><br><span class="line">//    if(exp==0)</span><br><span class="line">//        return 1;</span><br><span class="line">//    for(int i=0;i&lt;exp;i++)&#123;</span><br><span class="line">//        result*=base;</span><br><span class="line">//    &#125;</span><br><span class="line">//    return result;</span><br><span class="line">//&#125;</span><br><span class="line">//下面联系一下效率更高的一种。首先 x^n=x^(n/2)*x^(n/2)(n为偶数)；n为奇数（x^n=x^((n-1)/2)*...*x）</span><br><span class="line">double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">    if(exp==0)</span><br><span class="line">        return 1;</span><br><span class="line">    double result=PowerUnsignedExp(base,exp&gt;&gt;1);//右移一位除以2</span><br><span class="line"></span><br><span class="line">    result*=result;</span><br><span class="line">    if(exp&amp;0x1==1)//这个数为奇数</span><br><span class="line">        result*=base;</span><br><span class="line">    return result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">bool equalt(double a,double b)&#123;</span><br><span class="line">    return ((a-b&lt;0.0000001)&amp;&amp;(b-a)&lt;0.0000001)?1:0;</span><br><span class="line">&#125;</span><br><span class="line">double Power(double base, int exponent)&#123;</span><br><span class="line">    flag_error=false;</span><br><span class="line"></span><br><span class="line">    if(equalt(base,0.0))&#123;//底数W为0</span><br><span class="line">        flag_error=true;</span><br><span class="line">        return 0;//因为底数为0造成的返回结果为0，</span><br><span class="line">    &#125;</span><br><span class="line">    unsigned int absExp=(exponent&lt;0)?(-exponent):exponent;</span><br><span class="line">    double result=PowerUnsignedExp(base,absExp);</span><br><span class="line">    if(exponent&lt;0)</span><br><span class="line">        result=1.0/result;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt;Power(10,3) &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-  
+		<blockquote>
+<p>//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构<br>//要么通过数学建模找到规律</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;list&gt;
+using namespace std;
+//**********************方法一环形结构****************************
+//std::list本身并不是一个环形结构，因此每当迭代器扫描到末尾时候，我们要把迭代器移到链表头部，
+//Lists将元素按顺序储存在链表中. 与 向量(vectors)相比, 它允许快速的插入和删除，但是随机访问却比较慢.
+int LastRemaining(unsigned int n,unsigned int m){
+    if(n&lt;1 || m&lt;1)
+        return -1;
+    unsigned int i=0;
+    list&lt;int&gt; numbers;
+    for(i=0;i&lt;n;i++)
+        numbers.push_back(i);//0~n-1
+    list&lt;int&gt;::iterator current=numbers.begin();
+    while(numbers.size()&gt;1){
+        for(int i=1;i&lt;m;i++){//找到第m个要删除的位置
+            current++;//current指向要删除的位置
+            if(current==numbers.end())
+                current=numbers.begin();
+
+        }
+        list&lt;int&gt;::iterator next=++current;
+        if(next==numbers.end())
+            next=numbers.begin();
+        --current;
+        numbers.erase(current);
+        current=next;
+    }
+    return *(current);
+}
+//**********************方法二数学建模****************************
+//令f(n,m)表示从0开始删除第m个数字后的剩下的数字；第一个删除的数字是（m-1)%n，为了简单表示，我们令k=（m-1)%n。剩下的数字0,1,2，，，，k-1,k+1,k+2..n-1;
+//下一次从k+1开始计数。相当于形成这样的序列：k+1,k+2...0,1...k-1。剩下的序列也是关于n,m的函数。但是这个序列的规律和最初的规律不一样。因此记为f&apos;(n-1,m).
+//最初序列剩下的数字一定是删除一个数字之后的序列最后剩下的数字，即f(n,m)=f&apos;(n-1,m).
+//定义一种映射 ，使得k+1,k+2...0,1...k-1 -》0,1.。。n-2，p(x)=(x-k-1)%n.逆映射p&apos;(x)=(x+k+1)%n
+//f(n,m)=f&apos;(n-1,m)=p&apos;(f(n-1,m))=[f(n-1,m)+k+1]%n=[f(n-1,m)+m]%n;
+//综上，递归公式：f(n,m)=0   n=1
+//                      =[f(n-1,m)+m]%n  n&gt;1
+
+int LastRemaining(unsigned int n,unsigned int m){
+    if(n&lt;1 ||m&lt;1)
+        return -1;
+    int last=0;
+    for(int i=2;i&lt;=n;i++)
+        last=(last+m)%i;
+    return last;
+}
+int main()
+{
+    int data[]={3,4,5,6,7,8};
+    for(int i=0;i&lt;6;i++)
+
+        cout&lt;&lt;LastRemaining(data[i],3)&lt;&lt;&quot; &quot;;
+    cout&lt;&lt;endl;
+
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -137,7 +189,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/post错误处理方式/" data-title="post错误处理方式 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/09/圆圈剩下的数字/" data-title="圆圈剩下的数字 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -150,19 +202,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/22/post打印1-n的最大/" title="post打印1~n的最大">
-  <strong>上一篇：</strong><br/>
-  <span>
-  post打印1~n的最大</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/09/扑克牌是不是顺子/"  title="扑克牌是不是顺子">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>扑克牌是不是顺子
 </span>
 </a>
 </div>

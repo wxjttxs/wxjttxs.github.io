@@ -4,38 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>post错误处理方式 | happy happy</title>
+    <title>n个骰子和为S的次数以及相应的概率 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+    <meta name="description" content="//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-">
 <meta property="og:type" content="article">
-<meta property="og:title" content="post错误处理方式">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/post错误处理方式/index.html">
+<meta property="og:title" content="n个骰子和为S的次数以及相应的概率">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/09/n个骰子和为S的次数以及相应的概率/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
-<meta property="og:updated_time" content="2016-04-21T14:22:29.992Z">
+<meta property="og:description" content="//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-">
+<meta property="og:updated_time" content="2016-05-09T09:11:12.215Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="post错误处理方式">
-<meta name="twitter:description" content="##三种处理错误异常的方式
-返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为">
+<meta name="twitter:title" content="n个骰子和为S的次数以及相应的概率">
+<meta name="twitter:description" content="//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -97,14 +82,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式" itemprop="url">post错误处理方式</a>
+      <a href="/2016/05/09/n个骰子和为S的次数以及相应的概率/" title="n个骰子和为S的次数以及相应的概率" itemprop="url">n个骰子和为S的次数以及相应的概率</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T14:22:15.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-09T09:10:41.000Z" itemprop="datePublished"> 发表于 2016-05-09</time>
     
   </p>
 </header>
@@ -117,15 +102,51 @@
 		
 		</div>
 		
-		<p>##三种处理错误异常的方式</p>
-<pre><code>返回值     优:和系统API一致;     
-          缺：不能方便的使用结算结果;
-全局变量   优：能够方便的使用结算结果;   
-          缺：用户可能会检查全局变量;                                                                         
-异常      优：可以为不同的出错原因定义不同异常类型，逻辑清晰明了；     
-          缺：有些语言（C）不支持异常，抛出异常可能对性能有负面影响
-</code></pre><p>##实现阶乘陷阱多多<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line">#include &lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">//以为pow(x,n)很简单，但是好多陷阱,比如指数为负，底数为0，所以需要错误处理(全局变量)</span><br><span class="line">//基本而且完整的代码</span><br><span class="line">bool flag_error=false;</span><br><span class="line">//double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">//    double result=1.0;</span><br><span class="line">//    if(exp==0)</span><br><span class="line">//        return 1;</span><br><span class="line">//    for(int i=0;i&lt;exp;i++)&#123;</span><br><span class="line">//        result*=base;</span><br><span class="line">//    &#125;</span><br><span class="line">//    return result;</span><br><span class="line">//&#125;</span><br><span class="line">//下面联系一下效率更高的一种。首先 x^n=x^(n/2)*x^(n/2)(n为偶数)；n为奇数（x^n=x^((n-1)/2)*...*x）</span><br><span class="line">double PowerUnsignedExp(double base,unsigned int exp)&#123;</span><br><span class="line">    if(exp==0)</span><br><span class="line">        return 1;</span><br><span class="line">    double result=PowerUnsignedExp(base,exp&gt;&gt;1);//右移一位除以2</span><br><span class="line"></span><br><span class="line">    result*=result;</span><br><span class="line">    if(exp&amp;0x1==1)//这个数为奇数</span><br><span class="line">        result*=base;</span><br><span class="line">    return result;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">bool equalt(double a,double b)&#123;</span><br><span class="line">    return ((a-b&lt;0.0000001)&amp;&amp;(b-a)&lt;0.0000001)?1:0;</span><br><span class="line">&#125;</span><br><span class="line">double Power(double base, int exponent)&#123;</span><br><span class="line">    flag_error=false;</span><br><span class="line"></span><br><span class="line">    if(equalt(base,0.0))&#123;//底数W为0</span><br><span class="line">        flag_error=true;</span><br><span class="line">        return 0;//因为底数为0造成的返回结果为0，</span><br><span class="line">    &#125;</span><br><span class="line">    unsigned int absExp=(exponent&lt;0)?(-exponent):exponent;</span><br><span class="line">    double result=PowerUnsignedExp(base,absExp);</span><br><span class="line">    if(exponent&lt;0)</span><br><span class="line">        result=1.0/result;</span><br><span class="line">    return result;</span><br><span class="line">&#125;</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">    cout &lt;&lt;Power(10,3) &lt;&lt; endl;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
-  
+		<blockquote>
+<p>//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。<br>//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。<br>//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和<br>//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)<br>n&gt;0,n&lt;=S&lt;=6<em>n //      =0  n&gt;S  or  S&gt;6</em>k</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;cmath&gt;
+using namespace std;
+const int FACE_NUM=6;//骰子的面数
+//函数功能：N个骰子的向上一面的和
+//函数参数：骰子数目
+
+void PrintSumProbabilityOfDices(int n){
+    if(n&lt;=0)
+        return;
+    int *pSum=new int[n*FACE_NUM+1];//和的种类
+    double total=pow(6.0,n);//和的所有可能性
+    int sizee=n*FACE_NUM;
+    int i,j,k;
+    //初始化
+    pSum[0]=0;//没有骰子
+    for(i=1;i&lt;=FACE_NUM;i++)
+        pSum[i]=1;//只有一个骰子,和的可能性为1~6，只可能出现一次
+    for(;i&lt;=sizee;i++)
+        pSum[i]=0;//数组初始化0
+    for(i=2;i&lt;=n;i++){//骰子数目从2~n
+        for(j=i*FACE_NUM;j&gt;=i;j--){//i个骰子和的范围是i~i*FACE_NUM，j代表的是可能的和的种类
+            pSum[j]=0;//每次要清零
+            for(k=1;k&lt;=6 &amp;&amp; j&gt;=k;k++){//这个就是F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)
+                pSum[j]+=pSum[j-k];
+            }
+        }
+        //不可能的情况
+        for(j=i-1;j&gt;=0;j--)
+            pSum[j]=0;
+    }
+   //打印结果
+   for(i=0;i&lt;=sizee;i++){
+        cout&lt;&lt;&quot;sum= &quot;&lt;&lt;i&lt;&lt;&quot;, p= &quot;&lt;&lt;pSum[i]/total&lt;&lt;endl;
+   }
+}
+int main()
+{
+    PrintSumProbabilityOfDices(3);
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -137,7 +158,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/post错误处理方式/" data-title="post错误处理方式 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/09/n个骰子和为S的次数以及相应的概率/" data-title="n个骰子和为S的次数以及相应的概率 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -151,18 +172,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/22/post打印1-n的最大/" title="post打印1~n的最大">
+ <a href="/2016/05/09/扑克牌是不是顺子/" title="扑克牌是不是顺子">
   <strong>上一篇：</strong><br/>
   <span>
-  post打印1~n的最大</span>
+  扑克牌是不是顺子</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/09/翻转单词顺序-VS-左旋转字符串/"  title="翻转单词顺序 VS 左旋转字符串">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>翻转单词顺序 VS 左旋转字符串
 </span>
 </a>
 </div>
