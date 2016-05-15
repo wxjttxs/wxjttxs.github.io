@@ -4,23 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>字符串转换为整型 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000//区分“0”的输出结果和无效字符串的输出
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+enum Status {kValid=0, kInvalid};
+int g_nStatus=kValid;//输出">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="字符串转换为整型">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/14/字符串转换为整形/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000//区分“0”的输出结果和无效字符串的输出
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+enum Status {kValid=0, kInvalid};
+int g_nStatus=kValid;//输出">
+<meta property="og:updated_time" content="2016-05-14T08:23:43.725Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="字符串转换为整型">
+<meta name="twitter:description" content="//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000//区分“0”的输出结果和无效字符串的输出
+
+#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+enum Status {kValid=0, kInvalid};
+int g_nStatus=kValid;//输出">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +100,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/05/14/字符串转换为整形/" title="字符串转换为整型" itemprop="url">字符串转换为整型</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-14T08:23:03.000Z" itemprop="datePublished"> 发表于 2016-05-14</time>
     
   </p>
 </header>
@@ -102,7 +120,65 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<blockquote>
+<p>//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000<br>//区分“0”的输出结果和无效字符串的输出</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+
+using namespace std;
+enum Status {kValid=0, kInvalid};
+int g_nStatus=kValid;//输出状态
+long long StrToIntCore(const char* str, bool minuss){
+    long long num=0;
+    while(*str!=&apos;\0&apos;){
+        if(*str&gt;=&apos;0&apos; &amp;&amp; *str&lt;=&apos;9&apos;){//有效数字
+            int flag=minuss?-1:1;
+            num=num*10+flag*(*str-&apos;0&apos;);
+
+            if((!minuss &amp;&amp; num&gt;0x7fffffff)||(minuss &amp;&amp; num&lt;(signed int)0x80000000)){//超过long long表示范围,注意signed int
+                num=0;
+                break;
+            }
+            str++;
+        }
+        else{//非法输入
+            num=0;
+            break;
+        }
+    }
+    if(*str==&apos;\0&apos;)//字符串为空
+    {
+        g_nStatus=kValid;
+    }
+    return num;
+}
+int StrToInt(const char* str){
+    g_nStatus=kInvalid;
+    long long num=0;
+
+    if(str!=NULL &amp;&amp; *str !=&apos;\0&apos;){
+        bool minuss=false;//正负号
+        if(*str==&apos;+&apos;)
+            str++;
+        else if(*str==&apos;-&apos;){
+            str++;
+            minuss=true;
+        }
+        if(*str!=&apos;\0&apos;){
+            num=StrToIntCore(str,minuss);
+        }
+    }
+    return (int)num;
+}
+int main()
+{
+    cout &lt;&lt; StrToInt(&quot;-123&quot;) &lt;&lt; endl;
+    cout &lt;&lt; StrToInt(&quot;+123&quot;) &lt;&lt; endl;
+    cout &lt;&lt; StrToInt(&quot;0&quot;) &lt;&lt; endl;
+    cout &lt;&lt; StrToInt(&quot;&quot;) &lt;&lt; endl;
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +190,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/14/字符串转换为整形/" data-title="字符串转换为整型 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +204,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/14/在二叉树中找到两个节点的最低公共祖先/" title="在二叉树中找到两个节点的最低公共祖先">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  在二叉树中找到两个节点的最低公共祖先</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/13/1-2-3-n/"  title="1+2+3..+n">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>1+2+3..+n
 </span>
 </a>
 </div>

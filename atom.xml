@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-09T15:16:37.526Z</updated>
+  <updated>2016-05-15T07:00:33.980Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,616 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>字符串与给定模式是否匹配</title>
+    <link href="http://wxjttxs.github.io/2016/05/15/%E5%AD%97%E7%AC%A6%E4%B8%B2%E4%B8%8E%E7%BB%99%E5%AE%9A%E6%A8%A1%E5%BC%8F%E6%98%AF%E5%90%A6%E5%8C%B9%E9%85%8D/"/>
+    <id>http://wxjttxs.github.io/2016/05/15/字符串与给定模式是否匹配/</id>
+    <published>2016-05-15T06:59:13.000Z</published>
+    <updated>2016-05-15T07:00:33.980Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//判斷字符串與模式是否匹配 //.表示匹配任意字符； *表示它前面的字符出現的次數（包含0次）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+
+bool matchCore(char* str,char* pattern);
+bool match(char* str,char* pattern){
+    if(str==NULL|| pattern==NULL)
+        return false;
+    return matchCore(str,pattern);
+}
+bool matchCore(char* str, char* pattern){
+    if(*str==&amp;apos;\0&amp;apos; &amp;amp;&amp;amp; *pattern==&amp;apos;\0&amp;apos;)
+        return true;
+    if(*str!=&amp;apos;\0&amp;apos; &amp;amp;&amp;amp; *pattern==&amp;apos;\0&amp;apos;)
+        return false;
+    if(*(pattern+1)==&amp;apos;*&amp;apos;){
+        if(*pattern==*str ||(*pattern ==&amp;apos;.&amp;apos; &amp;amp;&amp;amp; *str!=&amp;apos;\0&amp;apos;))
+            return matchCore(str+1,pattern+2) //比較下一個狀態   *前數字出現1次
+            || matchCore(str+1,pattern) //停留在當前狀態   &amp;gt;=2
+            || matchCore(str,pattern+2);//忽略*  0
+        else//忽略*
+            return matchCore(str,pattern+2);
+    }
+    if(*str==*pattern || (*pattern ==&amp;apos;.&amp;apos; &amp;amp;&amp;amp; *str !=&amp;apos;\0&amp;apos;))//.表示任意一個字符，肯定匹配
+        return matchCore(str+1,pattern+1);
+
+    return false;
+}
+int main()
+{
+    cout &amp;lt;&amp;lt;match(&amp;quot;aaa&amp;quot;,&amp;quot;ab*a&amp;quot;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//判斷字符串與模式是否匹配 //.表示匹配任意字符； *表示它前面的字符出現的次數（包含0次）&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>找到数组中所有重复的数字</title>
+    <link href="http://wxjttxs.github.io/2016/05/15/%E6%89%BE%E5%88%B0%E6%95%B0%E7%BB%84%E4%B8%AD%E6%89%80%E6%9C%89%E9%87%8D%E5%A4%8D%E7%9A%84%E6%95%B0%E5%AD%97/"/>
+    <id>http://wxjttxs.github.io/2016/05/15/找到数组中所有重复的数字/</id>
+    <published>2016-05-15T03:21:26.000Z</published>
+    <updated>2016-05-15T03:22:00.704Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;/&lt;em&gt;找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+&lt;/em&gt;/&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;iterator&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+//**********************方法一排序*******************************
+//時間複雜度是O(nlgn)
+int part(int a[],int low,int high){//划分成左右子数组，找到中间位置
+ int temp=a[high];//最后一个元素作为中间元素
+ int i=low-1;//i是慢速下标
+ for(int j=low;j&amp;lt;high;j++){//挨个检查元素，比中间值小的在放在它的左边，大的放在右边
+    if(a[j]&amp;lt;=temp){
+        i++;
+        swap(a[i],a[j]);
+    }
+ }
+ swap(a[i+1],a[high]);
+ return i+1;//找到第一个比中间值大的元素，返回它的位置,这就是中间元素所在位置
+}
+void QuickSort(int a[],int low, int high){
+    if(low&amp;lt;high){
+        int mid=part(a,low,high);
+        QuickSort(a,low,mid-1);
+        QuickSort(a,mid+1,high);
+    }
+}
+void duplicate1(int *a,int length){
+    bool flag=true;
+
+    if(a==NULL || length&amp;lt;=0){
+        flag=false;
+        return ;
+    }
+    QuickSort(a,0,length-1);
+
+    int i=0;
+    int j=1;
+    vector&amp;lt;int&amp;gt; findData;
+
+    while(j&amp;lt;length){//畫個示意圖很容易理解 0 1 1 2 2 3 4 5
+
+        while(a[i]!=a[j] &amp;amp;&amp;amp; j&amp;lt;length){//注意這個j&amp;lt;length問題，最後一步如果沒有這個判斷，那麼i,j就會指向同一個值，就會出現重複壓入數組的情況
+            i=j;
+            j++;
+        }
+        if(a[i]==a[j]){
+            findData.push_back(a[i]);
+        }
+        while(a[i]==a[j])
+              j++;
+
+    }
+//這個實現找到任一個重複，vector數組找到所有重複數組
+//    int findData=0;
+//
+//    for(int i=0;i&amp;lt;length-1;i++){
+//        if(a[i]==a[i+1]){
+//            findData=a[i];
+//            break;
+//        }
+//    }
+
+    for(vector&amp;lt;int&amp;gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&amp;lt;&amp;lt;*it&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+    cout&amp;lt;&amp;lt;endl;
+}
+//*********************方法二哈希表******************************
+//時間複雜度是O(n),需要額外的空間O(n)
+void duplicate2(int *a, int length){
+
+    int hashtable[length]={0};
+    for(int i=0;i&amp;lt;length;i++){
+            hashtable[a[i]]++;
+    }
+    vector&amp;lt;int&amp;gt; findData;
+    for(int i=0;i&amp;lt;length;i++){
+        if(hashtable[a[i]]&amp;gt;1)//需要去重
+        {
+            findData.push_back(a[i]);
+        }
+
+    }
+    //重複過程
+    vector&amp;lt;int&amp;gt;::iterator iter=findData.begin();
+    iter=unique(findData.begin(),findData.end());//只能刪除相鄰的重複元素
+    findData.erase(iter,findData.end());
+
+    for(vector&amp;lt;int&amp;gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&amp;lt;&amp;lt;*it&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+    cout&amp;lt;&amp;lt;endl;
+
+
+}
+//**********************方法三交換*******************************
+/*
+O(n)時間找到數組中重複的數字，並且不需要額外分配空間，空間複雜度為O(1)
+*/
+//如果下標i與在所在的數值不一致，那就交換以數值為下標的數值，前提是這兩個數值不一致，如果不同的下標同一個數字，那就說明找到重複的。
+void duplicate3(int *a,int length){
+    bool flag=false;
+    if(a==NULL ||length&amp;lt;=0){
+        return ;
+    }
+    for(int i=0;i&amp;lt;length;i++){
+        if(a[i]&amp;lt;0 || a[i]&amp;gt;length-1)
+            return ;
+    }
+
+    vector&amp;lt;int&amp;gt; findData;
+    for(int i=0;i&amp;lt;length;i++){
+        while(a[i]!=i){
+            if(a[i]==a[a[i]]){
+                    vector&amp;lt;int&amp;gt;::iterator it=find(findData.begin(),findData.end(),a[i]);
+                    if(it!=findData.end())//數組中沒有這個元素再放進去，有的話進行下一輪判斷
+                        break;
+                    findData.push_back(a[i]);
+                    flag=true;
+                    break;
+            }
+            //否則就交換以這個數值為下標的數字
+            else{
+                int temp=a[i];
+                a[i]=a[temp];
+                a[temp]=temp;
+            }
+        }
+    }
+
+
+    for(vector&amp;lt;int&amp;gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&amp;lt;&amp;lt;*it&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+    cout&amp;lt;&amp;lt;endl;
+}
+int main()
+{
+    int a[]={0,0,1,2,2,3,4,4,5,6};
+   // duplicate1(a,8);
+   //duplicate2(a,10);
+
+    duplicate3(a,10);
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;/&lt;em&gt;找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+&lt;/em&gt;/&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>在二叉树中找到两个节点的最低公共祖先</title>
+    <link href="http://wxjttxs.github.io/2016/05/14/%E5%9C%A8%E4%BA%8C%E5%8F%89%E6%A0%91%E4%B8%AD%E6%89%BE%E5%88%B0%E4%B8%A4%E4%B8%AA%E8%8A%82%E7%82%B9%E7%9A%84%E6%9C%80%E4%BD%8E%E5%85%AC%E5%85%B1%E7%A5%96%E5%85%88/"/>
+    <id>http://wxjttxs.github.io/2016/05/14/在二叉树中找到两个节点的最低公共祖先/</id>
+    <published>2016-05-14T12:27:09.000Z</published>
+    <updated>2016-05-14T12:38:57.532Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;   /*在二叉樹中找到給定兩個節點的最低公共祖先 lowest common ancestor LCA&lt;br&gt;我們做一個規定：如果a是b的祖先，那麼他倆的LCA是a&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;*/&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;list&amp;gt;
+#include&amp;lt;vector&amp;gt;
+using namespace std;
+
+struct Node
+{
+    struct Node *left, *right;
+    int key;
+};
+
+Node* newNode(int key)
+{
+    Node *temp = new Node;
+    temp-&amp;gt;key = key;
+    temp-&amp;gt;left = temp-&amp;gt;right = NULL;
+    return temp;
+}
+//************************方法一遞歸************************
+
+/* 只用一次遍历解决LCA
+學號二叉樹，用好遞歸
+從root開始遍歷，如果n1,n2有一個與root匹配，那麼root就是LCA。如果都不匹配，遞歸左右子樹，如果
+有一個在左子樹，一個在右子樹，那麼root是LCA。如果兩個數都在左子樹，則說明LCA在左子樹，否則在右子樹
+*/
+
+// 返回n1和n2的 LCA的指针
+// 假设n1和n2都出现在树中
+struct Node *findLCA1(struct Node* root, int n1, int n2)
+{
+    if (root == NULL) return NULL;
+
+    // 只要n1 或 n2 的任一个匹配即可
+    //  (注意：如果 一个节点是另一个祖先，则返回的是祖先节点。因为递归是要返回到祖先的 )
+    if (root-&amp;gt;key == n1 || root-&amp;gt;key == n2)
+        return root;
+    // 分别在左右子树查找
+    Node *left_lca  = findLCA1(root-&amp;gt;left, n1, n2);
+    Node *right_lca = findLCA1(root-&amp;gt;right, n1, n2);
+    // 如果都返回非空指针 Non-NULL, 则说明两个节点分别出现了在两个子树中，则当前节点肯定为LCA
+    if (left_lca &amp;amp;&amp;amp; right_lca)  return root;
+    // 如果一个为空，在说明LCA在另一个子树
+    return (left_lca != NULL)? left_lca: right_lca;
+}
+
+//************************方法二找到路徑，求路徑的最後一個公共節點****************
+//找到給定節點的路徑
+bool GetNodePath(Node* pRoot,int key, list&amp;lt;Node*&amp;gt;&amp;amp;path){
+    if(pRoot==NULL)
+        return false;
+    path.push_back(pRoot);//關鍵在於存放節點與判斷的順序
+    if(pRoot-&amp;gt;key==key)
+        return true;
+
+
+    //左右子樹是否找到，找到的話，當前節點就在路徑中
+    bool found=(GetNodePath(pRoot-&amp;gt;left,key,path) ||GetNodePath(pRoot-&amp;gt;right,key,path));
+    if(!found)//沒有找到就彈出
+         path.pop_back();
+    return found;
+
+}
+//查看路徑上的節點
+void PrintPath(list&amp;lt;Node*&amp;gt;&amp;amp;path){
+    Node* pLast=NULL;
+    list&amp;lt;Node*&amp;gt;::const_iterator iter1=path.begin();
+    while(iter1!=path.end()){
+
+        pLast=*iter1;
+        cout&amp;lt;&amp;lt;pLast-&amp;gt;key&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        iter1++;
+    }
+    cout&amp;lt;&amp;lt;endl;
+}
+//得到兩條路上的最後一個公共節點
+Node* GetLastCommonNode(const list&amp;lt;Node*&amp;gt;&amp;amp; path1,const list&amp;lt;Node*&amp;gt;&amp;amp; path2){
+    list&amp;lt;Node*&amp;gt;::const_iterator iter1=path1.begin();
+    list&amp;lt;Node*&amp;gt;::const_iterator iter2=path2.begin();
+    Node* pLast=NULL;
+
+    while(iter1!=path1.end() &amp;amp;&amp;amp; iter2!=path2.end()){
+        if(*iter1==*iter2)
+            pLast=*iter1;
+        iter1++;
+        iter2++;
+    }
+    return pLast;
+}
+//找到兩個指點節點的最低公共祖先（根節點的祖先是他自己）
+Node* findLCA2(Node* pRoot, int key1,int key2){
+    list&amp;lt;Node*&amp;gt; path1;
+    list&amp;lt;Node*&amp;gt; path2;
+    if(pRoot==NULL )//輸入無效，找不到
+    {
+
+        return NULL;
+    }
+
+    if(GetNodePath(pRoot,key1,path1) &amp;amp;&amp;amp;  GetNodePath(pRoot,key2,path2))
+            return GetLastCommonNode(path1,path2);
+
+
+}
+
+//测试
+int main()
+{
+    // 构造上面图中的树
+    Node * root = newNode(1);
+    root-&amp;gt;left = newNode(2);
+    root-&amp;gt;right = newNode(3);
+    root-&amp;gt;left-&amp;gt;left = newNode(4);
+    root-&amp;gt;left-&amp;gt;right = newNode(5);
+    root-&amp;gt;right-&amp;gt;left = newNode(6);
+    root-&amp;gt;right-&amp;gt;right = newNode(7);
+//    cout &amp;lt;&amp;lt; &amp;quot;LCA(4, 5) = &amp;quot; &amp;lt;&amp;lt; findLCA1(root, 4, 5)-&amp;gt;key;
+//    cout &amp;lt;&amp;lt; &amp;quot;\nLCA(4, 6) = &amp;quot; &amp;lt;&amp;lt; findLCA1(root, 4, 6)-&amp;gt;key;
+//    cout &amp;lt;&amp;lt; &amp;quot;\nLCA(3, 4) = &amp;quot; &amp;lt;&amp;lt; findLCA1(root, 3, 4)-&amp;gt;key;
+//    cout &amp;lt;&amp;lt; &amp;quot;\nLCA(2, 4) = &amp;quot; &amp;lt;&amp;lt; findLCA1(root, 2, 4)-&amp;gt;key;
+
+  // cout&amp;lt;&amp;lt;endl;
+
+
+    Node* p1=NULL;Node* p2=NULL;
+
+    p1= findLCA1(root,6,7);
+    p2= findLCA2(root,6,7);
+    cout&amp;lt;&amp;lt;&amp;quot;last node1:&amp;quot;&amp;lt;&amp;lt;p1-&amp;gt;key&amp;lt;&amp;lt;endl;
+    cout&amp;lt;&amp;lt;&amp;quot;last node2:&amp;quot;&amp;lt;&amp;lt;p2-&amp;gt;key&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;   /*在二叉樹中找到給定兩個節點的最低公共祖先 lowest common ancestor LCA&lt;br&gt;我們做一個規定：如果a是b的祖先，那麼他倆的LCA是a&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;p&gt;*/&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>字符串转换为整型</title>
+    <link href="http://wxjttxs.github.io/2016/05/14/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E5%BD%A2/"/>
+    <id>http://wxjttxs.github.io/2016/05/14/字符串转换为整形/</id>
+    <published>2016-05-14T08:23:03.000Z</published>
+    <updated>2016-05-14T08:23:43.725Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000&lt;br&gt;//区分“0”的输出结果和无效字符串的输出&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+enum Status {kValid=0, kInvalid};
+int g_nStatus=kValid;//输出状态
+long long StrToIntCore(const char* str, bool minuss){
+    long long num=0;
+    while(*str!=&amp;apos;\0&amp;apos;){
+        if(*str&amp;gt;=&amp;apos;0&amp;apos; &amp;amp;&amp;amp; *str&amp;lt;=&amp;apos;9&amp;apos;){//有效数字
+            int flag=minuss?-1:1;
+            num=num*10+flag*(*str-&amp;apos;0&amp;apos;);
+
+            if((!minuss &amp;amp;&amp;amp; num&amp;gt;0x7fffffff)||(minuss &amp;amp;&amp;amp; num&amp;lt;(signed int)0x80000000)){//超过long long表示范围,注意signed int
+                num=0;
+                break;
+            }
+            str++;
+        }
+        else{//非法输入
+            num=0;
+            break;
+        }
+    }
+    if(*str==&amp;apos;\0&amp;apos;)//字符串为空
+    {
+        g_nStatus=kValid;
+    }
+    return num;
+}
+int StrToInt(const char* str){
+    g_nStatus=kInvalid;
+    long long num=0;
+
+    if(str!=NULL &amp;amp;&amp;amp; *str !=&amp;apos;\0&amp;apos;){
+        bool minuss=false;//正负号
+        if(*str==&amp;apos;+&amp;apos;)
+            str++;
+        else if(*str==&amp;apos;-&amp;apos;){
+            str++;
+            minuss=true;
+        }
+        if(*str!=&amp;apos;\0&amp;apos;){
+            num=StrToIntCore(str,minuss);
+        }
+    }
+    return (int)num;
+}
+int main()
+{
+    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;-123&amp;quot;) &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;+123&amp;quot;) &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;0&amp;quot;) &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;&amp;quot;) &amp;lt;&amp;lt; endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000&lt;br&gt;//区分“0”的输出结果和无效字符串的输出&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>1+2+3..+n</title>
+    <link href="http://wxjttxs.github.io/2016/05/13/1-2-3-n/"/>
+    <id>http://wxjttxs.github.io/2016/05/13/1-2-3-n/</id>
+    <published>2016-05-13T09:59:06.000Z</published>
+    <updated>2016-05-13T09:59:38.606Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//���ó˳���for�� while��if else��switch caseʵ��1+2+����+n //��Ȼ���͹�ʽ�Ͳ�������&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+//***********************��һ�����ù��캯������*****************************
+class Temp{
+public:
+    Temp(){++N; Sum+=N;}
+    static void Reset() {N=0;Sum=0;}
+    static unsigned int GetSum(){return Sum;}
+private:
+    static unsigned int N;
+    static unsigned int Sum;
+
+};
+unsigned int Temp::N=0;
+unsigned int Temp::Sum=0;
+unsigned int Sum_Solution1(unsigned int n)
+{
+    Temp::Reset();
+    Temp *a= new Temp[n];//���ù��캯��n��
+    delete[] a;
+    a=NULL;
+    return Temp::GetSum();
+
+}
+//***********************�ڶ��������麯������*****************************
+//�麯�������������ж���������ͬ���ĺ��������ҿ���ͨ������ָ�������������ʻ������������е�ͬ������
+//��������������һ���ݹ飬һ����ֹ�ݹ飬���Ǵ��ж�ѡһ���� ����������ͨ��!!n����ֵת���ɲ����͡�
+class A;
+A * Array[2];
+class A{
+public:
+    virtual unsigned int Sum(unsigned int n){
+        return 0;
+    }
+};
+class B :public A{
+public:
+    virtual unsigned int Sum(unsigned int n){
+        return Array[!!n]-&amp;gt;Sum(n-1)+n;//�Ӻ���ǰ��ʼ��
+    }
+};
+//���麯��ʵ�ֺ�����ѡ�񣬵���ֵ��Ϊ0ѡ��B::Sum()��n=0ѡ��A::Sum()
+int Sum_Solution2(int n){
+    A a;
+    B b;
+    Array[0]=&amp;amp;a;
+    Array[1]=&amp;amp;b;
+
+    int value=Array[1]-&amp;gt;Sum(n);
+    return value;
+}
+//***********************���������ú���ָ������*****************************
+//�ڴ�C���ԵĻ����У�����ʹ���麯������ʱ�����ú���ָ����ģ��
+typedef unsigned int (*fun) (unsigned int);
+unsigned int Sum_Solution3_Teminator(unsigned int n){
+    return 0;
+}
+unsigned int Sum_Solution3(unsigned int n){
+    static fun f[2]={Sum_Solution3_Teminator,Sum_Solution3};//��ʵ����һά����
+    return n+f[!!n](n-1);
+}
+//***********************������ģ����������*******************************
+template &amp;lt;unsigned int n&amp;gt; struct Sum_Solution4{
+    enum Value {N=Sum_Solution4&amp;lt;n-1&amp;gt;::N+n};
+};
+template &amp;lt;&amp;gt; struct Sum_Solution4&amp;lt;1&amp;gt;{
+    enum Value {N=1};
+};
+int main()
+{
+   cout&amp;lt;&amp;lt; Sum_Solution4&amp;lt;100&amp;gt;::N;//���ֵ��÷����ܶ���
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//���ó˳���for�� while��if else��switch caseʵ��1+2+����+n //��Ȼ���͹�ʽ�Ͳ�������&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iost
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>不用四则运算，实现两数相加</title>
+    <link href="http://wxjttxs.github.io/2016/05/13/%E4%B8%8D%E7%94%A8%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%EF%BC%8C%E5%AE%9E%E7%8E%B0%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/"/>
+    <id>http://wxjttxs.github.io/2016/05/13/不用四则运算，实现两数相加/</id>
+    <published>2016-05-13T09:03:53.000Z</published>
+    <updated>2016-05-13T09:15:16.958Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//不用四则运算实现两数相加 //分成三步：首先两数相加不进位；然后对应位上的进位，最后把前两部的结果相加&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespace std;
+int GetSum(int a,int b){
+    int sum=0;int carryy=0;
+    do{
+        sum=a^b;//第一步
+        carryy=(a&amp;amp;b)&amp;lt;&amp;lt;1;//第二步
+        a=sum;//第三步
+        b=carryy;//第三步
+
+    }while(b);
+    return a;
+}
+int main()
+{
+    cout&amp;lt;&amp;lt;GetSum(5,8);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//不用四则运算实现两数相加 //分成三步：首先两数相加不进位；然后对应位上的进位，最后把前两部的结果相加&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+
+using namespac
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>圆圈剩下的数字</title>
@@ -1174,654 +1784,6 @@ int main()
 
 using namespace std;
 //***********************第一种方法*****
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>从1到N整数中1出现的次数</title>
-    <link href="http://wxjttxs.github.io/2016/05/03/%E4%BB%8E1%E5%88%B0N%E6%95%B4%E6%95%B0%E4%B8%AD1%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/"/>
-    <id>http://wxjttxs.github.io/2016/05/03/从1到N整数中1出现的次数/</id>
-    <published>2016-05-03T11:31:40.000Z</published>
-    <updated>2016-05-03T11:32:41.043Z</updated>
-    
-    <content type="html">&lt;p&gt;//给定数字N，计算从1~N中各个数字位上包含1的个位&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;cstring&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
-//方法1，暴力穷举,一个数需要o(logn),一共需要n*O(logn)
-int NumberOf1(unsigned int n){
-    int number=0;
-    while(n){//从个位往高位计算给定的数字n包含的数字1的个数
-        if(n%10==1)
-            number++;
-
-        n=n/10;
-    }
-    return  number;
-}
-int NumberOf1Between1AndN(unsigned int n){
-    int number=0;
-    for(int i=1;i&amp;lt;=n;i++)
-        number+=NumberOf1(i);
-    return number;
-}
-//方法二，递归
-//数字转换为 字符串更方便//递归一次去掉一位，所以时间复杂度编程O(logn)
-int PowerBase10(unsigned int n){
-    int result=1;
-    for(unsigned int i=0;i&amp;lt;n;i++)
-        result*=10;
-    return result;
-}
-int NumberOf1(const char* strN){
-    if(!strN||*strN&amp;lt;&amp;apos;0&amp;apos;||*strN&amp;gt;&amp;apos;9&amp;apos;||*strN==&amp;apos;\0&amp;apos;)
-        return 0;
-    int first=*strN-&amp;apos;0&amp;apos;;
-    unsigned int length=static_cast&amp;lt;unsigned int&amp;gt;(strlen(strN));
-    if(length==1&amp;amp;&amp;amp;first==0)
-        return 0;
-    if(length==1&amp;amp;&amp;amp; first&amp;gt;0)
-        return 1;
-    //假设strN=&amp;quot;21345&amp;quot;
-    //numberFirstDigit是数字10000~19999的第一个位中的数目
-    int numFirstDigit=0;
-    if(first&amp;gt;1)
-        numFirstDigit=PowerBase10(length-1);
-    else if(first==1)
-        numFirstDigit=atoi(strN+1)+1;
-    //numberOtherDigits是1346~21346除第一位之外的数位中的数目
-    int numOtherDigits=first*(length-1)*PowerBase10(length-2);
-    //numRecursive是1~1345中的数目
-    int numRecursive=NumberOf1(strN+1);
-    return numFirstDigit+numOtherDigits+numRecursive;
-}
-
-int NumberOf1Between1AndN(int n){
-    if(n&amp;lt;=0)
-        return 0;
-    char strN[50];
-    sprintf(strN,&amp;quot;%d&amp;quot;,n);
-    return NumberOf1(strN);
-}
-
-int main()
-{
-    cout&amp;lt;&amp;lt;NumberOf1Between1AndN(21345);
-    //cout&amp;lt;&amp;lt;PowerBase10(2);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//给定数字N，计算从1~N中各个数字位上包含1的个位&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;cstring
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>子数组最大和</title>
-    <link href="http://wxjttxs.github.io/2016/05/02/%E5%AD%90%E6%95%B0%E7%BB%84%E6%9C%80%E5%A4%A7%E5%92%8C/"/>
-    <id>http://wxjttxs.github.io/2016/05/02/子数组最大和/</id>
-    <published>2016-05-02T14:54:25.000Z</published>
-    <updated>2016-05-02T14:56:39.653Z</updated>
-    
-    <content type="html">&lt;p&gt;//数组的最大子数组的和并返回&lt;br&gt;//动态规划分f(i)=pData[i] i=0 or f(i-1)&amp;lt;=0;&lt;br&gt;//f(i)=f(i-1)+pData[i]  i!=0 and f(i-)&amp;gt;0;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-bool g_InvalidInput=false;//标记结果0到底是无效输入还是 最大和是0
-int FindGreatestSumOfSubArray(int* pData,int nLength){
-    if(pData==NULL||nLength&amp;lt;=0){
-        g_InvalidInput=true;
-        return 0;
-    }
-    g_InvalidInput=false;
-    int nCurSum=0;
-    int nGreatestSum=0x80000000;
-    for(int i=0;i&amp;lt;nLength;i++){
-        if(nCurSum&amp;lt;=0)
-            nCurSum=pData[i];
-        else
-            nCurSum+=pData[i];
-        if(nCurSum&amp;gt;nGreatestSum)
-            nGreatestSum=nCurSum;
-    }
-
-
-return nGreatestSum;
-}
-
-int main()
-{
-    int a[]={1,-2,3,10,-4,7,2,-5};
-    cout&amp;lt;&amp;lt;FindGreatestSumOfSubArray(a,8);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//数组的最大子数组的和并返回&lt;br&gt;//动态规划分f(i)=pData[i] i=0 or f(i-1)&amp;lt;=0;&lt;br&gt;//f(i)=f(i-1)+pData[i]  i!=0 and f(i-)&amp;gt;0;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>最小的K个数</title>
-    <link href="http://wxjttxs.github.io/2016/05/02/%E2%80%9C%E6%9C%80%E5%B0%8F%E7%9A%84K%E4%B8%AA%E6%95%B0%E2%80%9C/"/>
-    <id>http://wxjttxs.github.io/2016/05/02/“最小的K个数“/</id>
-    <published>2016-05-02T14:24:15.000Z</published>
-    <updated>2016-05-02T14:25:53.110Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-#include&amp;lt;set&amp;gt;
-#include&amp;lt;vector&amp;gt;
-
-using namespace std;
-//0(n)时间找到最小的K个数，而且这K个数是排好序的，但是会修改原始数组
-//借鉴快排的划分
-
-//int Partition(int *a, int start ,int ent){
-//    if(a==NULL||start&amp;lt;0||ent&amp;lt;0)
-//        throw new exception();
-//    int temp=a[ent];//最后一个值作为基准
-//    int i=start-1;
-//    for(int j=start;j&amp;lt;ent;j++){
-//        if(a[j]&amp;lt;=temp){
-//            i++;
-//            swap(a[i],a[j]);
-//        }
-//    }
-//    swap(a[i+1],a[ent]);
-//    return i+1;
-//}
-//void GetLeastNumber(int *input,int n,int k){
-//   // int output[k]={0};
-//    if(input==NULL||n&amp;lt;=0||k&amp;lt;=0||k&amp;gt;n)
-//        return;
-//    int start=0;
-//    int endt=n-1;
-//    int index=Partition(input,start,endt);
-//    while(index!=k-1){
-//        if(index&amp;lt;k-1){
-//            start=index+1;
-//           index=Partition(input,start,endt);
-//        }
-//        else{
-//            endt=index-1;
-//            index=Partition(input,start,endt);
-//        }
-//    }
-//    for(int i=0;i&amp;lt;=index;i++){
-//
-//        cout&amp;lt;&amp;lt;input[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-//    }
-//    cout&amp;lt;&amp;lt;endl;
-//
-//}
-//int main()
-//{
-//    int a[]={4,5,1,6,2,7,3,8};
-//
-//    GetLeastNumber(a,8,6);
-//    return 0;
-//}
-
-//****************方法二********************************
-//上面的时间很快，但是会改变原始数据
-//所以用一个k大的容器 来装k个最小值，容器没有满那就直接插入。如果满了，那就做三件事：1.找到容器中最大值；2.删除最大值；3.插入新的数据
-//找到最大值，最快的是最大堆，基于红黑树结构实现的set and multiset
-typedef multiset&amp;lt;int,greater&amp;lt;int&amp;gt; &amp;gt; intSet;//greater作用实现降序排列
-typedef multiset&amp;lt;int ,greater&amp;lt;int&amp;gt; &amp;gt;::iterator setItertor;
-void GetLeastNumbers(const vector&amp;lt;int&amp;gt;&amp;amp; data, intSet&amp;amp; leastNumber,int k){
-    leastNumber.clear();
-    if(k&amp;lt;1||data.size()&amp;lt;k)
-        return;
-    vector&amp;lt;int&amp;gt;::const_iterator iter=data.begin();
-    for(;iter!=data.end();++iter){
-
-        if(leastNumber.size()&amp;lt;k)
-            leastNumber.insert(*iter);
-        else{
-            setItertor iterGreatest=leastNumber.begin();
-            if(*iter&amp;lt;*(leastNumber.begin())){
-                leastNumber.erase(iterGreatest);
-                leastNumber.insert(*iter);
-            }
-        }
-    }
-}
-int main(){
-    int a[8]={4,5,1,6,2,7,3,8};
-
-    vector&amp;lt;int&amp;gt; data(a,a+8);
-    intSet leastNumber;
-    GetLeastNumbers(data,leastNumber,8);
-    cout&amp;lt;&amp;lt;&amp;quot;the actual output numbers are:&amp;quot;&amp;lt;&amp;lt;endl;
-    for(setItertor iter=leastNumber.begin();iter!=leastNumber.end();iter++)
-        cout&amp;lt;&amp;lt;*iter&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-    cout&amp;lt;&amp;lt;endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-#include&amp;lt;set&amp;gt;
-#include&amp;lt;vector&amp;gt;
-
-using namespace std;
-//0(n)时间找到最小
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>数组中出现次数超过一半的数字</title>
-    <link href="http://wxjttxs.github.io/2016/05/02/%E2%80%9C%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97hexo-new-post-%E2%80%9C%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E6%AC%A1%E6%95%B0%E8%B6%85%E8%BF%87%E4%B8%80%E5%8D%8A%E7%9A%84%E6%95%B0%E5%AD%97/"/>
-    <id>http://wxjttxs.github.io/2016/05/02/“数组中出现次数超过一半的数字hexo-new-post-“数组中出现次数超过一半的数字/</id>
-    <published>2016-05-02T12:31:42.000Z</published>
-    <updated>2016-05-02T12:32:25.888Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//是不是有效输入
-bool IsValidMatrix(int * matrix,int length){
-    if(matrix==NULL||length&amp;lt;=0)
-        return false;
-    return  true;
-}
-//如果出现次数最多的也不能达到数组长度的一半怎么办呢
-bool IsMoreThanHalf(int* matrix,int length,int number){//number 是数组中出现次数最大的那个数
-    int countt=0;
-    for(int i=0;i&amp;lt;length;i++){
-        if(matrix[i]==number)
-            countt++;
-    }
-    if(countt*2&amp;lt;length)
-        return false;
-    return true;
-}
-int MoreThanHalfNum(int *matrix,int length){
-    if(IsValidMatrix(matrix,length)){
-        int MaxNumber=matrix[0];
-        int times=1;
-        for(int i=1;i&amp;lt;length;i++){//此后的数字相同的加1，不同的减1，直到times变成0，从下一个数字开始重头开始这个过程。
-            if(times==0){
-                MaxNumber=matrix[i];//重新开始  1,2,2
-                times=1;
-            }
-           else if(MaxNumber==matrix[i])
-                times++;
-            else{
-
-                times--;
-            }
-        }
-        if(IsMoreThanHalf(matrix,length,MaxNumber)){
-
-            return MaxNumber;
-        }
-
-
-        else
-            cout&amp;lt;&amp;lt;&amp;quot;无效&amp;quot;;
-    }
-
-}
-int main()
-{
-    int a[]={1};
-    cout&amp;lt;&amp;lt;MoreThanHalfNum(a,1);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//是不是有效输入
-bool IsValidMatrix(int * matrix,int length){
-    if(matrix==NULL||lengt
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>字符串全排列(去重)以及全组合（2^n-1）</title>
-    <link href="http://wxjttxs.github.io/2016/05/02/%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%85%A8%E6%8E%92%E5%88%97/"/>
-    <id>http://wxjttxs.github.io/2016/05/02/字符串全排列/</id>
-    <published>2016-05-02T07:26:54.000Z</published>
-    <updated>2016-05-02T11:43:51.677Z</updated>
-    
-    <content type="html">&lt;p&gt;//实现字符串每个字符 的全排列,并求取全排列的个数&lt;br&gt;//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；&lt;br&gt;//2.其次，把第一个字符和其后面的字符一一交换；&lt;br&gt;//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2&lt;/p&gt;
-&lt;p&gt;   //全排列&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include&amp;lt;iostream&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-#include&amp;lt;vector&amp;gt;
-#include&amp;lt;string&amp;gt;
-#include&amp;lt;assert.h&amp;gt;
-using namespace std;
-//  调试开关
-#define __tmain main
-
-#ifdef __tmain
-
-#define debug cout
-
-#else
-
-#define debug 0 &amp;amp;&amp;amp; cout
-
-#endif // __tmain
-class Solution{
-protected:
-    vector&amp;lt;string&amp;gt; m_res;//字符数组，存储排好序的字符串
-public:
-    void Permutation(string str){
-        int countt=0;
-        m_res.clear();
-        if(str.empty())
-            return ;
-
-        Perm(str,0);
-
-        sort(m_res.begin(),m_res.end());
-        //删除容器中重复 元素
-        vector&amp;lt;string&amp;gt;::iterator new_end;
-        new_end=unique(m_res.begin(),m_res.end());//把重复元素放在容器末尾
-        //assert(m_res.size()==N);
-        m_res.erase(new_end,m_res.end());//真正删除重复元素
-        //输出容器中元素
-        vector&amp;lt;string&amp;gt;::iterator iter=m_res.begin();
-        for(;iter!=m_res.end();iter++)
-        {
-            countt++;
-            cout&amp;lt;&amp;lt;*iter&amp;lt;&amp;lt;endl;
-        }
-        cout&amp;lt;&amp;lt;endl;
-        cout&amp;lt;&amp;lt;countt&amp;lt;&amp;lt;endl;
-       // return m_res;
-
-    }
-
-    void Perm(string str,int Begin){//str要排序的字符串，Begin代表排序部分的第一个字符的位置
-        if(str[Begin]==&amp;apos;\0&amp;apos;){//全部已经排好序
-           // debug&amp;lt;&amp;lt;str&amp;lt;&amp;lt;endl;
-            m_res.push_back(str);
-        }
-        for(int i=Begin;str[i]!=&amp;apos;\0&amp;apos;;i++){
-            if(i==Begin||str[i]!=str[Begin]){//排除重复
-                swap(str[i],str[Begin]);//排序部分第一个位置的字符全部找到
-                Perm(str,Begin+1);//递归排序之后的字符
-                swap(str[i],str[Begin]);
-
-            }
-        }
-    }
-};
-int __tmain( )
-{
-    Solution solu;
-    solu.Permutation(&amp;quot;abb&amp;quot;);
-
-    return 0;
-}
-
-
-//********************************************************************
-//组合。从n个字符中挑选m个字符放到组合当中。有两个方案：第一个字符放到组合当中，剩下的m-1个字符从n-1个字符中挑选，
-//另一种方案：第一个字符不放到组合当中，那么从剩下的n-1中挑选m-1个字符放到组合当中
-#include&amp;lt;iostream&amp;gt;
-#include&amp;lt;vector&amp;gt;
-#include&amp;lt;cstring&amp;gt;
-using namespace std;
-#include&amp;lt;assert.h&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-
-void Combination(char *string ,int number,vector&amp;lt;char&amp;gt; &amp;amp;result);
-
-void Combination(char *string)
-{
-    assert(string != NULL);
-    vector&amp;lt;char&amp;gt; result;
-    int i , length = strlen(string);
-    for(i = 1 ; i &amp;lt;= length ; ++i)
-        Combination(string , i ,result);
-}
-
-void Combination(char *string ,int number , vector&amp;lt;char&amp;gt; &amp;amp;result)
-{
-    assert(string != NULL);
-    if(number == 0)
-    {
-        static int num = 1;
-        printf(&amp;quot;第%d个组合\t&amp;quot;,num++);
-
-        vector&amp;lt;char&amp;gt;::iterator iter = result.begin();
-        for( ; iter != result.end() ; ++iter)
-            printf(&amp;quot;%c&amp;quot;,*iter);
-        printf(&amp;quot;\n&amp;quot;);
-        return ;
-    }
-    if(*string == &amp;apos;\0&amp;apos;)
-        return ;
-    result.push_back(*string);
-    Combination(string + 1 , number - 1 , result);
-    result.pop_back();
-    Combination(string + 1 , number , result);
-}
-
-int main(void)
-{
-    char str[] = &amp;quot;abc&amp;quot;;
-    Combination(str);
-    return 0;
-}
-
-
-//******************************************************************
-//组合，位运算，没有解决重复问题,组合中出现这个字符，那么字符所在位置为1，否则为0.a:100,b:010...
-#include&amp;lt;stdio.h&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-#include&amp;lt;string&amp;gt;
-#include&amp;lt;iostream&amp;gt;
-using namespace std;
-void Combination(string str){
-    int countt=0;
-    if(str.empty())
-        return;
-    int len=str.size();
-    for(int i=1;i&amp;lt;(1&amp;lt;&amp;lt;len);i++){//从0~2^n-1，中可能出现的情况
-        for(int j=0;j&amp;lt;len;j++){
-            if(i&amp;amp;(1&amp;lt;&amp;lt;j)){//这个位置上有数
-                cout&amp;lt;&amp;lt;str[j]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-
-            }
-        }
-        countt++;
-        cout&amp;lt;&amp;lt;endl;
-
-    }
-    cout&amp;lt;&amp;lt;countt;
-}
-int main(){
-    Combination(&amp;quot;abc&amp;quot;);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;   //&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;strong&gt;&lt;em&gt;**&lt;/em&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;/strong&gt;&lt;br&gt;   //八皇后问题。不同行，不同列，不同斜角线。&lt;/p&gt;
-&lt;p&gt;#include&lt;iostream&gt;&lt;/iostream&gt;&lt;/p&gt;
-&lt;p&gt;#include&lt;stdio.h&gt;&lt;br&gt;using namespace std;&lt;br&gt;int count_number=0;&lt;br&gt;bool isDiagnal(int ColumnIndex[],int length){&lt;br&gt;    for(int i=0;i&amp;lt;length;i++){&lt;br&gt;        for(int j=i+1;j&amp;lt;length;j++){&lt;br&gt;            if(i-j==ColumnIndex[i]-ColumnIndex[j] || j-i==ColumnIndex[i]-ColumnIndex[j])//对角关系&lt;br&gt;                return false;&lt;br&gt;        }&lt;/stdio.h&gt;&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;}
-return true;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;}&lt;br&gt;void Print(int ColumnIndex[],int length){&lt;br&gt;    cout&amp;lt;&amp;lt;count_number&amp;lt;&amp;lt;”:”;&lt;br&gt;    for(int  i=0;i&amp;lt;length;i++){&lt;br&gt;        cout&amp;lt;&amp;lt;ColumnIndex[i]&amp;lt;&amp;lt;” “;//输出列&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;}
-cout&amp;lt;&amp;lt;endl;
-&lt;/code&gt;&lt;/pre&gt;&lt;p&gt;}&lt;/p&gt;
-&lt;p&gt;void Permutation(int ColumnIndex[],int length,int index){&lt;br&gt;    if(index==length){//index代表排列好的列&lt;br&gt;        if(isDiagnal(ColumnIndex,length)){//状态合法，没有斜对角关系&lt;br&gt;            count_number++;//一次符合要求的状态&lt;br&gt;            Print(ColumnIndex,length);&lt;br&gt;        }&lt;br&gt;    }&lt;br&gt;    else{&lt;br&gt;        for(int i=index;i&amp;lt;length;i++){&lt;br&gt;            swap(ColumnIndex[index],ColumnIndex[i]);//第一个位置可能的情况&lt;br&gt;            Permutation(ColumnIndex,length,index+1);//递归后面的部分分成第一个元素以及剩下的元素&lt;br&gt;            swap(ColumnIndex[index],ColumnIndex[i]);&lt;br&gt;        }&lt;br&gt;    }&lt;br&gt;}&lt;br&gt;void EightQueen(){&lt;br&gt;    const int length=8;&lt;br&gt;    int ColumnIndex[length];&lt;br&gt;    for(int i=0;i&amp;lt;length;i++){&lt;br&gt;        ColumnIndex[i]=i;//下标表示行，值代表列&lt;br&gt;    }&lt;br&gt;    Permutation(ColumnIndex,length,0);&lt;br&gt;}&lt;/p&gt;
-&lt;p&gt;int main(void)&lt;br&gt;{&lt;br&gt;    EightQueen();&lt;br&gt;    return 0;&lt;br&gt;}&lt;/p&gt;
-</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//实现字符串每个字符 的全排列,并求取全排列的个数&lt;br&gt;//分为三部分：1.首先，求取所有可能出现在第一个位置的字符；&lt;br&gt;//2.其次，把第一个字符和其后面的字符一一交换；&lt;br&gt;//3.接着，固定第一个字符，求后面所有字符的排列。重复步骤2&lt;/p&gt;
-&lt;p&gt;   /
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>BST转换双向链表</title>
-    <link href="http://wxjttxs.github.io/2016/05/02/BST%E8%BD%AC%E6%8D%A2%E5%8F%8C%E5%90%91%E9%93%BE%E8%A1%A8/"/>
-    <id>http://wxjttxs.github.io/2016/05/02/BST转换双向链表/</id>
-    <published>2016-05-02T02:48:02.000Z</published>
-    <updated>2016-05-02T07:28:46.433Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//实现二叉搜索树到双向链表的转换
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;queue&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-void PrintFromTopToBottom(BinaryTreeNode* pTreeRoot){
-    if(!pTreeRoot)
-        return;
-    queue&amp;lt;BinaryTreeNode*&amp;gt; que;
-    que.push(pTreeRoot);
-    while(que.size()){
-        BinaryTreeNode* pNode=que.front();//指向队列的第一个元素，要被弹出的元素
-        que.pop();
-        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        if(pNode-&amp;gt;m_pLeft)//打印节点的左右子节点
-            que.push(pNode-&amp;gt;m_pLeft);
-        if(pNode-&amp;gt;m_pRight)
-            que.push(pNode-&amp;gt;m_pRight);
-    }
-}
-void Print(BinaryTreeNode*  &amp;amp;pHead){
-    if(pHead==NULL)
-        return ;
-    BinaryTreeNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pRight;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void CovertNode(BinaryTreeNode* pNode,BinaryTreeNode** pLastNodeInList){
-    if(pNode==NULL)
-        return;
-    BinaryTreeNode* pCurrent=pNode;
-    if(pCurrent-&amp;gt;m_pLeft!=NULL)//转换左子树为排序的双向链表
-        CovertNode(pCurrent-&amp;gt;m_pLeft,pLastNodeInList);
-    pCurrent-&amp;gt;m_pLeft=*pLastNodeInList;//pCurrent指向根节点
-    if(*pLastNodeInList!=NULL)
-        (*pLastNodeInList)-&amp;gt;m_pRight=pCurrent;//连接上根节点
-    *pLastNodeInList=pCurrent;//当前双向链表的最后一个几点就是根节点
-    if(pCurrent-&amp;gt;m_pRight!=NULL)
-        CovertNode(pCurrent-&amp;gt;m_pRight,pLastNodeInList);
-
-}
-BinaryTreeNode* Covert(BinaryTreeNode* pRootOfTree){
-    BinaryTreeNode* pLastNodeInList=NULL;//双向链表为 空
-    CovertNode(pRootOfTree,&amp;amp;pLastNodeInList);
-    //pLastNodeInList指向双向链表的最后
-    //我们需要返回最后结点
-    BinaryTreeNode* pHeadOfList=pLastNodeInList;
-    while(pHeadOfList!=NULL &amp;amp;&amp;amp; pHeadOfList-&amp;gt;m_pLeft!=NULL)//最后找到双向链表的头结点
-        pHeadOfList=pHeadOfList-&amp;gt;m_pLeft;
-    return pHeadOfList;
-}
-int main()
-{
-    BinaryTreeNode* Btree;
-    int preorder[]={10,6,4,8,14,12,16};
-    int inorder[]={4,6,8,10,12,14,16};
-    Btree= Contrust(preorder,inorder,7);
-    PrintFromTopToBottom(Btree);
-    cout&amp;lt;&amp;lt;endl;
-
-    BinaryTreeNode* L=Covert(Btree);
-
-    Print(L);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//实现二叉搜索树到双向链表的转换
-#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;queue&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
- 
     
     </summary>
     

@@ -4,23 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>排序给定人数的年龄o(n) | happy happy</title>
+    <title>找到数组中所有重复的数字 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+    <meta name="description" content="/找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+/
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;iterator&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+//***********">
 <meta property="og:type" content="article">
-<meta property="og:title" content="排序给定人数的年龄o(n)">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/index.html">
+<meta property="og:title" content="找到数组中所有重复的数字">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/15/找到数组中所有重复的数字/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
-<meta property="og:updated_time" content="2016-04-21T13:04:03.523Z">
+<meta property="og:description" content="/找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+/
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;iterator&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+//***********">
+<meta property="og:updated_time" content="2016-05-15T03:22:00.704Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="排序给定人数的年龄o(n)">
-<meta name="twitter:description" content="1234567891011121314151617181920212223242526272829303132//实现上万个人的年龄的排序#include&amp;lt;iostream&amp;gt;using namespace std;void ageSort(int *a,int n)&amp;#123;    if(a==NULL||n&amp;lt;=0)        return;    const  int M">
+<meta name="twitter:title" content="找到数组中所有重复的数字">
+<meta name="twitter:description" content="/找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+/
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;iterator&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+//***********">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +106,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/21/排序给定人数的年龄o-n/" title="排序给定人数的年龄o(n)" itemprop="url">排序给定人数的年龄o(n)</a>
+      <a href="/2016/05/15/找到数组中所有重复的数字/" title="找到数组中所有重复的数字" itemprop="url">找到数组中所有重复的数字</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-21T13:01:26.000Z" itemprop="datePublished"> 发表于 2016-04-21</time>
+    <time datetime="2016-05-15T03:21:26.000Z" itemprop="datePublished"> 发表于 2016-05-15</time>
     
   </p>
 </header>
@@ -102,7 +126,157 @@
 		
 		</div>
 		
-		<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br></pre></td><td class="code"><pre><span class="line">//实现上万个人的年龄的排序</span><br><span class="line">#include&lt;iostream&gt;</span><br><span class="line">using namespace std;</span><br><span class="line">void ageSort(int *a,int n)&#123;</span><br><span class="line">    if(a==NULL||n&lt;=0)</span><br><span class="line">        return;</span><br><span class="line">    const  int Maxage=99;</span><br><span class="line">    int countAge[Maxage+1];//0~99,一共100个数</span><br><span class="line">    for(int i=0;i&lt;Maxage+1;i++)&#123;//每种年龄出现的次数</span><br><span class="line">        countAge[i]=0;</span><br><span class="line">    &#125;</span><br><span class="line">    for(int i=0;i&lt;n;i++)&#123;</span><br><span class="line">        int age=a[i];</span><br><span class="line">        if(age&lt;0||age&gt;Maxage)</span><br><span class="line">            return;//输入不合法</span><br><span class="line">        countAge[age]++;</span><br><span class="line">    &#125;</span><br><span class="line">    int index=0;//排好序的下标</span><br><span class="line">   for(int i=0;i&lt;Maxage;i++)&#123;</span><br><span class="line">     for(int j=0;j&lt;countAge[i];j++)&#123;//,来控制每个年龄出现的次数</span><br><span class="line">        a[index++]=i;</span><br><span class="line">     &#125;</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br><span class="line">int main()&#123;</span><br><span class="line">    int a[9]=&#123;3,4,5,6,7,5,4,3,2&#125;;</span><br><span class="line">    ageSort(a,9);</span><br><span class="line">    for(int i=0;i&lt;9;i++)&#123;</span><br><span class="line">        cout&lt;&lt;a[i]&lt;&lt;&quot; &quot;;</span><br><span class="line">    &#125;</span><br><span class="line">    return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>  
+		<blockquote>
+<p>/<em>找到數組中任意一個重複的數字，或者所有重複元素 那如果是所有重複的呢？動態數組 數組長度n,數組中的元素在0~n-1之間
+</em>/</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;vector&gt;
+#include&lt;iterator&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+//**********************方法一排序*******************************
+//時間複雜度是O(nlgn)
+int part(int a[],int low,int high){//划分成左右子数组，找到中间位置
+ int temp=a[high];//最后一个元素作为中间元素
+ int i=low-1;//i是慢速下标
+ for(int j=low;j&lt;high;j++){//挨个检查元素，比中间值小的在放在它的左边，大的放在右边
+    if(a[j]&lt;=temp){
+        i++;
+        swap(a[i],a[j]);
+    }
+ }
+ swap(a[i+1],a[high]);
+ return i+1;//找到第一个比中间值大的元素，返回它的位置,这就是中间元素所在位置
+}
+void QuickSort(int a[],int low, int high){
+    if(low&lt;high){
+        int mid=part(a,low,high);
+        QuickSort(a,low,mid-1);
+        QuickSort(a,mid+1,high);
+    }
+}
+void duplicate1(int *a,int length){
+    bool flag=true;
+
+    if(a==NULL || length&lt;=0){
+        flag=false;
+        return ;
+    }
+    QuickSort(a,0,length-1);
+
+    int i=0;
+    int j=1;
+    vector&lt;int&gt; findData;
+
+    while(j&lt;length){//畫個示意圖很容易理解 0 1 1 2 2 3 4 5
+
+        while(a[i]!=a[j] &amp;&amp; j&lt;length){//注意這個j&lt;length問題，最後一步如果沒有這個判斷，那麼i,j就會指向同一個值，就會出現重複壓入數組的情況
+            i=j;
+            j++;
+        }
+        if(a[i]==a[j]){
+            findData.push_back(a[i]);
+        }
+        while(a[i]==a[j])
+              j++;
+
+    }
+//這個實現找到任一個重複，vector數組找到所有重複數組
+//    int findData=0;
+//
+//    for(int i=0;i&lt;length-1;i++){
+//        if(a[i]==a[i+1]){
+//            findData=a[i];
+//            break;
+//        }
+//    }
+
+    for(vector&lt;int&gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&lt;&lt;*it&lt;&lt;&quot; &quot;;
+
+    cout&lt;&lt;endl;
+}
+//*********************方法二哈希表******************************
+//時間複雜度是O(n),需要額外的空間O(n)
+void duplicate2(int *a, int length){
+
+    int hashtable[length]={0};
+    for(int i=0;i&lt;length;i++){
+            hashtable[a[i]]++;
+    }
+    vector&lt;int&gt; findData;
+    for(int i=0;i&lt;length;i++){
+        if(hashtable[a[i]]&gt;1)//需要去重
+        {
+            findData.push_back(a[i]);
+        }
+
+    }
+    //重複過程
+    vector&lt;int&gt;::iterator iter=findData.begin();
+    iter=unique(findData.begin(),findData.end());//只能刪除相鄰的重複元素
+    findData.erase(iter,findData.end());
+
+    for(vector&lt;int&gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&lt;&lt;*it&lt;&lt;&quot; &quot;;
+
+    cout&lt;&lt;endl;
+
+
+}
+//**********************方法三交換*******************************
+/*
+O(n)時間找到數組中重複的數字，並且不需要額外分配空間，空間複雜度為O(1)
+*/
+//如果下標i與在所在的數值不一致，那就交換以數值為下標的數值，前提是這兩個數值不一致，如果不同的下標同一個數字，那就說明找到重複的。
+void duplicate3(int *a,int length){
+    bool flag=false;
+    if(a==NULL ||length&lt;=0){
+        return ;
+    }
+    for(int i=0;i&lt;length;i++){
+        if(a[i]&lt;0 || a[i]&gt;length-1)
+            return ;
+    }
+
+    vector&lt;int&gt; findData;
+    for(int i=0;i&lt;length;i++){
+        while(a[i]!=i){
+            if(a[i]==a[a[i]]){
+                    vector&lt;int&gt;::iterator it=find(findData.begin(),findData.end(),a[i]);
+                    if(it!=findData.end())//數組中沒有這個元素再放進去，有的話進行下一輪判斷
+                        break;
+                    findData.push_back(a[i]);
+                    flag=true;
+                    break;
+            }
+            //否則就交換以這個數值為下標的數字
+            else{
+                int temp=a[i];
+                a[i]=a[temp];
+                a[temp]=temp;
+            }
+        }
+    }
+
+
+    for(vector&lt;int&gt;::const_iterator it = findData.begin(); it !=findData.end(); ++it)
+        cout&lt;&lt;*it&lt;&lt;&quot; &quot;;
+
+    cout&lt;&lt;endl;
+}
+int main()
+{
+    int a[]={0,0,1,2,2,3,4,4,5,6};
+   // duplicate1(a,8);
+   //duplicate2(a,10);
+
+    duplicate3(a,10);
+
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -114,7 +288,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/21/排序给定人数的年龄o-n/" data-title="排序给定人数的年龄o(n) | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/15/找到数组中所有重复的数字/" data-title="找到数组中所有重复的数字 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -128,18 +302,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/21/post错误处理方式/" title="post错误处理方式">
+ <a href="/2016/05/15/字符串与给定模式是否匹配/" title="字符串与给定模式是否匹配">
   <strong>上一篇：</strong><br/>
   <span>
-  post错误处理方式</span>
+  字符串与给定模式是否匹配</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/21/旋转升序的最小值/"  title="旋转升序的最小值">
+<a href="/2016/05/14/在二叉树中找到两个节点的最低公共祖先/"  title="在二叉树中找到两个节点的最低公共祖先">
  <strong>下一篇：</strong><br/> 
- <span>旋转升序的最小值
+ <span>在二叉树中找到两个节点的最低公共祖先
 </span>
 </a>
 </div>
