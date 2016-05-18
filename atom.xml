@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-15T07:00:33.980Z</updated>
+  <updated>2016-05-16T13:13:12.596Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,85 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>第一个只出现一次的字符</title>
+    <link href="http://wxjttxs.github.io/2016/05/16/%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E5%AD%97%E7%AC%A6/"/>
+    <id>http://wxjttxs.github.io/2016/05/16/第一个只出现一次的字符/</id>
+    <published>2016-05-16T13:09:33.000Z</published>
+    <updated>2016-05-16T13:13:12.596Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//找到字符流中第一个只出现一次的字符&lt;br&gt;//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;limits&amp;gt;
+using namespace std;
+
+class CharStatistics{
+public:
+    CharStatistics():index(0)//下标初始值0
+    {
+        for(int i=0;i&amp;lt;256;i++)
+            occurence[i]=-1;//初始化哈希表
+    }
+    void Insert(char ch){
+        if(occurence[ch]==-1)
+            occurence[ch]=index;
+        else if(occurence[ch]&amp;gt;=0)
+            occurence[ch]=-2;//不止出现一次
+        index++;
+    }
+    char FirstAppearingOnce(){
+        char ch=&amp;apos;\0&amp;apos;;
+        int minIndex=numeric_limits&amp;lt;int&amp;gt;::max();//int可以表示的最大值
+
+        for(int i=0;i&amp;lt;256;i++){
+            if(occurence[i]&amp;gt;=0 &amp;amp;&amp;amp; occurence[i]&amp;lt;minIndex){//第一个只出现一次
+                 minIndex=occurence[i];
+                 ch=(char)i;
+
+            }
+
+        }
+        return ch;
+    }
+private:
+    //occurence[i]:A character with ASCII value i;
+    //occurence[i]=-1: the character has not been found;
+    //occurence[i]=-2: the character has been found with multiple times
+    //occurence[i]&amp;gt;=0: the character has been found once
+    int occurence[256];//ASCII码有 256 个,一个字节8位
+    int index;
+};
+int main()
+{
+    CharStatistics test;
+    test.Insert(&amp;apos;g&amp;apos;);
+    cout&amp;lt;&amp;lt;test.FirstAppearingOnce();
+    cout&amp;lt;&amp;lt;endl;
+    test.Insert(&amp;apos;o&amp;apos;);
+    test.Insert(&amp;apos;o&amp;apos;);
+    test.Insert(&amp;apos;g&amp;apos;);
+    test.Insert(&amp;apos;l&amp;apos;);
+    test.Insert(&amp;apos;e&amp;apos;);
+     cout&amp;lt;&amp;lt;test.FirstAppearingOnce();
+    cout&amp;lt;&amp;lt;endl;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//找到字符流中第一个只出现一次的字符&lt;br&gt;//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;l
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>字符串与给定模式是否匹配</title>
@@ -1697,93 +1776,6 @@ int main()
 #include&amp;lt;string.h&amp;gt;
 #include&amp;lt;algorithm&amp;gt;
 
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>找到第n个ugly number</title>
-    <link href="http://wxjttxs.github.io/2016/05/06/%E6%89%BE%E5%88%B0%E7%AC%ACn%E4%B8%AAugly-number/"/>
-    <id>http://wxjttxs.github.io/2016/05/06/找到第n个ugly-number/</id>
-    <published>2016-05-06T08:15:23.000Z</published>
-    <updated>2016-05-07T03:53:28.348Z</updated>
-    
-    <content type="html">&lt;p&gt;//因子只包含2,3,5的数叫做丑数,&lt;br&gt;//找到第n个丑数，1是第一个&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//***********************第一种方法***********************
-//bool IsUglyNumber(int n){
-//    while(n%2==0)
-//        n/=2;
-//    while(n%3==0)
-//        n/=3;
-//    while(n%5==0)
-//        n/=5;
-//    return (n==1)?true:false;
-//}
-//int GetUglyNumber(int index){
-//    if(index&amp;lt;0)
-//        return 0;
-//    int number=0;
-//    int uglyFound=0;
-//    while(uglyFound&amp;lt;index){
-//        ++number;
-//        if(IsUglyNumber(number))
-//            ++uglyFound;
-//    }
-//    return number;
-//
-//}
-//**********************第二种方法***********************
-//保存已经排好序的丑数
-int Min(int n1,int n2,int n3){
-    int mint=(n1&amp;lt;n2)?n1:n2;
-    mint=(mint&amp;lt;n3)?mint:n3;
-    return mint;
-}
-int GetUglyNumber(int index){
-    if(index&amp;lt;0)
-        return 0;
-    int *pUglyNumbers=new int[index];
-    pUglyNumbers[0]=1;//保存已经排好序的丑数
-    int nextUglyIndex=1;//第i个丑数的位置
-    int *pMultiplu2=pUglyNumbers;
-    int *pMultiplu3=pUglyNumbers;
-    int *pMultiplu5=pUglyNumbers;
-    while(nextUglyIndex&amp;lt;index){
-        int mintt=Min(*pMultiplu2*2,*pMultiplu3*3,*pMultiplu5*5);//取比当前最大丑数大的最小值
-        pUglyNumbers[nextUglyIndex]=mintt;
-        while(*pMultiplu2*2&amp;lt;=pUglyNumbers[nextUglyIndex])
-            ++pMultiplu2;//这个位置之前的数乘2都比当前丑数的最大值要小;退出时候均比当前最大丑数大的最小值
-        while(*pMultiplu3*3&amp;lt;=pUglyNumbers[nextUglyIndex])
-            ++pMultiplu3;
-        while(*pMultiplu5*5&amp;lt;=pUglyNumbers[nextUglyIndex])
-            ++pMultiplu5;
-        ++nextUglyIndex;
-
-    }
-    int ugly=pUglyNumbers[nextUglyIndex-1];
-    delete[] pUglyNumbers;
-    return ugly;
-
-}
-int main()
-{
-    cout &amp;lt;&amp;lt;GetUglyNumber(4) &amp;lt;&amp;lt; endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//因子只包含2,3,5的数叫做丑数,&lt;br&gt;//找到第n个丑数，1是第一个&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//***********************第一种方法*****
     
     </summary>
     

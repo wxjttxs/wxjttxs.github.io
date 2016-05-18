@@ -4,23 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>渣打面试机试 | happy happy</title>
+    <title>第一个只出现一次的字符 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+    <meta name="description" content="//找到字符流中第一个只出现一次的字符//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;limits&amp;gt;
+using namespace std;
+
+class CharStatistics{
+public:
+    CharStatistic">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渣打面试机试">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/18/渣打面试机试/index.html">
+<meta property="og:title" content="第一个只出现一次的字符">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/16/第一个只出现一次的字符/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
-<meta property="og:updated_time" content="2016-04-18T11:15:54.242Z">
+<meta property="og:description" content="//找到字符流中第一个只出现一次的字符//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;limits&amp;gt;
+using namespace std;
+
+class CharStatistics{
+public:
+    CharStatistic">
+<meta property="og:updated_time" content="2016-05-16T13:13:12.596Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渣打面试机试">
-<meta name="twitter:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+<meta name="twitter:title" content="第一个只出现一次的字符">
+<meta name="twitter:description" content="//找到字符流中第一个只出现一次的字符//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;limits&amp;gt;
+using namespace std;
+
+class CharStatistics{
+public:
+    CharStatistic">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +106,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/18/渣打面试机试/" title="渣打面试机试" itemprop="url">渣打面试机试</a>
+      <a href="/2016/05/16/第一个只出现一次的字符/" title="第一个只出现一次的字符" itemprop="url">第一个只出现一次的字符</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-18T10:51:57.000Z" itemprop="datePublished"> 发表于 2016-04-18</time>
+    <time datetime="2016-05-16T13:09:33.000Z" itemprop="datePublished"> 发表于 2016-05-16</time>
     
   </p>
 </header>
@@ -102,9 +126,65 @@
 		
 		</div>
 		
-		<p>第一次通过宣讲会投递简历，太紧张了。<br>不过更加明确了自己对于银行领域的不足之处：<br>这个笔试的内容有：<br>1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了<br>是PE私募股权），还有一些别的概念，忘了。<br>2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？<br>3.列出至少5个Unix/Linux shell命令以及作用。（要是用过的人应该是小case）<br>4.选择题考察了很多JAVA机制。哎，一直用的都是C/C++,所以全靠感觉。。。<br>5.最后的编程题，写用哪种语言实现排序。哈哈，第一印象就是冒泡，因为不是专门的互联网的那种笔试，没有直接的编译器，所以<br>就写下了主要的sort（），连 main都没有。教训：去到一个自己不熟悉的环境，要问工作人员是不是电脑安装了编译环境，有问题就提。<br>不过，太简单了，所以现在想想它要求的是不是实现三种排序方法啊？赶紧再看看别的。<br>之后是面试：<br>面试的主管是三十五岁左右的技术大牛，还算和蔼可亲。<br>问的问题主要是<br>你觉得渣打哪一点吸引你？<br>（看了我的简历），学校主要讲的是c++，但是企业大多数用的是Java啊；<br>你的项目经历像是学校交作业？！（他应该是说我之前的项目太low了吧）；<br>关注CET-6（毕竟是外企），我写的是读写熟练，没涉及听说，他就问在这样的环境中会感觉压力大么？<br>写了会使用很多软件，他一眼就看到R，所以应该这个以后会用到工作中吧。<br>问我对企业还有什么疑问？我就问了我最关心的银行的研发部门主要是做什么的。他只是说并不像外界传言的那么简单，有很多业务，<br>也很辛苦。</p>
-<p>好激动，接近二个半小时的宣讲、笔试、面试结束了。总的来说，银行的笔试比较泛，对编程的要求没有互联网的高（或许是我的误解），<br>最重要的是，明白了自己的短板，有太多需要准备的了。</p>
-  
+		<blockquote>
+<p>//找到字符流中第一个只出现一次的字符<br>//构建哈希表，用字符的ASCII码做下标，数值就是该字符在字符流中的位置，如果出现多次，那么这个数值就改成一个负值-2</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;limits&gt;
+using namespace std;
+
+class CharStatistics{
+public:
+    CharStatistics():index(0)//下标初始值0
+    {
+        for(int i=0;i&lt;256;i++)
+            occurence[i]=-1;//初始化哈希表
+    }
+    void Insert(char ch){
+        if(occurence[ch]==-1)
+            occurence[ch]=index;
+        else if(occurence[ch]&gt;=0)
+            occurence[ch]=-2;//不止出现一次
+        index++;
+    }
+    char FirstAppearingOnce(){
+        char ch=&apos;\0&apos;;
+        int minIndex=numeric_limits&lt;int&gt;::max();//int可以表示的最大值
+
+        for(int i=0;i&lt;256;i++){
+            if(occurence[i]&gt;=0 &amp;&amp; occurence[i]&lt;minIndex){//第一个只出现一次
+                 minIndex=occurence[i];
+                 ch=(char)i;
+
+            }
+
+        }
+        return ch;
+    }
+private:
+    //occurence[i]:A character with ASCII value i;
+    //occurence[i]=-1: the character has not been found;
+    //occurence[i]=-2: the character has been found with multiple times
+    //occurence[i]&gt;=0: the character has been found once
+    int occurence[256];//ASCII码有 256 个,一个字节8位
+    int index;
+};
+int main()
+{
+    CharStatistics test;
+    test.Insert(&apos;g&apos;);
+    cout&lt;&lt;test.FirstAppearingOnce();
+    cout&lt;&lt;endl;
+    test.Insert(&apos;o&apos;);
+    test.Insert(&apos;o&apos;);
+    test.Insert(&apos;g&apos;);
+    test.Insert(&apos;l&apos;);
+    test.Insert(&apos;e&apos;);
+     cout&lt;&lt;test.FirstAppearingOnce();
+    cout&lt;&lt;endl;
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -116,7 +196,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/18/渣打面试机试/" data-title="渣打面试机试 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/16/第一个只出现一次的字符/" data-title="第一个只出现一次的字符 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -129,19 +209,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/18/关于链表必须知道的事/" title="关于链表必须知道的事">
-  <strong>上一篇：</strong><br/>
-  <span>
-  关于链表必须知道的事</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/17/阿里巴巴2015算法/"  title="阿里巴巴2015算法工程师">
+<a href="/2016/05/15/字符串与给定模式是否匹配/"  title="字符串与给定模式是否匹配">
  <strong>下一篇：</strong><br/> 
- <span>阿里巴巴2015算法工程师
+ <span>字符串与给定模式是否匹配
 </span>
 </a>
 </div>
