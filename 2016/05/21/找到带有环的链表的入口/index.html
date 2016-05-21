@@ -4,44 +4,35 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>找到带有环的链表的入口 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    <meta name="description" content="//找到链表中环的入口节点 //如果环有n个节点，那么指针p1先向前走n步，然后p1,p2一起往前走，直到相遇,相遇的节点就是入口节点//接下来求环的节点个数：用快慢指针，如果相遇，必存在环，然后记下这个位置，再向前一边移动一边计数，当再次回到这个节点，就求出这个huan的个数
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="找到带有环的链表的入口">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/21/找到带有环的链表的入口/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+<meta property="og:description" content="//找到链表中环的入口节点 //如果环有n个节点，那么指针p1先向前走n步，然后p1,p2一起往前走，直到相遇,相遇的节点就是入口节点//接下来求环的节点个数：用快慢指针，如果相遇，必存在环，然后记下这个位置，再向前一边移动一边计数，当再次回到这个节点，就求出这个huan的个数
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include">
+<meta property="og:updated_time" content="2016-05-21T14:16:37.794Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+<meta name="twitter:title" content="找到带有环的链表的入口">
+<meta name="twitter:description" content="//找到链表中环的入口节点 //如果环有n个节点，那么指针p1先向前走n步，然后p1,p2一起往前走，直到相遇,相遇的节点就是入口节点//接下来求环的节点个数：用快慢指针，如果相遇，必存在环，然后记下这个位置，再向前一边移动一边计数，当再次回到这个节点，就求出这个huan的个数
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +94,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/05/21/找到带有环的链表的入口/" title="找到带有环的链表的入口" itemprop="url">找到带有环的链表的入口</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-05-21T13:39:36.000Z" itemprop="datePublished"> 发表于 2016-05-21</time>
     
   </p>
 </header>
@@ -123,98 +114,178 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
+		<blockquote>
+<p>//找到链表中环的入口节点 //如果环有n个节点，那么指针p1先向前走n步，然后p1,p2一起往前走，直到相遇,相遇的节点就是入口节点<br>//接下来求环的节点个数：用快慢指针，如果相遇，必存在环，然后记下这个位置，再向前一边移动一边计数，当再次回到这个节点，就求出这个huan的个数</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;stdio.h&gt;
+#include&lt;stdlib.h&gt;
 using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
+//构建链表，显示链表
+struct ListNode
+{
+    int       m_nValue;
+    ListNode* m_pNext;
 };
 
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&gt;m_nValue=rootValue;
-    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&gt;0)//左子树的长度,构建左子树
-     {
-         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
-        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
-    }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
+ListNode* CreateListNode(int value);
+void ConnectListNodes(ListNode* pCurrent, ListNode* pNext);
+void PrintListNode(ListNode* pNode);
+void PrintList(ListNode* pHead);
+void DestroyList(ListNode* pHead);
+void AddToTail(ListNode** pHead, int value);
 
-    }
-     return result;
+ListNode* CreateListNode(int value)
+{
+    ListNode* pNode = new ListNode();
+    pNode-&gt;m_nValue = value;
+    pNode-&gt;m_pNext = NULL;
+
+    return pNode;
 }
 
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
+void ConnectListNodes(ListNode* pCurrent, ListNode* pNext)
+{
+    if(pCurrent == NULL)
+    {
+        printf(&quot;Error to connect two nodes.\n&quot;);
+        exit(1);
+    }
 
+    pCurrent-&gt;m_pNext = pNext;
+}
+
+void PrintListNode(ListNode* pNode)
+{
+    if(pNode == NULL)
+    {
+        printf(&quot;The node is NULL\n&quot;);
+    }
+    else
+    {
+        printf(&quot;The key in node is %d.\n&quot;, pNode-&gt;m_nValue);
+    }
+}
+
+void PrintList(ListNode* pHead)
+{
+    printf(&quot;PrintList starts.\n&quot;);
+
+    ListNode* pNode = pHead;
+    while(pNode != NULL)
+    {
+        printf(&quot;%d\t&quot;, pNode-&gt;m_nValue);
+        pNode = pNode-&gt;m_pNext;
+    }
+
+    printf(&quot;\nPrintList ends.\n&quot;);
+}
+
+void DestroyList(ListNode* pHead)
+{
+    ListNode* pNode = pHead;
+    while(pNode != NULL)
+    {
+        pHead = pHead-&gt;m_pNext;
+        delete pNode;
+        pNode = pHead;
+    }
+}
+
+void AddToTail(ListNode** pHead, int value)
+{
+    ListNode* pNew = new ListNode();
+    pNew-&gt;m_nValue = value;
+    pNew-&gt;m_pNext = NULL;
+
+    if(*pHead == NULL)
+    {
+        *pHead = pNew;
+    }
+    else
+    {
+        ListNode* pNode = *pHead;
+        while(pNode-&gt;m_pNext != NULL)
+            pNode = pNode-&gt;m_pNext;
+
+        pNode-&gt;m_pNext = pNew;
+    }
+}
+//找到快慢指针相遇的节点
+ListNode* MeetingNode(ListNode* pHead){
+    if(pHead==NULL)
+        return NULL;
+    ListNode* pSlow=pHead-&gt;m_pNext;
+    if(pSlow==NULL)//就那一个节点，没有环
+        return NULL;
+
+    ListNode* pFast=pSlow-&gt;m_pNext;//
+    while(pFast!=NULL &amp;&amp; pSlow!=NULL)
+    {
+        if(pFast==pSlow)
+            return pFast;
+
+        pSlow=pSlow-&gt;m_pNext;//一次一步
+        pFast=pFast-&gt;m_pNext;
+        if(pFast!=NULL)
+            pFast=pFast-&gt;m_pNext;//一次两步
+    }
+    return  NULL;//不存在环
+}
+
+int number(ListNode* pHead){
+     ListNode* meetingNode=MeetingNode(pHead);
+    if(meetingNode==NULL)
+        return NULL;
+
+    //得到环的节点数目
+    int nodeOfLoop=1;
+    ListNode* pNode1=meetingNode;//环中的一个节点
+    while(pNode1-&gt;m_pNext!=meetingNode){
+        pNode1=pNode1-&gt;m_pNext;
+        ++nodeOfLoop;
+    }
+    return nodeOfLoop;
+
+}
+ListNode* EntryNodeOfLoop(ListNode* pHead){
+    int nodeOfLoop=number(pHead);
+
+    //找环的入口
+    ListNode* pNode1=pHead;
+    for(int i=0;i&lt;nodeOfLoop;i++){
+        pNode1=pNode1-&gt;m_pNext;//先走环的长度
+    }
+
+    //一起移动两个指针
+    ListNode* pNode2=pHead;
+    while(pNode1!=pNode2){
+        pNode1=pNode1-&gt;m_pNext;
+        pNode2=pNode2-&gt;m_pNext;
+    }
+    return pNode1;
+}
+int main()
+{
+    //构建有环的链表
+    ListNode* pNode1 = CreateListNode(1);
+    ListNode* pNode2 = CreateListNode(2);
+    ListNode* pNode3 = CreateListNode(3);
+    ListNode* pNode4 = CreateListNode(4);
+    ListNode* pNode5 = CreateListNode(5);
+    ListNode* pNode6 = CreateListNode(6);
+
+    ConnectListNodes(pNode1, pNode2);
+    ConnectListNodes(pNode2, pNode3);
+    ConnectListNodes(pNode3, pNode4);
+    ConnectListNodes(pNode4, pNode5);
+    ConnectListNodes(pNode5, pNode6);
+    ConnectListNodes(pNode6, pNode3);
+
+    ListNode* first=EntryNodeOfLoop(pNode1);
+    cout&lt;&lt;first-&gt;m_nValue;
+
+    return 0;
 }
 </code></pre>  
 	</div>
@@ -228,7 +299,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/21/找到带有环的链表的入口/" data-title="找到带有环的链表的入口 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -242,18 +313,18 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
+ <a href="/2016/05/21/删除链表中重复的节点/" title="删除链表中重复的节点">
   <strong>上一篇：</strong><br/>
   <span>
-  链表和队列</span>
+  删除链表中重复的节点</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/05/16/第一个只出现一次的字符/"  title="第一个只出现一次的字符">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>第一个只出现一次的字符
 </span>
 </a>
 </div>
