@@ -4,23 +4,47 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>渣打面试机试 | happy happy</title>
+    <title>序列化和反序列化二叉树 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+    <meta name="description" content="//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;fstream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+usin">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渣打面试机试">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/18/渣打面试机试/index.html">
+<meta property="og:title" content="序列化和反序列化二叉树">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/23/序列化和反序列化二叉树/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
-<meta property="og:updated_time" content="2016-04-18T11:15:54.242Z">
+<meta property="og:description" content="//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;fstream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+usin">
+<meta property="og:updated_time" content="2016-05-23T03:29:44.175Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渣打面试机试">
-<meta name="twitter:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+<meta name="twitter:title" content="序列化和反序列化二叉树">
+<meta name="twitter:description" content="//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;fstream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+usin">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +106,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/18/渣打面试机试/" title="渣打面试机试" itemprop="url">渣打面试机试</a>
+      <a href="/2016/05/23/序列化和反序列化二叉树/" title="序列化和反序列化二叉树" itemprop="url">序列化和反序列化二叉树</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-18T10:51:57.000Z" itemprop="datePublished"> 发表于 2016-04-18</time>
+    <time datetime="2016-05-23T03:28:44.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
     
   </p>
 </header>
@@ -102,9 +126,241 @@
 		
 		</div>
 		
-		<p>第一次通过宣讲会投递简历，太紧张了。<br>不过更加明确了自己对于银行领域的不足之处：<br>这个笔试的内容有：<br>1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了<br>是PE私募股权），还有一些别的概念，忘了。<br>2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？<br>3.列出至少5个Unix/Linux shell命令以及作用。（要是用过的人应该是小case）<br>4.选择题考察了很多JAVA机制。哎，一直用的都是C/C++,所以全靠感觉。。。<br>5.最后的编程题，写用哪种语言实现排序。哈哈，第一印象就是冒泡，因为不是专门的互联网的那种笔试，没有直接的编译器，所以<br>就写下了主要的sort（），连 main都没有。教训：去到一个自己不熟悉的环境，要问工作人员是不是电脑安装了编译环境，有问题就提。<br>不过，太简单了，所以现在想想它要求的是不是实现三种排序方法啊？赶紧再看看别的。<br>之后是面试：<br>面试的主管是三十五岁左右的技术大牛，还算和蔼可亲。<br>问的问题主要是<br>你觉得渣打哪一点吸引你？<br>（看了我的简历），学校主要讲的是c++，但是企业大多数用的是Java啊；<br>你的项目经历像是学校交作业？！（他应该是说我之前的项目太low了吧）；<br>关注CET-6（毕竟是外企），我写的是读写熟练，没涉及听说，他就问在这样的环境中会感觉压力大么？<br>写了会使用很多软件，他一眼就看到R，所以应该这个以后会用到工作中吧。<br>问我对企业还有什么疑问？我就问了我最关心的银行的研发部门主要是做什么的。他只是说并不像外界传言的那么简单，有很多业务，<br>也很辛苦。</p>
-<p>好激动，接近二个半小时的宣讲、笔试、面试结束了。总的来说，银行的笔试比较泛，对编程的要求没有互联网的高（或许是我的误解），<br>最重要的是，明白了自己的短板，有太多需要准备的了。</p>
-  
+		<pre><code>//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &lt;iostream&gt;
+#include&quot;../common/ConstructBST.h&quot;
+#include&lt;stdio.h&gt;
+#include&lt;fstream&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+
+void Serialize(BinaryTreeNode* pRoot,ostream&amp; stream){
+    if(pRoot==NULL){
+        stream&lt;&lt;&quot;$,&quot;;//没有节点或者叶子节点的左右子节点用这个符号代替
+
+        return;
+    }
+    stream&lt;&lt;pRoot-&gt;m_nValue&lt;&lt;&quot;,&quot;;
+    Serialize(pRoot-&gt;m_pLeft,stream);
+    Serialize(pRoot-&gt;m_pRight,stream);
+}
+bool ReadStream(istream&amp; stream, int* number)
+{
+    if(stream.eof())//判断文件是否为空或者是否读到文件结尾,eof()函数返回true时是读到文件结束符0xFF，而文件结束符是最后一个字符的下一个字符
+        return false;
+
+    char buffer[32];
+    buffer[0] = &apos;\0&apos;;
+
+    char ch;
+    stream &gt;&gt; ch;
+    int i = 0;
+    while(!stream.eof() &amp;&amp; ch != &apos;,&apos;)
+    {
+        buffer[i++] = ch;
+        stream &gt;&gt; ch;
+    }
+
+    bool isNumeric = false;
+    if(i &gt; 0 &amp;&amp; buffer[0] != &apos;$&apos;)
+    {
+        *number = atoi(buffer);
+        isNumeric = true;
+    }
+
+    return isNumeric;
+}
+
+void Deserialize(BinaryTreeNode** pRoot,istream&amp; stream){
+    int number;
+    if(ReadStream(stream,&amp;number)){
+        *pRoot=new BinaryTreeNode();
+        (*pRoot)-&gt;m_nValue=number;
+        (*pRoot)-&gt;m_pLeft=NULL;
+        (*pRoot)-&gt;m_pRight=NULL;
+
+        Deserialize(&amp;((*pRoot)-&gt;m_pLeft),stream);
+        Deserialize(&amp;((*pRoot)-&gt;m_pRight),stream);
+    }
+}
+// ==================== Test Code ====================
+bool isSameTree(BinaryTreeNode* pRoot1, BinaryTreeNode* pRoot2)
+{
+    if(pRoot1 == NULL &amp;&amp; pRoot2 == NULL)
+        return true;
+
+    if(pRoot1 == NULL || pRoot2 == NULL)
+        return false;
+
+    if(pRoot1-&gt;m_nValue != pRoot2-&gt;m_nValue)
+        return false;
+
+    return isSameTree(pRoot1-&gt;m_pLeft, pRoot2-&gt;m_pLeft) &amp;&amp;
+        isSameTree(pRoot1-&gt;m_pRight, pRoot2-&gt;m_pRight);
+}
+
+void Test(char* testName, BinaryTreeNode* pRoot)
+{
+    if(testName != NULL)
+        printf(&quot;%s begins: \n&quot;, testName);
+
+    PrintTree(pRoot);
+
+    char* fileName = &quot;test.txt&quot;;
+    ofstream fileOut;
+    fileOut.open(fileName);
+
+    Serialize(pRoot, fileOut);
+    fileOut.close();
+
+    // print the serialized file
+    ifstream fileIn1;
+    char ch;
+    fileIn1.open(fileName);
+    while(!fileIn1.eof())
+    {
+        fileIn1 &gt;&gt; ch;
+        cout &lt;&lt; ch;
+    }
+    fileIn1.close();
+    cout &lt;&lt; endl;
+
+    ifstream fileIn2;
+    fileIn2.open(fileName);
+    BinaryTreeNode* pNewRoot = NULL;
+    Deserialize(&amp;pNewRoot, fileIn2);
+    fileIn2.close();
+
+    PrintTree(pNewRoot);
+
+    if(isSameTree(pRoot, pNewRoot))
+        printf(&quot;The deserialized tree is same as the oritinal tree.\n\n&quot;);
+    else
+        printf(&quot;The deserialized tree is NOT same as the oritinal tree.\n\n&quot;);
+
+    DestroyTree(pNewRoot);
+}
+
+//            8
+//        6      10
+//       5 7    9  11
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    Test(&quot;Test1&quot;, pNode8);
+
+    DestroyTree(pNode8);
+}
+
+//            5
+//          4
+//        3
+//      2
+void Test2()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode3, NULL);
+    ConnectTreeNodes(pNode3, pNode2, NULL);
+
+    Test(&quot;Test2&quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+//        5
+//         4
+//          3
+//           2
+void Test3()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, NULL, pNode4);
+    ConnectTreeNodes(pNode4, NULL, pNode3);
+    ConnectTreeNodes(pNode3, NULL, pNode2);
+
+    Test(&quot;Test3&quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+
+    Test(&quot;Test4&quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+void Test5()
+{
+    Test(&quot;Test5&quot;, NULL);
+}
+
+//        5
+//         5
+//          5
+//         5
+//        5
+//       5 5
+//      5   5
+void Test6()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, NULL, pNode2);
+    ConnectTreeNodes(pNode2, NULL, pNode3);
+    ConnectTreeNodes(pNode3, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode5, NULL);
+    ConnectTreeNodes(pNode5, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode71, NULL);
+    ConnectTreeNodes(pNode62, NULL, pNode72);
+
+    Test(&quot;Test6&quot;, pNode1);
+
+    DestroyTree(pNode1);
+}
+int main()
+{
+    Test1();
+//    Test2();
+//    Test3();
+//    Test4();
+//    Test5();
+//    Test6();
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -116,7 +372,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/18/渣打面试机试/" data-title="渣打面试机试 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/23/序列化和反序列化二叉树/" data-title="序列化和反序列化二叉树 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -130,18 +386,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/18/关于链表必须知道的事/" title="关于链表必须知道的事">
+ <a href="/2016/05/23/二叉排序树的第K大节点/" title="二叉排序树的第K大节点">
   <strong>上一篇：</strong><br/>
   <span>
-  关于链表必须知道的事</span>
+  二叉排序树的第K大节点</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/17/阿里巴巴2015算法/"  title="阿里巴巴2015算法工程师">
+<a href="/2016/05/23/S型打印二叉树/"  title="S型打印二叉树">
  <strong>下一篇：</strong><br/> 
- <span>阿里巴巴2015算法工程师
+ <span>S型打印二叉树
 </span>
 </a>
 </div>

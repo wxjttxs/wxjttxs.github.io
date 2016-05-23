@@ -1,0 +1,830 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>二叉树是否对称 | happy happy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王晓静">
+    
+
+    
+    <meta name="description" content="//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode">
+<meta property="og:type" content="article">
+<meta property="og:title" content="二叉树是否对称">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/22/二叉树是否对称/index.html">
+<meta property="og:site_name" content="happy happy">
+<meta property="og:description" content="//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode">
+<meta property="og:updated_time" content="2016-05-22T14:32:47.734Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="二叉树是否对称">
+<meta name="twitter:description" content="//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode">
+
+    
+    <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="happy happy" title="happy happy"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="happy happy">happy happy</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/resume">简历</a></li>
+					
+						<li><a href="/archives">博客</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wxjttxs.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/05/22/二叉树是否对称/" title="二叉树是否对称" itemprop="url">二叉树是否对称</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
+		
+  <p class="article-time">
+    <time datetime="2016-05-22T14:32:13.000Z" itemprop="datePublished"> 发表于 2016-05-22</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<blockquote>
+<p>//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;stdio.h&gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//**********************二叉树是否对称************************
+bool isSymmetrical(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
+    if(pRoot1==NULL &amp;&amp; pRoot2==NULL)
+        return true;
+    if(pRoot1==NULL || pRoot2==NULL)
+        return false;
+    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
+        return false;
+
+    return isSymmetrical(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pRight)&amp;&amp;isSymmetrical(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pLeft);
+}
+bool isSymmetrical(BinaryTreeNode* pRoot){
+   return  isSymmetrical(pRoot,pRoot);
+}
+//************************构造二叉树*************************
+BinaryTreeNode* CreateBinaryTreeNode(int value)
+{
+    BinaryTreeNode* pNode = new BinaryTreeNode();
+    pNode-&gt;m_nValue = value;
+    pNode-&gt;m_pLeft = NULL;
+    pNode-&gt;m_pRight = NULL;
+
+    return pNode;
+}
+
+void ConnectTreeNodes(BinaryTreeNode* pParent, BinaryTreeNode* pLeft, BinaryTreeNode* pRight)
+{
+    if(pParent != NULL)
+    {
+        pParent-&gt;m_pLeft = pLeft;
+        pParent-&gt;m_pRight = pRight;
+    }
+}
+
+void PrintTreeNode(BinaryTreeNode* pNode)
+{
+    if(pNode != NULL)
+    {
+        printf(&quot;value of this node is: %d\n&quot;, pNode-&gt;m_nValue);
+
+        if(pNode-&gt;m_pLeft != NULL)
+            printf(&quot;value of its left child is: %d.\n&quot;, pNode-&gt;m_pLeft-&gt;m_nValue);
+        else
+            printf(&quot;left child is null.\n&quot;);
+
+        if(pNode-&gt;m_pRight != NULL)
+            printf(&quot;value of its right child is: %d.\n&quot;, pNode-&gt;m_pRight-&gt;m_nValue);
+        else
+            printf(&quot;right child is null.\n&quot;);
+    }
+    else
+    {
+        printf(&quot;this node is null.\n&quot;);
+    }
+
+    printf(&quot;\n&quot;);
+}
+
+void PrintTree(BinaryTreeNode* pRoot)
+{
+    PrintTreeNode(pRoot);
+
+    if(pRoot != NULL)
+    {
+        if(pRoot-&gt;m_pLeft != NULL)
+            PrintTree(pRoot-&gt;m_pLeft);
+
+        if(pRoot-&gt;m_pRight != NULL)
+            PrintTree(pRoot-&gt;m_pRight);
+    }
+}
+void DestroyTree(BinaryTreeNode* pRoot)
+{
+    if(pRoot != NULL)
+    {
+        BinaryTreeNode* pLeft = pRoot-&gt;m_pLeft;
+        BinaryTreeNode* pRight = pRoot-&gt;m_pRight;
+
+        delete pRoot;
+        pRoot = NULL;
+
+        DestroyTree(pLeft);
+        DestroyTree(pRight);
+    }
+}
+//学习大牛的测试写法
+// ==================== Test Code ====================
+void Test(char* testName, BinaryTreeNode* pRoot, bool expected)
+{
+    if(testName != NULL)
+        printf(&quot;%s begins: &quot;, testName);
+
+    if(isSymmetrical(pRoot) == expected)
+        printf(&quot;Passed.\n&quot;);
+    else
+        printf(&quot;FAILED.\n&quot;);
+}
+
+//            8
+//        6      6
+//       5 7    7 5
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode52 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode62, pNode72, pNode52);
+
+    Test(&quot;Test1&quot;, pNode8, true);
+
+    DestroyTree(pNode8);
+}
+
+//            8
+//        6      9
+//       5 7    7 5
+void Test2()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode52 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode9);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode9, pNode72, pNode52);
+
+    Test(&quot;Test2&quot;, pNode8, false);
+
+    DestroyTree(pNode8);
+}
+
+//            8
+//        6      6
+//       5 7    7
+void Test3()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode62, pNode72, NULL);
+
+    Test(&quot;Test3&quot;, pNode8, false);
+
+    DestroyTree(pNode8);
+}
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         2           2
+//        /             \
+//       1               1
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode21, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode21, pNode11, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&quot;Test4&quot;, pNode5, true);
+
+    DestroyTree(pNode5);
+}
+
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         6           2
+//        /             \
+//       1               1
+void Test5()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode6, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode6, pNode11, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&quot;Test5&quot;, pNode5, false);
+
+    DestroyTree(pNode5);
+}
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         2           2
+//                      \
+//                       1
+void Test6()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode21, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode21, NULL, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&quot;Test6&quot;, pNode5, false);
+
+    DestroyTree(pNode5);
+}
+
+// Only one node
+void Test7()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+    Test(&quot;Test7&quot;, pNode1, true);
+
+    DestroyTree(pNode1);
+}
+
+// No nodes
+void Test8()
+{
+    Test(&quot;Test8&quot;, NULL, true);
+}
+
+// All nodes have the same value
+//               5
+//              / \
+//             5   5
+//            /     \
+//           5       5
+//          /         \
+//         5           5
+void Test9()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, pNode21, pNode22);
+    ConnectTreeNodes(pNode21, pNode31, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, NULL, NULL);
+    ConnectTreeNodes(pNode42, NULL, NULL);
+
+    Test(&quot;Test9&quot;, pNode1, true);
+
+    DestroyTree(pNode1);
+}
+
+// All nodes have the same value
+//               5
+//              / \
+//             5   5
+//            /     \
+//           5       5
+//          /       /
+//         5       5
+void Test10()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, pNode21, pNode22);
+    ConnectTreeNodes(pNode21, pNode31, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, pNode42, NULL);
+    ConnectTreeNodes(pNode41, NULL, NULL);
+    ConnectTreeNodes(pNode42, NULL, NULL);
+
+    Test(&quot;Test10&quot;, pNode1, false);
+
+    DestroyTree(pNode1);
+}
+int main()
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    Test8();
+    Test9();
+    Test10();
+    return 0;
+}
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://wxjttxs.github.io/2016/05/22/二叉树是否对称/" data-title="二叉树是否对称 | happy happy" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/05/23/按行打印二叉树/" title="按行打印二叉树">
+  <strong>上一篇：</strong><br/>
+  <span>
+  按行打印二叉树</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/22/二叉树的下一个节点/"  title="二叉树的下一个节点">
+ <strong>下一篇：</strong><br/> 
+ <span>二叉树的下一个节点
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/wxjttxs/wxjttxs.github.io" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://bbs.sciencenet.cn/home.php?mod=space&uid=2891269&view=xiaojingwang" target="_blank" title="Wxj&#39;s Blog">Wxj&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Wang xiaojing in Tianjin University. <br/>
+			This is my blog, welcome!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2677339583" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="王晓静">王晓静</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

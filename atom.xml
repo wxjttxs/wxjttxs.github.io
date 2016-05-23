@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-21T14:40:06.728Z</updated>
+  <updated>2016-05-23T09:12:00.582Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,2053 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>横列坐标数位之和不大于K的可移动方格数目</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E6%A8%AA%E5%88%97%E5%9D%90%E6%A0%87%E6%95%B0%E4%BD%8D%E4%B9%8B%E5%92%8C%E4%B8%8D%E5%A4%A7%E4%BA%8EK%E7%9A%84%E5%8F%AF%E7%A7%BB%E5%8A%A8%E6%96%B9%E6%A0%BC%E6%95%B0%E7%9B%AE/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/横列坐标数位之和不大于K的可移动方格数目/</id>
+    <published>2016-05-23T09:10:42.000Z</published>
+    <updated>2016-05-23T09:12:00.582Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//有一个m*N的方格，从（0，0）开始移动，每一次可以向上下左右移动一格，不能进入行列坐标的数位之和大于K的格子,机器人可以达到的最大格子数目?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+//判断能否进入坐标（row,col），主要在于获得各个数位
+int getDigitNum(int number){
+    int sum=0;
+    while(number&amp;gt;0){
+        sum+=number%10;
+        number/=10;
+    }
+    return sum;
+}
+bool check(int threshold,int rows, int cols,int row, int col,bool * visited){
+    if(row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;lt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;lt;cols &amp;amp;&amp;amp; getDigitNum(row)+getDigitNum(col)&amp;lt;=threshold &amp;amp;&amp;amp;!visited[row*cols+col])
+        return true;
+    return false;
+}
+int movingCountCore(int threshold,int rows,int cols,int row,int col,bool* visited);
+int movingCount(int threshold,int rows,int cols){
+    bool* visited=new bool[rows*cols];
+    for(int i=0;i&amp;lt;rows*cols;i++)
+        visited[i]=false;
+
+    int countt=movingCountCore(threshold,rows,cols,0,0,visited);
+    delete[] visited;
+    return countt;
+}
+
+int movingCountCore(int threshold,int rows,int cols,int row,int col,bool* visited){
+    int countt=0;
+    if(check(threshold,rows,cols,row,col,visited)){
+        visited[row*cols+col]=true;
+
+        countt=1+movingCountCore(threshold,rows,cols,row-1,col,visited)+
+                movingCountCore(threshold,rows,cols,row,col-1,visited)+
+                movingCountCore(threshold,rows,cols,row+1,col,visited)+
+                movingCountCore(threshold,rows,cols,row,col+1,visited);
+
+    }
+    return countt;
+}
+// ================ test code============================
+void test(char* testName, int threshold, int rows, int cols, int expected)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: &amp;quot;, testName);
+
+    if(movingCount(threshold, rows, cols) == expected)
+        printf(&amp;quot;Passed.\n&amp;quot;);
+    else
+        printf(&amp;quot;FAILED.\n&amp;quot;);
+}
+
+void test1()
+{
+    test(&amp;quot;Test1&amp;quot;, 5, 10, 10, 21);
+}
+
+void test2()
+{
+    test(&amp;quot;Test2&amp;quot;, 15, 20, 20, 359);
+}
+
+void test3()
+{
+    test(&amp;quot;Test3&amp;quot;, 10, 1, 100, 29);
+}
+
+void test4()
+{
+    test(&amp;quot;Test4&amp;quot;, 10, 1, 10, 10);
+}
+
+void test5()
+{
+    test(&amp;quot;Test5&amp;quot;, 15, 100, 1, 79);
+}
+
+void test6()
+{
+    test(&amp;quot;Test6&amp;quot;, 15, 10, 1, 10);
+}
+
+void test7()
+{
+    test(&amp;quot;Test7&amp;quot;, 15, 1, 1, 1);
+}
+
+void test8()
+{
+    test(&amp;quot;Test8&amp;quot;, -10, 10, 10, 0);
+}
+
+int main(int agrc, char* argv[])
+{
+    test1();
+    test2();
+    test3();
+    test4();
+    test5();
+    test6();
+    test7();
+    test8();
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//有一个m*N的方格，从（0，0）开始移动，每一次可以向上下左右移动一格，不能进入行列坐标的数位之和大于K的格子,机器人可以达到的最大格子数目?&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>矩阵中的路径与字符串的匹配问题</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E7%9F%A9%E9%98%B5%E4%B8%AD%E7%9A%84%E8%B7%AF%E5%BE%84%E4%B8%8E%E5%AD%97%E7%AC%A6%E4%B8%B2%E7%9A%84%E5%8C%B9%E9%85%8D%E9%97%AE%E9%A2%98/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/矩阵中的路径与字符串的匹配问题/</id>
+    <published>2016-05-23T08:52:35.000Z</published>
+    <updated>2016-05-23T08:53:01.990Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈&lt;br&gt;//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+bool hasPathCore(char* matrix, int rows, int cols,int row,int col,char* str, int&amp;amp; pathLength, bool* visited);
+bool hasPath(char* matrix, int rows, int cols, char* str){
+    if(matrix==NULL || rows&amp;lt;1 || cols&amp;lt;1 ||str==NULL)
+        return false;
+    bool *visited=new bool[rows*cols];//标记这个格子是否走过
+    memset(visited,0,rows*cols);
+
+    int pathLength=0;
+    for(int row=0;row&amp;lt;rows;++row){
+        for(int col=0;col&amp;lt;cols;++col){
+            if(hasPathCore(matrix,rows,cols,row,col,str,pathLength,visited))
+                return true;
+        }
+    }
+    delete[] visited;
+    return false;
+}
+bool hasPathCore(char* matrix, int rows, int cols,int row,int col,char* str, int&amp;amp; pathLength, bool* visited){
+    if(str[pathLength]==&amp;apos;\0&amp;apos;)//初始
+        return true;
+    bool hasPath=false;
+
+    if(row&amp;gt;=0 &amp;amp;&amp;amp; row&amp;lt;rows &amp;amp;&amp;amp; col&amp;gt;=0 &amp;amp;&amp;amp; col&amp;lt;cols &amp;amp;&amp;amp; matrix[row*cols+col]==str[pathLength] &amp;amp;&amp;amp; !visited[row*cols+col]){//字符相等，没来过
+        ++pathLength;
+        visited[row*cols+col]=true;
+
+        hasPath=hasPathCore(matrix,rows,cols,row,col-1,str,pathLength,visited)||//左
+                hasPathCore(matrix,rows,cols,row-1,col,str,pathLength,visited)||//上
+                hasPathCore(matrix,rows,cols,row,col+1,str,pathLength,visited)||//右
+                hasPathCore(matrix,rows,cols,row+1,col,str,pathLength,visited);//下
+        if(!hasPath){//这条路径不行
+
+            --pathLength;
+            visited[row*cols+col]=false;//回退到n-1
+        }
+    }
+    return hasPath;
+}
+
+//**********************************test code*********************************
+void Test(char* testName, char* matrix, int rows, int cols, char* str, bool expected)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: &amp;quot;, testName);
+
+    if(hasPath(matrix, rows, cols, str) == expected)
+        printf(&amp;quot;Passed.\n&amp;quot;);
+    else
+        printf(&amp;quot;FAILED.\n&amp;quot;);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//ABCCED
+void Test1()
+{
+    char matrix[] = &amp;quot;ABCESFCSADEE&amp;quot;;
+    char* str = &amp;quot;ABCCED&amp;quot;;
+
+    Test(&amp;quot;Test1&amp;quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//SEE
+void Test2()
+{
+    char matrix[] = &amp;quot;ABCESFCSADEE&amp;quot;;
+    char* str = &amp;quot;SEE&amp;quot;;
+
+    Test(&amp;quot;Test2&amp;quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//ABCB
+void Test3()
+{
+    char matrix[] = &amp;quot;ABCESFCSADEE&amp;quot;;
+    char* str = &amp;quot;ABCB&amp;quot;;
+
+    Test(&amp;quot;Test3&amp;quot;, (char*)matrix, 3, 4, str, false);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SLHECCEIDEJFGGFIE
+void Test4()
+{
+    char matrix[] = &amp;quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&amp;quot;;
+    char* str = &amp;quot;SLHECCEIDEJFGGFIE&amp;quot;;
+
+    Test(&amp;quot;Test4&amp;quot;, (char*)matrix, 5, 8, str, true);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEHJIGQEM
+void Test5()
+{
+    char matrix[] = &amp;quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&amp;quot;;
+    char* str = &amp;quot;SGGFIECVAASABCEHJIGQEM&amp;quot;;
+
+    Test(&amp;quot;Test5&amp;quot;, (char*)matrix, 5, 8, str, true);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEEJIGOEM
+void Test6()
+{
+    char matrix[] = &amp;quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&amp;quot;;
+    char* str = &amp;quot;SGGFIECVAASABCEEJIGOEM&amp;quot;;
+
+    Test(&amp;quot;Test6&amp;quot;, (char*)matrix, 5, 8, str, false);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEHJIGQEMS
+void Test7()
+{
+    char matrix[] = &amp;quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&amp;quot;;
+    char* str = &amp;quot;SGGFIECVAASABCEHJIGQEMS&amp;quot;;
+
+    Test(&amp;quot;Test7&amp;quot;, (char*)matrix, 5, 8, str, false);
+}
+
+//AAAA
+//AAAA
+//AAAA
+
+//AAAAAAAAAAAA
+void Test8()
+{
+    char matrix[] = &amp;quot;AAAAAAAAAAAA&amp;quot;;
+    char* str = &amp;quot;AAAAAAAAAAAA&amp;quot;;
+
+    Test(&amp;quot;Test8&amp;quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//AAAA
+//AAAA
+//AAAA
+
+//AAAAAAAAAAAAA
+void Test9()
+{
+    char matrix[] = &amp;quot;AAAAAAAAAAAA&amp;quot;;
+    char* str = &amp;quot;AAAAAAAAAAAAA&amp;quot;;
+
+    Test(&amp;quot;Test9&amp;quot;, (char*)matrix, 3, 4, str, false);
+}
+
+//A
+
+//A
+void Test10()
+{
+    char matrix[] = &amp;quot;A&amp;quot;;
+    char* str = &amp;quot;A&amp;quot;;
+
+    Test(&amp;quot;Test10&amp;quot;, (char*)matrix, 1, 1, str, true);
+}
+
+//A
+
+//B
+void Test11()
+{
+    char matrix[] = &amp;quot;A&amp;quot;;
+    char* str = &amp;quot;B&amp;quot;;
+
+    Test(&amp;quot;Test11&amp;quot;, (char*)matrix, 1, 1, str, false);
+}
+
+int main(int argc, char* argv[])
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    Test8();
+    Test9();
+    Test10();
+    Test11();
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈&lt;br&gt;//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pr
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>滑动窗口的最大值</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E6%9C%80%E5%A4%A7%E5%80%BC/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/滑动窗口的最大值/</id>
+    <published>2016-05-23T08:03:51.000Z</published>
+    <updated>2016-05-23T08:04:19.405Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//给定一数组，找到指定滑动窗口中的最大值 //使用两端开口的队列deque&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;deque&amp;gt;
+#include&amp;lt;vector&amp;gt;
+using namespace std;
+
+vector&amp;lt;int&amp;gt; maxInWindows(const vector&amp;lt;int&amp;gt;&amp;amp; numbers, unsigned int sizee){
+    vector&amp;lt;int&amp;gt; maxInWindows;
+    if(numbers.size()&amp;gt;=sizee &amp;amp;&amp;amp; sizee&amp;gt;=1){
+        deque&amp;lt;int&amp;gt; index;//队列中的下标
+        for(unsigned int i=0;i&amp;lt;sizee;i++){//滑动窗口没有填满
+            while(!index.empty() &amp;amp;&amp;amp; numbers[i]&amp;gt;=numbers[index.back()])//已有的数据小于待存入的数据，那么它不可能是最大值，所以从队列尾部删除
+                index.pop_back();
+            index.push_back(i);
+        }
+        for(unsigned int i=sizee;i&amp;lt;numbers.size();++i){//
+            maxInWindows.push_back(numbers[index.front()]);
+
+            while(!index.empty() &amp;amp;&amp;amp; numbers[i]&amp;gt;=numbers[index.back()])//已有的数据小于待存入的数据，那么它不可能是最大值，所以从队列尾部删除
+                index.pop_back();
+
+            if(!index.empty() &amp;amp;&amp;amp; index.front()&amp;lt;=(int)(i-sizee))//滑出这个窗口，无论值多大，都从队列的头部删除
+                index.pop_front();
+
+            index.push_back(i);//插入新数据的下标，有可能成为最大值
+        }
+        maxInWindows.push_back(numbers[index.front()]);//index的首部front始终存放滑动窗口的最大值的下标
+    }
+    return maxInWindows;//滑动窗口的最大值
+
+}
+
+// ==================== Test Code ====================
+void Test(char* testName, const vector&amp;lt;int&amp;gt;&amp;amp; num, unsigned int size, const vector&amp;lt;int&amp;gt;&amp;amp; expected)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: &amp;quot;, testName);
+
+    vector&amp;lt;int&amp;gt; result = maxInWindows(num, size);
+
+    vector&amp;lt;int&amp;gt;::const_iterator iterResult = result.begin();
+    vector&amp;lt;int&amp;gt;::const_iterator iterExpected = expected.begin();
+    while(iterResult &amp;lt; result.end() &amp;amp;&amp;amp; iterExpected &amp;lt; expected.end())
+    {
+        if(*iterResult != *iterExpected)
+            break;
+
+        ++iterResult;
+        ++iterExpected;
+    }
+
+    if(iterResult == result.end() &amp;amp;&amp;amp; iterExpected == expected.end())
+        printf(&amp;quot;Passed.\n&amp;quot;);
+    else
+        printf(&amp;quot;FAILED.\n&amp;quot;);
+}
+
+void Test1()
+{
+    int num[] = {2, 3, 4, 2, 6, 2, 5, 1};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {4, 4, 6, 6, 6, 5};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 3;
+
+    Test(&amp;quot;Test1&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+void Test2()
+{
+    int num[] = {1, 3, -1, -3, 5, 3, 6, 7};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {3, 3, 5, 5, 6, 7};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 3;
+
+    Test(&amp;quot;Test2&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// increasingly sorted
+void Test3()
+{
+    int num[] = {1, 3, 5, 7, 9, 11, 13, 15};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {7, 9, 11, 13, 15};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 4;
+
+    Test(&amp;quot;Test3&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// decreasingly sorted
+void Test4()
+{
+    int num[] = {16, 14, 12, 10, 8, 6, 4};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {16, 14, 12};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 5;
+
+    Test(&amp;quot;Test4&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// size of sliding windows is 1
+void Test5()
+{
+    int num[] = {10, 14, 12, 11};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {10, 14, 12, 11};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 1;
+
+    Test(&amp;quot;Test5&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// size of sliding windows is same as the array length
+void Test6()
+{
+    int num[] = {10, 14, 12, 11};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    int expected[] = {14};
+    vector&amp;lt;int&amp;gt; vecExpected(expected, expected + sizeof(expected) / sizeof(int));
+
+    unsigned int size = 4;
+
+    Test(&amp;quot;Test6&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// size of sliding windows is 0
+void Test7()
+{
+    int num[] = {10, 14, 12, 11};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    vector&amp;lt;int&amp;gt; vecExpected;
+
+    unsigned int size = 0;
+
+    Test(&amp;quot;Test7&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+// size of sliding windows is greater than the array length
+void Test8()
+{
+    int num[] = {10, 14, 12, 11};
+    vector&amp;lt;int&amp;gt; vecNumbers(num, num + sizeof(num) / sizeof(int));
+
+    vector&amp;lt;int&amp;gt; vecExpected;
+
+    unsigned int size = 5;
+
+    Test(&amp;quot;Test8&amp;quot;, vecNumbers, size, vecExpected);
+}
+
+int main(int argc, char* argv[])
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    Test8();
+
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//给定一数组，找到指定滑动窗口中的最大值 //使用两端开口的队列deque&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#inclu
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>二叉排序树的第K大节点</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E4%BA%8C%E5%8F%89%E6%8E%92%E5%BA%8F%E6%A0%91%E7%9A%84%E7%AC%ACK%E5%A4%A7%E8%8A%82%E7%82%B9/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/二叉排序树的第K大节点/</id>
+    <published>2016-05-23T03:43:47.000Z</published>
+    <updated>2016-05-23T03:44:35.379Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//找到二叉搜索树的第K大节点 //中序遍历 二叉搜索树，那它就是排序的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+using namespace std;
+BinaryTreeNode* KthNodeCore(BinaryTreeNode* pRoot,unsigned int &amp;amp;k){//根左右
+    BinaryTreeNode* target=NULL;
+    if(pRoot-&amp;gt;m_pLeft!=NULL)//在左子树
+        target=KthNodeCore(pRoot-&amp;gt;m_pLeft,k);
+    if(target==NULL){//不在左子树
+        if(k==1)
+            target=pRoot;
+        k--;
+    }
+    if(target==NULL &amp;amp;&amp;amp; pRoot-&amp;gt;m_pRight!=NULL)
+        target=KthNodeCore(pRoot-&amp;gt;m_pRight,k);
+    return target;
+}
+BinaryTreeNode* KthNode(BinaryTreeNode* pRoot,unsigned int &amp;amp;k){
+    if(pRoot==NULL || k==0)
+        return NULL;
+    return KthNodeCore(pRoot,k);
+}
+//**********************test code**************************
+void Test(char* testName, BinaryTreeNode* pRoot, unsigned int k, bool isNull, int expected)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: &amp;quot;, testName);
+
+    BinaryTreeNode* pTarget = KthNode(pRoot, k);
+    if((isNull &amp;amp;&amp;amp; pTarget == NULL) || (!isNull &amp;amp;&amp;amp; pTarget-&amp;gt;m_nValue == expected))
+        printf(&amp;quot;Passed.\n&amp;quot;);
+    else
+        printf(&amp;quot;FAILED.\n&amp;quot;);
+}
+
+//            8
+//        6      10
+//       5 7    9  11
+void TestA()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    Test(&amp;quot;TestA0&amp;quot;, pNode8, 0, true, -1);
+    Test(&amp;quot;TestA1&amp;quot;, pNode8, 1, false, 5);
+    Test(&amp;quot;TestA2&amp;quot;, pNode8, 2, false, 6);
+    Test(&amp;quot;TestA3&amp;quot;, pNode8, 3, false, 7);
+    Test(&amp;quot;TestA4&amp;quot;, pNode8, 4, false, 8);
+    Test(&amp;quot;TestA5&amp;quot;, pNode8, 5, false, 9);
+    Test(&amp;quot;TestA6&amp;quot;, pNode8, 6, false, 10);
+    Test(&amp;quot;TestA7&amp;quot;, pNode8, 7, false, 11);
+    Test(&amp;quot;TestA8&amp;quot;, pNode8, 8, true, -1);
+
+    DestroyTree(pNode8);
+
+    printf(&amp;quot;\n\n&amp;quot;);
+}
+
+//               5
+//              /
+//             4
+//            /
+//           3
+//          /
+//         2
+//        /
+//       1
+void TestB()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode3, NULL);
+    ConnectTreeNodes(pNode3, pNode2, NULL);
+    ConnectTreeNodes(pNode2, pNode1, NULL);
+
+    Test(&amp;quot;TestB0&amp;quot;, pNode5, 0, true, -1);
+    Test(&amp;quot;TestB1&amp;quot;, pNode5, 1, false, 1);
+    Test(&amp;quot;TestB2&amp;quot;, pNode5, 2, false, 2);
+    Test(&amp;quot;TestB3&amp;quot;, pNode5, 3, false, 3);
+    Test(&amp;quot;TestB4&amp;quot;, pNode5, 4, false, 4);
+    Test(&amp;quot;TestB5&amp;quot;, pNode5, 5, false, 5);
+    Test(&amp;quot;TestB6&amp;quot;, pNode5, 6, true, -1);
+
+    DestroyTree(pNode5);
+
+    printf(&amp;quot;\n\n&amp;quot;);
+}
+
+// 1
+//  \
+//   2
+//    \
+//     3
+//      \
+//       4
+//        \
+//         5
+void TestC()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, NULL, pNode2);
+    ConnectTreeNodes(pNode2, NULL, pNode3);
+    ConnectTreeNodes(pNode3, NULL, pNode4);
+    ConnectTreeNodes(pNode4, NULL, pNode5);
+
+    Test(&amp;quot;TestC0&amp;quot;, pNode1, 0, true, -1);
+    Test(&amp;quot;TestC1&amp;quot;, pNode1, 1, false, 1);
+    Test(&amp;quot;TestC2&amp;quot;, pNode1, 2, false, 2);
+    Test(&amp;quot;TestC3&amp;quot;, pNode1, 3, false, 3);
+    Test(&amp;quot;TestC4&amp;quot;, pNode1, 4, false, 4);
+    Test(&amp;quot;TestC5&amp;quot;, pNode1, 5, false, 5);
+    Test(&amp;quot;TestC6&amp;quot;, pNode1, 6, true, -1);
+
+    DestroyTree(pNode1);
+
+    printf(&amp;quot;\n\n&amp;quot;);
+}
+
+// There is only one node in a tree
+void TestD()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+
+    Test(&amp;quot;TestD0&amp;quot;, pNode1, 0, true, -1);
+    Test(&amp;quot;TestD1&amp;quot;, pNode1, 1, false, 1);
+    Test(&amp;quot;TestD2&amp;quot;, pNode1, 2, true, -1);
+
+    DestroyTree(pNode1);
+
+    printf(&amp;quot;\n\n&amp;quot;);
+}
+
+// empty tree
+void TestE()
+{
+    Test(&amp;quot;TestE0&amp;quot;, NULL, 0, true, -1);
+    Test(&amp;quot;TestE1&amp;quot;, NULL, 1, true, -1);
+
+    printf(&amp;quot;\n\n&amp;quot;);
+}
+
+int main()
+{
+   TestA();
+    TestB();
+    TestC();
+    TestD();
+    TestE();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//找到二叉搜索树的第K大节点 //中序遍历 二叉搜索树，那它就是排序的&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>序列化和反序列化二叉树</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E5%BA%8F%E5%88%97%E5%8C%96%E5%92%8C%E5%8F%8D%E5%BA%8F%E5%88%97%E5%8C%96%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/序列化和反序列化二叉树/</id>
+    <published>2016-05-23T03:28:44.000Z</published>
+    <updated>2016-05-23T03:29:44.175Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;fstream&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+
+void Serialize(BinaryTreeNode* pRoot,ostream&amp;amp; stream){
+    if(pRoot==NULL){
+        stream&amp;lt;&amp;lt;&amp;quot;$,&amp;quot;;//没有节点或者叶子节点的左右子节点用这个符号代替
+
+        return;
+    }
+    stream&amp;lt;&amp;lt;pRoot-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot;,&amp;quot;;
+    Serialize(pRoot-&amp;gt;m_pLeft,stream);
+    Serialize(pRoot-&amp;gt;m_pRight,stream);
+}
+bool ReadStream(istream&amp;amp; stream, int* number)
+{
+    if(stream.eof())//判断文件是否为空或者是否读到文件结尾,eof()函数返回true时是读到文件结束符0xFF，而文件结束符是最后一个字符的下一个字符
+        return false;
+
+    char buffer[32];
+    buffer[0] = &amp;apos;\0&amp;apos;;
+
+    char ch;
+    stream &amp;gt;&amp;gt; ch;
+    int i = 0;
+    while(!stream.eof() &amp;amp;&amp;amp; ch != &amp;apos;,&amp;apos;)
+    {
+        buffer[i++] = ch;
+        stream &amp;gt;&amp;gt; ch;
+    }
+
+    bool isNumeric = false;
+    if(i &amp;gt; 0 &amp;amp;&amp;amp; buffer[0] != &amp;apos;$&amp;apos;)
+    {
+        *number = atoi(buffer);
+        isNumeric = true;
+    }
+
+    return isNumeric;
+}
+
+void Deserialize(BinaryTreeNode** pRoot,istream&amp;amp; stream){
+    int number;
+    if(ReadStream(stream,&amp;amp;number)){
+        *pRoot=new BinaryTreeNode();
+        (*pRoot)-&amp;gt;m_nValue=number;
+        (*pRoot)-&amp;gt;m_pLeft=NULL;
+        (*pRoot)-&amp;gt;m_pRight=NULL;
+
+        Deserialize(&amp;amp;((*pRoot)-&amp;gt;m_pLeft),stream);
+        Deserialize(&amp;amp;((*pRoot)-&amp;gt;m_pRight),stream);
+    }
+}
+// ==================== Test Code ====================
+bool isSameTree(BinaryTreeNode* pRoot1, BinaryTreeNode* pRoot2)
+{
+    if(pRoot1 == NULL &amp;amp;&amp;amp; pRoot2 == NULL)
+        return true;
+
+    if(pRoot1 == NULL || pRoot2 == NULL)
+        return false;
+
+    if(pRoot1-&amp;gt;m_nValue != pRoot2-&amp;gt;m_nValue)
+        return false;
+
+    return isSameTree(pRoot1-&amp;gt;m_pLeft, pRoot2-&amp;gt;m_pLeft) &amp;amp;&amp;amp;
+        isSameTree(pRoot1-&amp;gt;m_pRight, pRoot2-&amp;gt;m_pRight);
+}
+
+void Test(char* testName, BinaryTreeNode* pRoot)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: \n&amp;quot;, testName);
+
+    PrintTree(pRoot);
+
+    char* fileName = &amp;quot;test.txt&amp;quot;;
+    ofstream fileOut;
+    fileOut.open(fileName);
+
+    Serialize(pRoot, fileOut);
+    fileOut.close();
+
+    // print the serialized file
+    ifstream fileIn1;
+    char ch;
+    fileIn1.open(fileName);
+    while(!fileIn1.eof())
+    {
+        fileIn1 &amp;gt;&amp;gt; ch;
+        cout &amp;lt;&amp;lt; ch;
+    }
+    fileIn1.close();
+    cout &amp;lt;&amp;lt; endl;
+
+    ifstream fileIn2;
+    fileIn2.open(fileName);
+    BinaryTreeNode* pNewRoot = NULL;
+    Deserialize(&amp;amp;pNewRoot, fileIn2);
+    fileIn2.close();
+
+    PrintTree(pNewRoot);
+
+    if(isSameTree(pRoot, pNewRoot))
+        printf(&amp;quot;The deserialized tree is same as the oritinal tree.\n\n&amp;quot;);
+    else
+        printf(&amp;quot;The deserialized tree is NOT same as the oritinal tree.\n\n&amp;quot;);
+
+    DestroyTree(pNewRoot);
+}
+
+//            8
+//        6      10
+//       5 7    9  11
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    Test(&amp;quot;Test1&amp;quot;, pNode8);
+
+    DestroyTree(pNode8);
+}
+
+//            5
+//          4
+//        3
+//      2
+void Test2()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode3, NULL);
+    ConnectTreeNodes(pNode3, pNode2, NULL);
+
+    Test(&amp;quot;Test2&amp;quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+//        5
+//         4
+//          3
+//           2
+void Test3()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, NULL, pNode4);
+    ConnectTreeNodes(pNode4, NULL, pNode3);
+    ConnectTreeNodes(pNode3, NULL, pNode2);
+
+    Test(&amp;quot;Test3&amp;quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+
+    Test(&amp;quot;Test4&amp;quot;, pNode5);
+
+    DestroyTree(pNode5);
+}
+
+void Test5()
+{
+    Test(&amp;quot;Test5&amp;quot;, NULL);
+}
+
+//        5
+//         5
+//          5
+//         5
+//        5
+//       5 5
+//      5   5
+void Test6()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, NULL, pNode2);
+    ConnectTreeNodes(pNode2, NULL, pNode3);
+    ConnectTreeNodes(pNode3, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode5, NULL);
+    ConnectTreeNodes(pNode5, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode71, NULL);
+    ConnectTreeNodes(pNode62, NULL, pNode72);
+
+    Test(&amp;quot;Test6&amp;quot;, pNode1);
+
+    DestroyTree(pNode1);
+}
+int main()
+{
+    Test1();
+//    Test2();
+//    Test3();
+//    Test4();
+//    Test5();
+//    Test6();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;//序列化以及反序列化二叉树
+//从根节点开始序列化，就可以从根节点开始反序列化,前序遍历输出节点
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#includ
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>S型打印二叉树</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/S%E5%9E%8B%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/S型打印二叉树/</id>
+    <published>2016-05-23T02:30:04.000Z</published>
+    <updated>2016-05-23T02:30:34.393Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;//按照S型打印二叉树,分成奇偶行，奇数从左到右；偶数从右到左
+//奇数层保存下一层的节点先保存左子节点，再保存右子节点；偶数层保存下一层节点相反。使用两个栈
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../common/ConstructBST.h&amp;quot;
+#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;stack&amp;gt;
+
+using namespace std;
+void Print(BinaryTreeNode* pRoot){
+    if(pRoot==NULL)
+        return;
+
+    stack&amp;lt;BinaryTreeNode*&amp;gt; levels[2];//存储 奇偶层的节点
+    int current=0;
+    int next=1;
+
+    levels[current].push(pRoot);//存储奇数层
+    while(!levels[0].empty() || !levels[1].empty()){//如果两个都为空，打印完了
+        BinaryTreeNode* pNode=levels[current].top();
+        levels[current].pop();
+        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+        if(current==0){//奇数层，存储下一层节点先左再右
+            if(pNode-&amp;gt;m_pLeft!=NULL)
+                levels[next].push(pNode-&amp;gt;m_pLeft);
+            if(pNode-&amp;gt;m_pRight!=NULL)
+                levels[next].push(pNode-&amp;gt;m_pRight);
+        }
+        else{//ou数层，存储下一层节点先右再左
+            if(pNode-&amp;gt;m_pRight!=NULL)
+                levels[next].push(pNode-&amp;gt;m_pRight);
+            if(pNode-&amp;gt;m_pLeft!=NULL)
+                levels[next].push(pNode-&amp;gt;m_pLeft);
+        }
+        if(levels[current].empty()){//一层的节点都打印玩了，交换两个栈，并继续打印下一层。
+            cout&amp;lt;&amp;lt;endl;
+            current=1-current;
+            next=1-next;
+        }
+
+    }
+
+}
+
+
+//            8
+//        6      10
+//       5 7    9  11
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    printf(&amp;quot;====Test1 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;8 \n&amp;quot;);
+    printf(&amp;quot;10 6 \n&amp;quot;);
+    printf(&amp;quot;5 7 9 11 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode8);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode8);
+}
+
+//            5
+//          4
+//        3
+//      2
+void Test2()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode3, NULL);
+    ConnectTreeNodes(pNode3, pNode2, NULL);
+
+    printf(&amp;quot;====Test2 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n&amp;quot;);
+    printf(&amp;quot;4 \n&amp;quot;);
+    printf(&amp;quot;3 \n&amp;quot;);
+    printf(&amp;quot;2 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+//        5
+//         4
+//          3
+//           2
+void Test3()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, NULL, pNode4);
+    ConnectTreeNodes(pNode4, NULL, pNode3);
+    ConnectTreeNodes(pNode3, NULL, pNode2);
+
+    printf(&amp;quot;====Test3 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n&amp;quot;);
+    printf(&amp;quot;4 \n&amp;quot;);
+    printf(&amp;quot;3 \n&amp;quot;);
+    printf(&amp;quot;2 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+
+    printf(&amp;quot;====Test4 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+void Test5()
+{
+    printf(&amp;quot;====Test5 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(NULL);
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+//        100
+//        /
+//       50
+//         \
+//         150
+void Test6()
+{
+    BinaryTreeNode* pNode100 = CreateBinaryTreeNode(100);
+    BinaryTreeNode* pNode50 = CreateBinaryTreeNode(50);
+    BinaryTreeNode* pNode150 = CreateBinaryTreeNode(150);
+
+    ConnectTreeNodes(pNode100, pNode50, NULL);
+    ConnectTreeNodes(pNode50, NULL, pNode150);
+
+    printf(&amp;quot;====Test6 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;100 \n&amp;quot;);
+    printf(&amp;quot;50 \n&amp;quot;);
+    printf(&amp;quot;150 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode100);
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+//                8
+//        4              12
+//     2     6       10      14
+//   1  3  5  7     9 11   13  15
+void Test7()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(12);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode14 = CreateBinaryTreeNode(14);
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+    BinaryTreeNode* pNode13 = CreateBinaryTreeNode(13);
+    BinaryTreeNode* pNode15 = CreateBinaryTreeNode(15);
+
+    ConnectTreeNodes(pNode8, pNode4, pNode12);
+    ConnectTreeNodes(pNode4, pNode2, pNode6);
+    ConnectTreeNodes(pNode12, pNode10, pNode14);
+    ConnectTreeNodes(pNode2, pNode1, pNode3);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+    ConnectTreeNodes(pNode14, pNode13, pNode15);
+
+    printf(&amp;quot;====Test7 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;8 \n&amp;quot;);
+    printf(&amp;quot;12 4 \n&amp;quot;);
+    printf(&amp;quot;2 6 10 14 \n&amp;quot;);
+    printf(&amp;quot;15 13 11 9 7 5 3 1 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode8);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode8);
+}
+
+int main()
+{
+
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;//按照S型打印二叉树,分成奇偶行，奇数从左到右；偶数从右到左
+//奇数层保存下一层的节点先保存左子节点，再保存右子节点；偶数层保存下一层节点相反。使用两个栈
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;quot;../commo
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>按行打印二叉树</title>
+    <link href="http://wxjttxs.github.io/2016/05/23/%E6%8C%89%E8%A1%8C%E6%89%93%E5%8D%B0%E4%BA%8C%E5%8F%89%E6%A0%91/"/>
+    <id>http://wxjttxs.github.io/2016/05/23/按行打印二叉树/</id>
+    <published>2016-05-23T01:50:12.000Z</published>
+    <updated>2016-05-23T01:50:50.717Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//按行打印二叉树 //一个变量表示当前层还没有打印的节点数，另一个变量表示下一层节点的数目&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+#include &amp;quot;../common/ConstructBST.h&amp;quot;
+using namespace std;
+//按行打印二叉树
+void Print(BinaryTreeNode* pRoot){
+    if(pRoot==NULL)
+        return;
+    queue&amp;lt;BinaryTreeNode*&amp;gt; nodes;
+    nodes.push(pRoot);
+    int nextLevel=0;//下一层的节点数目
+    int toBePrinted=1;//当前层剩下的节点数
+
+    while(!nodes.empty()){
+        BinaryTreeNode* pNode=nodes.front();
+
+        cout&amp;lt;&amp;lt;pNode-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+        if(pNode-&amp;gt;m_pLeft!=NULL){
+            nodes.push(pNode-&amp;gt;m_pLeft);
+            ++nextLevel;
+
+        }
+        if(pNode-&amp;gt;m_pRight!=NULL){
+            nodes.push(pNode-&amp;gt;m_pRight);
+            ++nextLevel;
+        }
+        nodes.pop();//弹出节点
+        --toBePrinted;//第一个层打印完了
+        if(toBePrinted==0){
+            cout&amp;lt;&amp;lt;endl;
+            toBePrinted=nextLevel;
+            nextLevel=0;
+        }
+
+
+    }
+}
+// ==================== Test Code ====================
+//            8
+//        6      10
+//       5 7    9  11
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    printf(&amp;quot;====Test1 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;8 \n&amp;quot;);
+    printf(&amp;quot;6 10 \n&amp;quot;);
+    printf(&amp;quot;5 7 9 11 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode8);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode8);
+}
+
+//            5
+//          4
+//        3
+//      2
+void Test2()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, pNode4, NULL);
+    ConnectTreeNodes(pNode4, pNode3, NULL);
+    ConnectTreeNodes(pNode3, pNode2, NULL);
+
+    printf(&amp;quot;====Test2 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n&amp;quot;);
+    printf(&amp;quot;4 \n&amp;quot;);
+    printf(&amp;quot;3 \n&amp;quot;);
+    printf(&amp;quot;2 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+//        5
+//         4
+//          3
+//           2
+void Test3()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode4 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode3 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode2 = CreateBinaryTreeNode(2);
+
+    ConnectTreeNodes(pNode5, NULL, pNode4);
+    ConnectTreeNodes(pNode4, NULL, pNode3);
+    ConnectTreeNodes(pNode3, NULL, pNode2);
+
+    printf(&amp;quot;====Test3 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n&amp;quot;);
+    printf(&amp;quot;4 \n&amp;quot;);
+    printf(&amp;quot;3 \n&amp;quot;);
+    printf(&amp;quot;2 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+
+    printf(&amp;quot;====Test4 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;5 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode5);
+    printf(&amp;quot;\n&amp;quot;);
+
+    DestroyTree(pNode5);
+}
+
+void Test5()
+{
+    printf(&amp;quot;====Test5 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(NULL);
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+//        100
+//        /
+//       50
+//         \
+//         150
+void Test6()
+{
+    BinaryTreeNode* pNode100 = CreateBinaryTreeNode(100);
+    BinaryTreeNode* pNode50 = CreateBinaryTreeNode(50);
+    BinaryTreeNode* pNode150 = CreateBinaryTreeNode(150);
+
+    ConnectTreeNodes(pNode100, pNode50, NULL);
+    ConnectTreeNodes(pNode50, NULL, pNode150);
+
+    printf(&amp;quot;====Test6 Begins: ====\n&amp;quot;);
+    printf(&amp;quot;Expected Result is:\n&amp;quot;);
+    printf(&amp;quot;100 \n&amp;quot;);
+    printf(&amp;quot;50 \n&amp;quot;);
+    printf(&amp;quot;150 \n\n&amp;quot;);
+
+    printf(&amp;quot;Actual Result is: \n&amp;quot;);
+    Print(pNode100);
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+int main()
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//按行打印二叉树 //一个变量表示当前层还没有打印的节点数，另一个变量表示下一层节点的数目&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;queue&amp;gt;
+
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>二叉树是否对称</title>
+    <link href="http://wxjttxs.github.io/2016/05/22/%E4%BA%8C%E5%8F%89%E6%A0%91%E6%98%AF%E5%90%A6%E5%AF%B9%E7%A7%B0/"/>
+    <id>http://wxjttxs.github.io/2016/05/22/二叉树是否对称/</id>
+    <published>2016-05-22T14:32:13.000Z</published>
+    <updated>2016-05-22T14:32:47.734Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct BinaryTreeNode{
+    int m_nValue;
+    BinaryTreeNode* m_pLeft;
+    BinaryTreeNode* m_pRight;
+};
+//**********************二叉树是否对称************************
+bool isSymmetrical(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
+    if(pRoot1==NULL &amp;amp;&amp;amp; pRoot2==NULL)
+        return true;
+    if(pRoot1==NULL || pRoot2==NULL)
+        return false;
+    if(pRoot1-&amp;gt;m_nValue!=pRoot2-&amp;gt;m_nValue)
+        return false;
+
+    return isSymmetrical(pRoot1-&amp;gt;m_pLeft,pRoot2-&amp;gt;m_pRight)&amp;amp;&amp;amp;isSymmetrical(pRoot1-&amp;gt;m_pRight,pRoot2-&amp;gt;m_pLeft);
+}
+bool isSymmetrical(BinaryTreeNode* pRoot){
+   return  isSymmetrical(pRoot,pRoot);
+}
+//************************构造二叉树*************************
+BinaryTreeNode* CreateBinaryTreeNode(int value)
+{
+    BinaryTreeNode* pNode = new BinaryTreeNode();
+    pNode-&amp;gt;m_nValue = value;
+    pNode-&amp;gt;m_pLeft = NULL;
+    pNode-&amp;gt;m_pRight = NULL;
+
+    return pNode;
+}
+
+void ConnectTreeNodes(BinaryTreeNode* pParent, BinaryTreeNode* pLeft, BinaryTreeNode* pRight)
+{
+    if(pParent != NULL)
+    {
+        pParent-&amp;gt;m_pLeft = pLeft;
+        pParent-&amp;gt;m_pRight = pRight;
+    }
+}
+
+void PrintTreeNode(BinaryTreeNode* pNode)
+{
+    if(pNode != NULL)
+    {
+        printf(&amp;quot;value of this node is: %d\n&amp;quot;, pNode-&amp;gt;m_nValue);
+
+        if(pNode-&amp;gt;m_pLeft != NULL)
+            printf(&amp;quot;value of its left child is: %d.\n&amp;quot;, pNode-&amp;gt;m_pLeft-&amp;gt;m_nValue);
+        else
+            printf(&amp;quot;left child is null.\n&amp;quot;);
+
+        if(pNode-&amp;gt;m_pRight != NULL)
+            printf(&amp;quot;value of its right child is: %d.\n&amp;quot;, pNode-&amp;gt;m_pRight-&amp;gt;m_nValue);
+        else
+            printf(&amp;quot;right child is null.\n&amp;quot;);
+    }
+    else
+    {
+        printf(&amp;quot;this node is null.\n&amp;quot;);
+    }
+
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+void PrintTree(BinaryTreeNode* pRoot)
+{
+    PrintTreeNode(pRoot);
+
+    if(pRoot != NULL)
+    {
+        if(pRoot-&amp;gt;m_pLeft != NULL)
+            PrintTree(pRoot-&amp;gt;m_pLeft);
+
+        if(pRoot-&amp;gt;m_pRight != NULL)
+            PrintTree(pRoot-&amp;gt;m_pRight);
+    }
+}
+void DestroyTree(BinaryTreeNode* pRoot)
+{
+    if(pRoot != NULL)
+    {
+        BinaryTreeNode* pLeft = pRoot-&amp;gt;m_pLeft;
+        BinaryTreeNode* pRight = pRoot-&amp;gt;m_pRight;
+
+        delete pRoot;
+        pRoot = NULL;
+
+        DestroyTree(pLeft);
+        DestroyTree(pRight);
+    }
+}
+//学习大牛的测试写法
+// ==================== Test Code ====================
+void Test(char* testName, BinaryTreeNode* pRoot, bool expected)
+{
+    if(testName != NULL)
+        printf(&amp;quot;%s begins: &amp;quot;, testName);
+
+    if(isSymmetrical(pRoot) == expected)
+        printf(&amp;quot;Passed.\n&amp;quot;);
+    else
+        printf(&amp;quot;FAILED.\n&amp;quot;);
+}
+
+//            8
+//        6      6
+//       5 7    7 5
+void Test1()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode52 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode62, pNode72, pNode52);
+
+    Test(&amp;quot;Test1&amp;quot;, pNode8, true);
+
+    DestroyTree(pNode8);
+}
+
+//            8
+//        6      9
+//       5 7    7 5
+void Test2()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode52 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode9);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode9, pNode72, pNode52);
+
+    Test(&amp;quot;Test2&amp;quot;, pNode8, false);
+
+    DestroyTree(pNode8);
+}
+
+//            8
+//        6      6
+//       5 7    7
+void Test3()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode61 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode62 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode51 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode71 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode72 = CreateBinaryTreeNode(7);
+
+    ConnectTreeNodes(pNode8, pNode61, pNode62);
+    ConnectTreeNodes(pNode61, pNode51, pNode71);
+    ConnectTreeNodes(pNode62, pNode72, NULL);
+
+    Test(&amp;quot;Test3&amp;quot;, pNode8, false);
+
+    DestroyTree(pNode8);
+}
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         2           2
+//        /             \
+//       1               1
+void Test4()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode21, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode21, pNode11, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&amp;quot;Test4&amp;quot;, pNode5, true);
+
+    DestroyTree(pNode5);
+}
+
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         6           2
+//        /             \
+//       1               1
+void Test5()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(1);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode6, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode6, pNode11, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&amp;quot;Test5&amp;quot;, pNode5, false);
+
+    DestroyTree(pNode5);
+}
+
+//               5
+//              / \
+//             3   3
+//            /     \
+//           4       4
+//          /         \
+//         2           2
+//                      \
+//                       1
+void Test6()
+{
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(3);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(4);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(2);
+    BinaryTreeNode* pNode12 = CreateBinaryTreeNode(1);
+
+    ConnectTreeNodes(pNode5, pNode31, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, pNode21, NULL);
+    ConnectTreeNodes(pNode42, NULL, pNode22);
+    ConnectTreeNodes(pNode21, NULL, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode12);
+
+    Test(&amp;quot;Test6&amp;quot;, pNode5, false);
+
+    DestroyTree(pNode5);
+}
+
+// Only one node
+void Test7()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(1);
+    Test(&amp;quot;Test7&amp;quot;, pNode1, true);
+
+    DestroyTree(pNode1);
+}
+
+// No nodes
+void Test8()
+{
+    Test(&amp;quot;Test8&amp;quot;, NULL, true);
+}
+
+// All nodes have the same value
+//               5
+//              / \
+//             5   5
+//            /     \
+//           5       5
+//          /         \
+//         5           5
+void Test9()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, pNode21, pNode22);
+    ConnectTreeNodes(pNode21, pNode31, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, NULL, pNode42);
+    ConnectTreeNodes(pNode41, NULL, NULL);
+    ConnectTreeNodes(pNode42, NULL, NULL);
+
+    Test(&amp;quot;Test9&amp;quot;, pNode1, true);
+
+    DestroyTree(pNode1);
+}
+
+// All nodes have the same value
+//               5
+//              / \
+//             5   5
+//            /     \
+//           5       5
+//          /       /
+//         5       5
+void Test10()
+{
+    BinaryTreeNode* pNode1 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode21 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode22 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode31 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode32 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode41 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode42 = CreateBinaryTreeNode(5);
+
+    ConnectTreeNodes(pNode1, pNode21, pNode22);
+    ConnectTreeNodes(pNode21, pNode31, NULL);
+    ConnectTreeNodes(pNode22, NULL, pNode32);
+    ConnectTreeNodes(pNode31, pNode41, NULL);
+    ConnectTreeNodes(pNode32, pNode42, NULL);
+    ConnectTreeNodes(pNode41, NULL, NULL);
+    ConnectTreeNodes(pNode42, NULL, NULL);
+
+    Test(&amp;quot;Test10&amp;quot;, pNode1, false);
+
+    DestroyTree(pNode1);
+}
+int main()
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    Test8();
+    Test9();
+    Test10();
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//判断一棵二叉树是不是对称的 //充要条件：如果二叉树是对称的，那么它的前序遍历序列和这颗二叉树的对称二叉树的前序遍历序列是一样的。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>二叉树的下一个节点</title>
+    <link href="http://wxjttxs.github.io/2016/05/22/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E4%B8%8B%E4%B8%80%E4%B8%AA%E8%8A%82%E7%82%B9/"/>
+    <id>http://wxjttxs.github.io/2016/05/22/二叉树的下一个节点/</id>
+    <published>2016-05-22T06:29:50.000Z</published>
+    <updated>2016-05-22T13:57:03.991Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//找出二叉树中序遍历的下一个节点&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct BinaryTreeNode
+{
+    int                    m_nValue;
+    BinaryTreeNode*        m_pLeft;
+    BinaryTreeNode*        m_pRight;
+    BinaryTreeNode*        m_pParent;
+};
+
+BinaryTreeNode* CreateBinaryTreeNode(int value)
+{
+    BinaryTreeNode* pNode = new BinaryTreeNode();
+    pNode-&amp;gt;m_nValue = value;
+    pNode-&amp;gt;m_pLeft = NULL;
+    pNode-&amp;gt;m_pRight = NULL;
+    pNode-&amp;gt;m_pParent = NULL;
+
+    return pNode;
+}
+
+void ConnectTreeNodes(BinaryTreeNode* pParent, BinaryTreeNode* pLeft, BinaryTreeNode* pRight)
+{
+    if(pParent != NULL)
+    {
+        pParent-&amp;gt;m_pLeft = pLeft;
+        pParent-&amp;gt;m_pRight = pRight;
+
+        if(pLeft != NULL)
+            pLeft-&amp;gt;m_pParent = pParent;
+        if(pRight != NULL)
+            pRight-&amp;gt;m_pParent = pParent;
+    }
+}
+
+void PrintTreeNode(BinaryTreeNode* pNode)
+{
+    if(pNode != NULL)
+    {
+        printf(&amp;quot;value of this node is: %d\n&amp;quot;, pNode-&amp;gt;m_nValue);
+
+        if(pNode-&amp;gt;m_pLeft != NULL)
+            printf(&amp;quot;value of its left child is: %d.\n&amp;quot;, pNode-&amp;gt;m_pLeft-&amp;gt;m_nValue);
+        else
+            printf(&amp;quot;left child is null.\n&amp;quot;);
+
+        if(pNode-&amp;gt;m_pRight != NULL)
+            printf(&amp;quot;value of its right child is: %d.\n&amp;quot;, pNode-&amp;gt;m_pRight-&amp;gt;m_nValue);
+        else
+            printf(&amp;quot;right child is null.\n&amp;quot;);
+    }
+    else
+    {
+        printf(&amp;quot;this node is null.\n&amp;quot;);
+    }
+
+    printf(&amp;quot;\n&amp;quot;);
+}
+
+void PrintTree(BinaryTreeNode* pRoot)
+{
+    PrintTreeNode(pRoot);
+
+    if(pRoot != NULL)
+    {
+        if(pRoot-&amp;gt;m_pLeft != NULL)
+            PrintTree(pRoot-&amp;gt;m_pLeft);
+
+        if(pRoot-&amp;gt;m_pRight != NULL)
+            PrintTree(pRoot-&amp;gt;m_pRight);
+    }
+}
+BinaryTreeNode* GetNext(BinaryTreeNode* pNode){
+    if(pNode==NULL)
+        return NULL;
+    BinaryTreeNode* pNext=NULL;
+    if(pNode-&amp;gt;m_pRight!=NULL){//一个节点的右子树存在，那么它的下一个节点就是右子树的最左子节点
+        BinaryTreeNode* pRight=pNode-&amp;gt;m_pRight;
+        while(pRight-&amp;gt;m_pLeft!=NULL)
+            pRight=pRight-&amp;gt;m_pLeft;
+
+        pNext=pRight;
+
+    }
+    else if(pNode-&amp;gt;m_pParent!=NULL){//等价于下面的功能
+        BinaryTreeNode* pCurrent=pNode;
+        BinaryTreeNode* pParent=pNode-&amp;gt;m_pParent;
+        while(pParent!=NULL &amp;amp;&amp;amp; pCurrent==pParent-&amp;gt;m_pRight){
+            pCurrent=pParent;
+            pParent=pParent-&amp;gt;m_pParent;
+        }
+        pNext=pParent;
+    }
+//    BinaryTreeNode* pParent=pNode-&amp;gt;m_pParent;
+//    if(pNode-&amp;gt;m_pRight==NULL &amp;amp;&amp;amp; pParent-&amp;gt;m_pLeft==pNode){//这个节点没有右子树，并且是其父节点的左节点，那么它的下一个节点是其父节点，
+//        pNext=pParent;
+//    }
+//    else if(pNode-&amp;gt;m_pRight==NULL &amp;amp;&amp;amp; pParent-&amp;gt;m_pRight==pNode){//这个节点没有右子树，且是父节点的右子节点，比较复杂
+//找到第一个该节点的祖先节点是目标节点的左子节点，这个目标节点就是它的下一个节点
+//         BinaryTreeNode* pCurrent=pNode;
+//        BinaryTreeNode* pParent=pNode-&amp;gt;m_pParent;
+//        while( pCurrent==pParent-&amp;gt;m_pRight){
+//            pCurrent=pParent;
+//            pParent=pParent-&amp;gt;m_pParent;
+//        }
+//        pNext=pParent;
+//    }
+    return pNext;
+}
+
+int main()
+{
+    BinaryTreeNode* pNode8 = CreateBinaryTreeNode(8);
+    BinaryTreeNode* pNode6 = CreateBinaryTreeNode(6);
+    BinaryTreeNode* pNode10 = CreateBinaryTreeNode(10);
+    BinaryTreeNode* pNode5 = CreateBinaryTreeNode(5);
+    BinaryTreeNode* pNode7 = CreateBinaryTreeNode(7);
+    BinaryTreeNode* pNode9 = CreateBinaryTreeNode(9);
+    BinaryTreeNode* pNode11 = CreateBinaryTreeNode(11);
+
+    ConnectTreeNodes(pNode8, pNode6, pNode10);
+    ConnectTreeNodes(pNode6, pNode5, pNode7);
+    ConnectTreeNodes(pNode10, pNode9, pNode11);
+
+    BinaryTreeNode* p=GetNext(pNode10);
+
+
+    cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//找出二叉树中序遍历的下一个节点&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+struct
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>删除链表中重复的节点</title>
@@ -1213,821 +3260,6 @@ int main()
     
       &lt;blockquote&gt;
 &lt;p&gt;//从扑克牌中抽出五张，判断是不是顺子，A用1表示；JQK用11,12,13表示；大小王看成任意数字&lt;br&gt;//首先排序数组，然后统计0的个数和数组中间隔数，如果0的个数&amp;gt;=间隔，返回true。&lt;br&gt;//还有需要注意，如果数组中有两个数字相
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>n个骰子和为S的次数以及相应的概率</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/n%E4%B8%AA%E9%AA%B0%E5%AD%90%E5%92%8C%E4%B8%BAS%E7%9A%84%E6%AC%A1%E6%95%B0%E4%BB%A5%E5%8F%8A%E7%9B%B8%E5%BA%94%E7%9A%84%E6%A6%82%E7%8E%87/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/n个骰子和为S的次数以及相应的概率/</id>
-    <published>2016-05-09T09:10:41.000Z</published>
-    <updated>2016-05-09T09:11:12.215Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。&lt;br&gt;//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。&lt;br&gt;//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，S表示N个骰子的点数和&lt;br&gt;//F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)&lt;br&gt;n&amp;gt;0,n&amp;lt;=S&amp;lt;=6&lt;em&gt;n //      =0  n&amp;gt;S  or  S&amp;gt;6&lt;/em&gt;k&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;cmath&amp;gt;
-using namespace std;
-const int FACE_NUM=6;//骰子的面数
-//函数功能：N个骰子的向上一面的和
-//函数参数：骰子数目
-
-void PrintSumProbabilityOfDices(int n){
-    if(n&amp;lt;=0)
-        return;
-    int *pSum=new int[n*FACE_NUM+1];//和的种类
-    double total=pow(6.0,n);//和的所有可能性
-    int sizee=n*FACE_NUM;
-    int i,j,k;
-    //初始化
-    pSum[0]=0;//没有骰子
-    for(i=1;i&amp;lt;=FACE_NUM;i++)
-        pSum[i]=1;//只有一个骰子,和的可能性为1~6，只可能出现一次
-    for(;i&amp;lt;=sizee;i++)
-        pSum[i]=0;//数组初始化0
-    for(i=2;i&amp;lt;=n;i++){//骰子数目从2~n
-        for(j=i*FACE_NUM;j&amp;gt;=i;j--){//i个骰子和的范围是i~i*FACE_NUM，j代表的是可能的和的种类
-            pSum[j]=0;//每次要清零
-            for(k=1;k&amp;lt;=6 &amp;amp;&amp;amp; j&amp;gt;=k;k++){//这个就是F(n,s)=F(n-1,s-1)+F(n-1,s-2)+F(n-1,s-3)+F(n-1,s-4)+F(n-1,s-5)+F(n-1,s-6)
-                pSum[j]+=pSum[j-k];
-            }
-        }
-        //不可能的情况
-        for(j=i-1;j&amp;gt;=0;j--)
-            pSum[j]=0;
-    }
-   //打印结果
-   for(i=0;i&amp;lt;=sizee;i++){
-        cout&amp;lt;&amp;lt;&amp;quot;sum= &amp;quot;&amp;lt;&amp;lt;i&amp;lt;&amp;lt;&amp;quot;, p= &amp;quot;&amp;lt;&amp;lt;pSum[i]/total&amp;lt;&amp;lt;endl;
-   }
-}
-int main()
-{
-    PrintSumProbabilityOfDices(3);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//把n个骰子扔地上，所有骰子朝上一面的点数之和为 S。输入n,打印出S中所有可能出现的值的概率。&lt;br&gt;//动态规划.找到最优子结构。采用备忘录的方法避免重复计算。&lt;br&gt;//最优子结构：f(n,s)表示n个骰子点数和为S的种类，N表示骰子个数，
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>翻转单词顺序 VS 左旋转字符串</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/%E7%BF%BB%E8%BD%AC%E5%8D%95%E8%AF%8D%E9%A1%BA%E5%BA%8F-VS-%E5%B7%A6%E6%97%8B%E8%BD%AC%E5%AD%97%E7%AC%A6%E4%B8%B2/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/翻转单词顺序-VS-左旋转字符串/</id>
-    <published>2016-05-09T03:01:09.000Z</published>
-    <updated>2016-05-09T08:10:16.222Z</updated>
-    
-    <content type="html">&lt;p&gt;//一个字符串。要求翻转单词顺序，但是单词内部字符顺序不变&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-using namespace std;
-//翻转一个单词
-void Reverse(char* pBegin,char* pEnd){
-    if(pBegin==NULL || pEnd==NULL)
-        return;
-    while(pBegin&amp;lt;pEnd){
-        char temp=*pBegin;
-        *pBegin=*pEnd;
-        *pEnd=temp;
-        pBegin++;
-        pEnd--;
-    }
-}
-char* ReverseSentence(char *pData)
-{
-    if(pData == NULL)
-        return NULL;
-
-    char *pBegin = pData;
-
-    char *pEnd = pData+strlen(pData)-1;
-
-    // 翻转整个句子
-    Reverse(pBegin, pEnd);
-
-    // 翻转句子中的每个单词
-    pBegin = pEnd = pData;
-    while(*pEnd!=&amp;apos;\0&amp;apos;){
-        if(*pEnd!=&amp;apos; &amp;apos;)
-            pEnd++;
-        else{
-            Reverse(pBegin,pEnd-1);//空格前一个
-            pBegin=++pEnd;//pBegin指向空格后一个
-        }
-    }
-    Reverse(pBegin,pEnd-1);//最后一个单词，pEnd指向&amp;apos;\0&amp;apos;
-    return pData;
-}
-
-//********************左旋转n位字符**************************
-//前n位看做空格前字母，比如“hello world”
-char* LeftRotateString(char* pStr,int n){
-    if(pStr!=NULL){
-        int length=static_cast&amp;lt;int&amp;gt;(strlen(pStr));
-        if(length&amp;gt;0 &amp;amp;&amp;amp; n&amp;gt;0 &amp;amp;&amp;amp;n&amp;lt;length){//输入是有效的
-            char* pFirstBegin=pStr;
-            char* pFirstEnd=pStr+n-1;
-            char* pSecondBegin=pStr+n;
-            char* pSecondEnd=pStr+length-1;
-            Reverse(pFirstBegin,pFirstEnd);//旋转第一段
-            Reverse(pSecondBegin,pSecondEnd);//旋转第二段
-            Reverse(pFirstBegin,pSecondEnd);//旋转整个单词
-        }
-    }
-    return pStr;
-}
-int main()
-{
-      char sentence[]=&amp;quot;stu dent!&amp;quot;;
-      char *reverced=ReverseSentence(sentence);
-      cout&amp;lt;&amp;lt;reverced&amp;lt;&amp;lt;endl;
-
-      char sentence1[]=&amp;quot;abcdefg&amp;quot;;
-      char *reverced1=LeftRotateString(sentence1,7);
-     // char *reverced1=LeftRotateString(“abcdef”,2);不承认这样的赋值方式
-      cout&amp;lt;&amp;lt;reverced1&amp;lt;&amp;lt;endl;
-      return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//一个字符串。要求翻转单词顺序，但是单词内部字符顺序不变&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;string.h&amp;gt;
-using namespace std;
-//翻转一个单词
-void Revers
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>和为S，输出数组的子序列</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/%E5%92%8C%E4%B8%BAS%EF%BC%8C%E8%BE%93%E5%87%BA%E6%95%B0%E7%BB%84%E7%9A%84%E5%AD%90%E5%BA%8F%E5%88%97/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/和为S，输出数组的子序列/</id>
-    <published>2016-05-09T02:57:04.000Z</published>
-    <updated>2016-05-09T02:58:07.869Z</updated>
-    
-    <content type="html">&lt;pre&gt;&lt;code&gt;//数组已经排好序，假设升序。
-//当给定和为S,返回数组中两个数使得他们和为s
-
-
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//找到排序数组和为S的两个数
-//void FindNumbersWithSum(int *data,int length,int s){
-//    bool flag=false;
-//    if(data==NULL ||length&amp;lt;1)
-//        return;
-//    int ahead=0;
-//    int behind=length-1;
-//    while(ahead&amp;lt;behind){
-//        if(data[ahead]+data[behind]==s){
-//            flag=true;
-//            break;//找到就跳出循环，不然就死了
-//        }
-//        else if(data[ahead]+data[behind]&amp;gt;s)
-//            behind--;
-//        else
-//            ahead++;
-//    }
-//    if(flag){
-//        cout&amp;lt;&amp;lt;data[ahead]&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;data[behind];
-//    }
-//    else
-//        cout&amp;lt;&amp;lt;&amp;quot;not found&amp;quot;&amp;lt;&amp;lt;endl;
-//}
-//************拓展*********************************8
-//找到连续正数序列（1,2,3.。。。。S）中和为S的序列，打印出来,至少为3
-void PrintContinueSequence(int small, int big){
-    for(int i=small;i&amp;lt;=big;i++)
-        cout&amp;lt;&amp;lt;i&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-    cout&amp;lt;&amp;lt;endl;
-}
-void FindContinueSequence(int sum){
-    if(sum&amp;lt;3)
-        return ;
-    int small=1;
-    int big=2;
-    int mid=(sum+1)/2;//因为是递增，所以最小的数不可能超过中间值
-    int curSum=small+big;
-    while(small&amp;lt;mid){
-        if(curSum==sum){
-            PrintContinueSequence(small,big);
-        }
-        while(curSum&amp;gt;sum &amp;amp;&amp;amp; small&amp;lt;mid){
-            curSum-=small;//先减去已经在里面的小的数值
-            small++;
-
-            if(curSum==sum)
-                PrintContinueSequence(small,big);
-        }
-        big++;
-        curSum+=big;//后加上不在里面的大的数值
-    }
-}
-int main()
-{
-//    int data[]={1,2,3,7,11,15};
-//    FindNumbersWithSum(data,6,1);
-      FindContinueSequence(13);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;pre&gt;&lt;code&gt;//数组已经排好序，假设升序。
-//当给定和为S,返回数组中两个数使得他们和为s
-
-
-#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//找到排序数组和为S的两个数
-//void FindNumbersWith
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>数组中只出现一次的两个数字</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/%E6%95%B0%E7%BB%84%E4%B8%AD%E5%8F%AA%E5%87%BA%E7%8E%B0%E4%B8%80%E6%AC%A1%E7%9A%84%E4%B8%A4%E4%B8%AA%E6%95%B0%E5%AD%97/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/数组中只出现一次的两个数字/</id>
-    <published>2016-05-09T02:16:17.000Z</published>
-    <updated>2016-05-09T02:17:14.185Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字&lt;br&gt;//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素&lt;br&gt;//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的数字。&lt;br&gt;//先异或整个数组元素，得到不是0的结果，化成二进制，找到第一个1的位置index，然后把原数组按照这个index是不是1来分开。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-
-//最右边1的位置
-unsigned int FindFirst1Bit(int num);
-//从右边数起的indexBit位是不是1
-bool IsBit1(int num,unsigned int indexBit);
-//主要实现
-void FindNumberAppearOnce(int *data,int length){
-    if(data==NULL || length&amp;lt;2)//,int &amp;amp;num1,int &amp;amp;num2
-        return ;
-    int resExclusiveOr=0;
-    for(int i=0;i&amp;lt;length;i++){
-        resExclusiveOr^=data[i];
-    }
-    unsigned int indexOf1=FindFirst1Bit(resExclusiveOr);//根据异或结果找到右边起第一个1
-    int num[2]={0};
-   // num1=num2=0;//两个只出现一次的数字
-    for(int j=0;j&amp;lt;length;j++){
-        if(IsBit1(data[j],indexOf1))
-            num[0]^=data[j];
-        else
-            num[1]^=data[j];
-    }
-    for(int i=0;i&amp;lt;2;i++)
-        cout&amp;lt;&amp;lt; num[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-}
-//找到最右边第一个1的位置
-unsigned int FindFirst1Bit(int num){
-    int indexBit=0;
-    while(((num&amp;amp;1)==0) &amp;amp;&amp;amp; (indexBit&amp;lt;8 * sizeof(int))){
-        num=num&amp;gt;&amp;gt;1;
-        ++indexBit;
-    }
-    return  indexBit;
-}
-//从右边起indexBit位是不是1
-bool IsBit1(int num,unsigned int indexBit){
-    num=num&amp;gt;&amp;gt;indexBit;
-    return (num&amp;amp;1);
-}
-int main()
-{
-    int data[]={2,4,3,6,3,2,5,5};
-   // int a,b;
-    FindNumberAppearOnce(data,8);
-  //  cout&amp;lt;&amp;lt;a&amp;lt;&amp;lt;&amp;quot; &amp;quot;&amp;lt;&amp;lt;b;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//这样的数组：只有两个数字只出现一次，其他数字出现两次。输出只出现一次的数字&lt;br&gt;//如果是只出现一次的数字有一个，那么异或整个数组元素，得到的结果恰好就是那个单独的元素&lt;br&gt;//所以把原始数组分成两个子数组。每个子数组只包含一个只出现一次的
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>是不是平衡树</title>
-    <link href="http://wxjttxs.github.io/2016/05/08/%E6%98%AF%E4%B8%8D%E6%98%AF%E5%B9%B3%E8%A1%A1%E6%A0%91/"/>
-    <id>http://wxjttxs.github.io/2016/05/08/是不是平衡树/</id>
-    <published>2016-05-08T14:40:57.000Z</published>
-    <updated>2016-05-08T14:41:33.443Z</updated>
-    
-    <content type="html">&lt;p&gt;//平衡二叉树的概念：左右子树的深度相差不超过1&lt;br&gt;//判断一棵二叉树是不是平衡二叉树&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-//构建二叉树
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-//*****************方法一****************************
-////二叉树的深度
-//    int TreeDepth(BinaryTreeNode* pRoot){
-//        if(!pRoot)
-//            return 0;
-//    //    if(!pRoot-&amp;gt;m_pLeft &amp;amp;&amp;amp; !pRoot-&amp;gt;m_pRight)//不需要
-//    //        return 1;
-//
-//        //else{
-//            int nLeft=TreeDepth(pRoot-&amp;gt;m_pLeft);
-//            int nRight=TreeDepth(pRoot-&amp;gt;m_pRight);
-//            return (nLeft&amp;gt;nRight)?(nLeft+1):(nRight+1);
-//      //  }
-//
-//    }
-//bool IsBalanced(BinaryTreeNode* pRoot){
-//    if(pRoot==NULL)
-//        return true;
-//    int left=TreeDepth(pRoot-&amp;gt;m_pLeft);
-//    int right=TreeDepth(pRoot-&amp;gt;m_pRight);
-//    int diff= left-right;
-//    if(diff&amp;gt;1 ||diff&amp;lt;-1)
-//        return false;
-//    return IsBalanced(pRoot-&amp;gt;m_pLeft)&amp;amp;&amp;amp;IsBalanced(pRoot-&amp;gt;m_pRight);
-//}
-//***********************方法二***********************88
-//每个节点遍历一遍，就能判断二叉树是不是平衡的；采用后序遍历,遍历一个节点的时候，它的左右子树已经遍历过了。
-//在遍历节点的时候记录 它的深度，就能一边遍历，一边判断每个节点是不是平衡的
-bool IsBalancedCore(BinaryTreeNode* pRoot, int* pDepth){
-    if(pRoot==NULL){
-        *pDepth=0;
-        return true;
-    }
-    int left,right;
-    if(IsBalancedCore(pRoot-&amp;gt;m_pLeft,&amp;amp;left)&amp;amp;&amp;amp; IsBalancedCore(pRoot-&amp;gt;m_pRight,&amp;amp;right)){
-        int diff=left-right;
-        if(diff&amp;lt;=1 &amp;amp;&amp;amp; diff&amp;gt;=-1){
-            *pDepth=1+(left&amp;gt;right?left:right);
-            return true;
-        }
-    }
-    return false;
-}
-bool IsBalanced(BinaryTreeNode* pRoot){
-    int depth=0;
-    return IsBalancedCore(pRoot,&amp;amp;depth);
-}
-int main()
-{
-    BinaryTreeNode* Btree;
-    int preorder[]={10,5,4,7,12};
-    int inorder[]={4,5,7,10,12};
-    Btree= Contrust(preorder,inorder,5);
-    cout&amp;lt;&amp;lt;IsBalanced(Btree);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//平衡二叉树的概念：左右子树的深度相差不超过1&lt;br&gt;//判断一棵二叉树是不是平衡二叉树&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct BinaryTreeNode{
-    i
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>二叉树的深度</title>
-    <link href="http://wxjttxs.github.io/2016/05/08/%E4%BA%8C%E5%8F%89%E6%A0%91%E7%9A%84%E6%B7%B1%E5%BA%A6/"/>
-    <id>http://wxjttxs.github.io/2016/05/08/二叉树的深度/</id>
-    <published>2016-05-08T13:40:22.000Z</published>
-    <updated>2016-05-08T13:41:04.539Z</updated>
-    
-    <content type="html">&lt;p&gt;//查找二叉树的深度，也就是从根节点到叶子节点所有路径中，最长路径的节点数目&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
-//构建二叉树
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&amp;gt;m_nValue=rootValue;
-    root-&amp;gt;m_pLeft=root-&amp;gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;amp;&amp;amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
-    }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&amp;lt;=endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;amp;&amp;amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&amp;gt;0)//左子树的长度,构建左子树
-     {
-         root-&amp;gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&amp;lt;endpreorder-startpreorder)//存在右子树
-        root-&amp;gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&amp;lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-//二叉树的深度：如果树只有一个节点，那么树的深度就是1；如果没有右子树，
-//那么就等于左子树的深度+1；没有左子树的情况类似；如果左右子树都存在，那么就等于两个子树路径较大的那个+1
-int TreeDepth(BinaryTreeNode* pRoot){
-    if(!pRoot)
-        return 0;
-//    if(!pRoot-&amp;gt;m_pLeft &amp;amp;&amp;amp; !pRoot-&amp;gt;m_pRight)//不需要
-//        return 1;
-
-    //else{
-        int nLeft=TreeDepth(pRoot-&amp;gt;m_pLeft);
-        int nRight=TreeDepth(pRoot-&amp;gt;m_pRight);
-        return (nLeft&amp;gt;nRight)?(nLeft+1):(nRight+1);
-  //  }
-
-}
-int main()
-{
-    BinaryTreeNode* Btree;
-    int preorder[]={10,5,4,7,12};
-    int inorder[]={4,5,7,10,12};
-    Btree= Contrust(preorder,inorder,5);
-    cout&amp;lt;&amp;lt;TreeDepth(Btree);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//查找二叉树的深度，也就是从根节点到叶子节点所有路径中，最长路径的节点数目&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-struct BinaryTreeNode{
-    int m_nV
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>指定数字在排序数组中出现的次数</title>
-    <link href="http://wxjttxs.github.io/2016/05/08/%E6%8C%87%E5%AE%9A%E6%95%B0%E5%AD%97%E5%9C%A8%E6%8E%92%E5%BA%8F%E6%95%B0%E7%BB%84%E4%B8%AD%E5%87%BA%E7%8E%B0%E7%9A%84%E6%AC%A1%E6%95%B0/"/>
-    <id>http://wxjttxs.github.io/2016/05/08/指定数字在排序数组中出现的次数/</id>
-    <published>2016-05-08T13:05:56.000Z</published>
-    <updated>2016-05-08T13:06:20.332Z</updated>
-    
-    <content type="html">&lt;p&gt;//得到已经排序的数组中指定数字k出现的次数&lt;br&gt;//已经排好序，所以想到用二分查找算法；&lt;br&gt;//重复次数=最后一次出现的位置-第一次出现的位置&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-int GetFirstK(int *data,int length,int k, int start,int endd){
-    if(start&amp;gt;endd)
-        return -1;
-    int mid=(start+endd)/2;//一分为二
-    int midData=data[mid];
-    if(midData==k){//中间恰好等于k，那么第一个k的位置要么就是这个中间；要么位于前半段数组
-        if((data[mid-1]!=k &amp;amp;&amp;amp; mid&amp;gt;0) || mid==0)
-            return mid;
-        else
-            endd=mid-1;
-    }
-    else if(midData&amp;gt;k)
-        endd=mid-1;
-    else
-        start=mid+1;
-    return GetFirstK(data,length,k,start,endd);
-}
-int GetLastK(int *data,int length,int k,int start, int endd){
-    if(data==NULL||start&amp;gt;endd)
-        return -1;
-    int mid=(start+endd)/2;//一分为二
-    int midData=data[mid];
-    if(midData==k){//中间恰好等于k，那么最后一个k的位置要么就是这个中间；要么位于后半段数组
-        if((data[mid+1]!=k &amp;amp;&amp;amp; mid+1&amp;lt;length) || mid+1==length){
-            return mid;
-        }
-        else
-            start=mid+1;
-    }
-    else if(midData&amp;lt;k){
-        start =mid+1;
-    }
-    else
-        endd=mid-1;
-    return GetLastK(data,length,k,start,endd);
-
-}
-int GetKNumbers(int *data,int length,int k){
-    if(!data || length&amp;lt;=0)
-        return -1;
-    int number=0;
-    int first=GetFirstK(data,length,k,0,length-1);
-    int endd=GetLastK(data,length,k,0,length-1);
-    if(first&amp;gt;-1 &amp;amp;&amp;amp; endd&amp;gt;-1)
-        number= endd-first+1;
-    return number;
-}
-int main()
-{
-    int data[]={1,2,3,3,3,3,4,5};
-    cout&amp;lt;&amp;lt;GetKNumbers(data,8,1);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//得到已经排序的数组中指定数字k出现的次数&lt;br&gt;//已经排好序，所以想到用二分查找算法；&lt;br&gt;//重复次数=最后一次出现的位置-第一次出现的位置&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>两个链表的第一个公共节点</title>
-    <link href="http://wxjttxs.github.io/2016/05/08/%E4%B8%A4%E4%B8%AA%E9%93%BE%E8%A1%A8%E7%9A%84%E7%AC%AC%E4%B8%80%E4%B8%AA%E5%85%AC%E5%85%B1%E8%8A%82%E7%82%B9/"/>
-    <id>http://wxjttxs.github.io/2016/05/08/两个链表的第一个公共节点/</id>
-    <published>2016-05-08T07:06:14.000Z</published>
-    <updated>2016-05-08T07:06:54.040Z</updated>
-    
-    <content type="html">&lt;p&gt;//得到两个链表第一个公共节点并返回&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-using namespace std;
-typedef struct ListNode{
-    int m_nValue;
-    ListNode* m_pNext;
-}ListNode, *List;//必须是一个链表
-
-
-void Insert(List&amp;amp; pHead,int data){
-    ListNode* p=new ListNode;
-    p-&amp;gt;m_nValue=data;
-    p-&amp;gt;m_pNext=NULL;
-    if(pHead==NULL)
-        pHead=p;
-    else{
-        p-&amp;gt;m_pNext=pHead;
-        pHead=p;
-    }
-
-}
-void Print(List&amp;amp; pHead){
-    if(pHead==NULL)
-        return ;
-    ListNode* p=pHead;
-    while(p){
-        cout&amp;lt;&amp;lt;p-&amp;gt;m_nValue&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-        p=p-&amp;gt;m_pNext;
-    }
-    cout&amp;lt;&amp;lt;endl;
-}
-
-unsigned int GetListLength(ListNode* pHead);
-
-int FindFirstCommonNode( ListNode *pHead1, ListNode *pHead2)
-{
-    // 得到两个链表的长度
-    unsigned int nLength1 = GetListLength(pHead1);
-    unsigned int nLength2 = GetListLength(pHead2);
-    int nLengthDif = nLength1 - nLength2;
-
-    ListNode* pListHeadLong = pHead1;
-    ListNode* pListHeadShort = pHead2;
-    if(nLength2 &amp;gt; nLength1)
-    {
-        pListHeadLong = pHead2;
-        pListHeadShort = pHead1;
-        nLengthDif = nLength2 - nLength1;
-    }
-
-    // 先在长链表上走几步，再同时在两个链表上遍历
-    for(int i = 0; i &amp;lt; nLengthDif; ++ i)
-        pListHeadLong = pListHeadLong-&amp;gt;m_pNext;
-
-    while((pListHeadLong != NULL) &amp;amp;&amp;amp;
-        (pListHeadShort != NULL) &amp;amp;&amp;amp;
-        (pListHeadLong-&amp;gt;m_nValue != pListHeadShort-&amp;gt;m_nValue))
-    {
-        pListHeadLong = pListHeadLong-&amp;gt;m_pNext;
-        pListHeadShort = pListHeadShort-&amp;gt;m_pNext;
-    }
-    if(!pListHeadLong &amp;amp;&amp;amp; !pListHeadShort)//没有公共节点
-
-        return 0;
-    if(pListHeadLong-&amp;gt;m_nValue == pListHeadShort-&amp;gt;m_nValue){
-        ListNode* pFisrtCommonNode = pListHeadLong;// 得到第一个公共结点
-        return pFisrtCommonNode-&amp;gt;m_nValue;
-    }
-
-
-}
-
-unsigned int GetListLength(ListNode* pHead)
-{
-    unsigned int nLength = 0;
-    ListNode* pNode = pHead;
-    while(pNode != NULL)
-    {
-        ++ nLength;
-        pNode = pNode-&amp;gt;m_pNext;
-    }
-
-    return nLength;
-}
-
-int main()
-{
-    List l1=NULL;
-    Insert(l1,7);
-    Insert(l1,6);
-    Insert(l1,3);
-    Insert(l1,2);
-    Insert(l1,1);
-    Print(l1);
-
-
-    List l2=NULL;
-    Insert(l2,7);
-    Insert(l2,7);
-    Insert(l2,5);
-    Insert(l2,4);
-    Print(l2);
-    int tmp=FindFirstCommonNode(l1,l2);
-    cout&amp;lt;&amp;lt;tmp;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//得到两个链表第一个公共节点并返回&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;stdio.h&amp;gt;
-using namespace std;
-typedef struct ListNode{
-    int
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>逆序对</title>
-    <link href="http://wxjttxs.github.io/2016/05/07/post%E9%80%86%E5%BA%8F%E5%AF%B9/"/>
-    <id>http://wxjttxs.github.io/2016/05/07/post逆序对/</id>
-    <published>2016-05-07T09:00:04.000Z</published>
-    <updated>2016-05-08T11:56:14.493Z</updated>
-    
-    <content type="html">&lt;p&gt;//一个数组中的元素构成的逆序对数目&lt;br&gt;//分治法，递归，类似于堆排序&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-int InversePairsCore(int* data, int* cpy,int start, int endd){
-    if(start==endd){
-        cpy[start]=data[start];
-        return 0;
-    }
-    int half_len=(endd-start)/2;
-    int left=InversePairsCore(cpy,data,start,start+half_len);//子数组内部构成的逆序对,有两步操作：1是统计逆序对数目；2是排序（方便计算子数组间的逆序数数目）
-    int right=InversePairsCore(cpy,data,start+half_len+1,endd);//注意前两个参数的顺序。第一个参数代表的是排好序的数组。
-
-    int i=start+half_len;//子数组之间的逆序对,子数组是有序的
-    int j=endd;
-    int cpyIndex=endd;
-    int countt=0;
-    while(i&amp;gt;=start &amp;amp;&amp;amp; j&amp;gt;=start+half_len+1){
-         if(data[i]&amp;gt;data[j]){
-            cpy[cpyIndex--]=data[i--];//从右往左，从大往小放进辅助数组中
-            countt+=j-start-half_len;//j代表的右边子数组中大的那个数字,所以它之前的数字均能与左边子数组构成逆序对
-         }
-         else{
-            cpy[cpyIndex--]=data[j--];
-         }
-    }
-    for(;i&amp;gt;=start;i--){//j到头了，终止退出循环
-        cpy[cpyIndex--]=data[i];
-    }
-    for(;j&amp;gt;=start+half_len+1;j--)
-        cpy[cpyIndex--]=data[j];
-    return left+right+countt;
-}
-int InversePairs(int *data,int length){
-    if(data==NULL||length&amp;lt;=0)
-        return 0;
-    int *cpy=new int [length];//辅助数组
-    for(int i=0;i&amp;lt;length;i++){
-        cpy[i]=data[i];
-    }
-    int countt=InversePairsCore(data,cpy,0,length-1);
-    delete[] cpy;
-    return countt;
-}
-int main()
-{
-    int a[]={7,5,6,4};
-    cout &amp;lt;&amp;lt; InversePairs(a,4)&amp;lt;&amp;lt; endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;p&gt;//一个数组中的元素构成的逆序对数目&lt;br&gt;//分治法，递归，类似于堆排序&lt;/p&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-int InversePairsCore(int* data, int*
     
     </summary>
     

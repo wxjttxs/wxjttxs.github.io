@@ -4,23 +4,41 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>渣打面试机试 | happy happy</title>
+    <title>矩阵中的路径与字符串的匹配问题 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+    <meta name="description" content="//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+boo">
 <meta property="og:type" content="article">
-<meta property="og:title" content="渣打面试机试">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/18/渣打面试机试/index.html">
+<meta property="og:title" content="矩阵中的路径与字符串的匹配问题">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/05/23/矩阵中的路径与字符串的匹配问题/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
-<meta property="og:updated_time" content="2016-04-18T11:15:54.242Z">
+<meta property="og:description" content="//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+boo">
+<meta property="og:updated_time" content="2016-05-23T08:53:01.990Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="渣打面试机试">
-<meta name="twitter:description" content="第一次通过宣讲会投递简历，太紧张了。不过更加明确了自己对于银行领域的不足之处：这个笔试的内容有：1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了是PE私募股权），还有一些别的概念，忘了。2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？3.列出至少5个Unix/Linux shell命">
+<meta name="twitter:title" content="矩阵中的路径与字符串的匹配问题">
+<meta name="twitter:description" content="//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string.h&amp;gt;
+#include&amp;lt;stdio.h&amp;gt;
+using namespace std;
+boo">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -82,14 +100,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/18/渣打面试机试/" title="渣打面试机试" itemprop="url">渣打面试机试</a>
+      <a href="/2016/05/23/矩阵中的路径与字符串的匹配问题/" title="矩阵中的路径与字符串的匹配问题" itemprop="url">矩阵中的路径与字符串的匹配问题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-18T10:51:57.000Z" itemprop="datePublished"> 发表于 2016-04-18</time>
+    <time datetime="2016-05-23T08:52:35.000Z" itemprop="datePublished"> 发表于 2016-05-23</time>
     
   </p>
 </header>
@@ -102,9 +120,228 @@
 		
 		</div>
 		
-		<p>第一次通过宣讲会投递简历，太紧张了。<br>不过更加明确了自己对于银行领域的不足之处：<br>这个笔试的内容有：<br>1.之前他们推荐过的那本金融书籍，主要讲stock，option，IPO，如何选择一个公司的股票，private equlity（好吧，现在知道了<br>是PE私募股权），还有一些别的概念，忘了。<br>2.数据库。应该必不可少了。考察的是数据库的索引的作用，怎么实现？<br>3.列出至少5个Unix/Linux shell命令以及作用。（要是用过的人应该是小case）<br>4.选择题考察了很多JAVA机制。哎，一直用的都是C/C++,所以全靠感觉。。。<br>5.最后的编程题，写用哪种语言实现排序。哈哈，第一印象就是冒泡，因为不是专门的互联网的那种笔试，没有直接的编译器，所以<br>就写下了主要的sort（），连 main都没有。教训：去到一个自己不熟悉的环境，要问工作人员是不是电脑安装了编译环境，有问题就提。<br>不过，太简单了，所以现在想想它要求的是不是实现三种排序方法啊？赶紧再看看别的。<br>之后是面试：<br>面试的主管是三十五岁左右的技术大牛，还算和蔼可亲。<br>问的问题主要是<br>你觉得渣打哪一点吸引你？<br>（看了我的简历），学校主要讲的是c++，但是企业大多数用的是Java啊；<br>你的项目经历像是学校交作业？！（他应该是说我之前的项目太low了吧）；<br>关注CET-6（毕竟是外企），我写的是读写熟练，没涉及听说，他就问在这样的环境中会感觉压力大么？<br>写了会使用很多软件，他一眼就看到R，所以应该这个以后会用到工作中吧。<br>问我对企业还有什么疑问？我就问了我最关心的银行的研发部门主要是做什么的。他只是说并不像外界传言的那么简单，有很多业务，<br>也很辛苦。</p>
-<p>好激动，接近二个半小时的宣讲、笔试、面试结束了。总的来说，银行的笔试比较泛，对编程的要求没有互联网的高（或许是我的误解），<br>最重要的是，明白了自己的短板，有太多需要准备的了。</p>
-  
+		<blockquote>
+<p>//判断矩阵中是否存在一条包含某字符串所有字符的路径,路径不能重复进入矩阵的格子 //回溯法+栈<br>//在第N个字符的周围格子没有找到第N+1个字符，这个时候要回退到第N-1个字符，重新设定第N个字符</p>
+</blockquote>
+<pre><code>#include &lt;iostream&gt;
+#include&lt;string.h&gt;
+#include&lt;stdio.h&gt;
+using namespace std;
+bool hasPathCore(char* matrix, int rows, int cols,int row,int col,char* str, int&amp; pathLength, bool* visited);
+bool hasPath(char* matrix, int rows, int cols, char* str){
+    if(matrix==NULL || rows&lt;1 || cols&lt;1 ||str==NULL)
+        return false;
+    bool *visited=new bool[rows*cols];//标记这个格子是否走过
+    memset(visited,0,rows*cols);
+
+    int pathLength=0;
+    for(int row=0;row&lt;rows;++row){
+        for(int col=0;col&lt;cols;++col){
+            if(hasPathCore(matrix,rows,cols,row,col,str,pathLength,visited))
+                return true;
+        }
+    }
+    delete[] visited;
+    return false;
+}
+bool hasPathCore(char* matrix, int rows, int cols,int row,int col,char* str, int&amp; pathLength, bool* visited){
+    if(str[pathLength]==&apos;\0&apos;)//初始
+        return true;
+    bool hasPath=false;
+
+    if(row&gt;=0 &amp;&amp; row&lt;rows &amp;&amp; col&gt;=0 &amp;&amp; col&lt;cols &amp;&amp; matrix[row*cols+col]==str[pathLength] &amp;&amp; !visited[row*cols+col]){//字符相等，没来过
+        ++pathLength;
+        visited[row*cols+col]=true;
+
+        hasPath=hasPathCore(matrix,rows,cols,row,col-1,str,pathLength,visited)||//左
+                hasPathCore(matrix,rows,cols,row-1,col,str,pathLength,visited)||//上
+                hasPathCore(matrix,rows,cols,row,col+1,str,pathLength,visited)||//右
+                hasPathCore(matrix,rows,cols,row+1,col,str,pathLength,visited);//下
+        if(!hasPath){//这条路径不行
+
+            --pathLength;
+            visited[row*cols+col]=false;//回退到n-1
+        }
+    }
+    return hasPath;
+}
+
+//**********************************test code*********************************
+void Test(char* testName, char* matrix, int rows, int cols, char* str, bool expected)
+{
+    if(testName != NULL)
+        printf(&quot;%s begins: &quot;, testName);
+
+    if(hasPath(matrix, rows, cols, str) == expected)
+        printf(&quot;Passed.\n&quot;);
+    else
+        printf(&quot;FAILED.\n&quot;);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//ABCCED
+void Test1()
+{
+    char matrix[] = &quot;ABCESFCSADEE&quot;;
+    char* str = &quot;ABCCED&quot;;
+
+    Test(&quot;Test1&quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//SEE
+void Test2()
+{
+    char matrix[] = &quot;ABCESFCSADEE&quot;;
+    char* str = &quot;SEE&quot;;
+
+    Test(&quot;Test2&quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//ABCE
+//SFCS
+//ADEE
+
+//ABCB
+void Test3()
+{
+    char matrix[] = &quot;ABCESFCSADEE&quot;;
+    char* str = &quot;ABCB&quot;;
+
+    Test(&quot;Test3&quot;, (char*)matrix, 3, 4, str, false);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SLHECCEIDEJFGGFIE
+void Test4()
+{
+    char matrix[] = &quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&quot;;
+    char* str = &quot;SLHECCEIDEJFGGFIE&quot;;
+
+    Test(&quot;Test4&quot;, (char*)matrix, 5, 8, str, true);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEHJIGQEM
+void Test5()
+{
+    char matrix[] = &quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&quot;;
+    char* str = &quot;SGGFIECVAASABCEHJIGQEM&quot;;
+
+    Test(&quot;Test5&quot;, (char*)matrix, 5, 8, str, true);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEEJIGOEM
+void Test6()
+{
+    char matrix[] = &quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&quot;;
+    char* str = &quot;SGGFIECVAASABCEEJIGOEM&quot;;
+
+    Test(&quot;Test6&quot;, (char*)matrix, 5, 8, str, false);
+}
+
+//ABCEHJIG
+//SFCSLOPQ
+//ADEEMNOE
+//ADIDEJFM
+//VCEIFGGS
+
+//SGGFIECVAASABCEHJIGQEMS
+void Test7()
+{
+    char matrix[] = &quot;ABCEHJIGSFCSLOPQADEEMNOEADIDEJFMVCEIFGGS&quot;;
+    char* str = &quot;SGGFIECVAASABCEHJIGQEMS&quot;;
+
+    Test(&quot;Test7&quot;, (char*)matrix, 5, 8, str, false);
+}
+
+//AAAA
+//AAAA
+//AAAA
+
+//AAAAAAAAAAAA
+void Test8()
+{
+    char matrix[] = &quot;AAAAAAAAAAAA&quot;;
+    char* str = &quot;AAAAAAAAAAAA&quot;;
+
+    Test(&quot;Test8&quot;, (char*)matrix, 3, 4, str, true);
+}
+
+//AAAA
+//AAAA
+//AAAA
+
+//AAAAAAAAAAAAA
+void Test9()
+{
+    char matrix[] = &quot;AAAAAAAAAAAA&quot;;
+    char* str = &quot;AAAAAAAAAAAAA&quot;;
+
+    Test(&quot;Test9&quot;, (char*)matrix, 3, 4, str, false);
+}
+
+//A
+
+//A
+void Test10()
+{
+    char matrix[] = &quot;A&quot;;
+    char* str = &quot;A&quot;;
+
+    Test(&quot;Test10&quot;, (char*)matrix, 1, 1, str, true);
+}
+
+//A
+
+//B
+void Test11()
+{
+    char matrix[] = &quot;A&quot;;
+    char* str = &quot;B&quot;;
+
+    Test(&quot;Test11&quot;, (char*)matrix, 1, 1, str, false);
+}
+
+int main(int argc, char* argv[])
+{
+    Test1();
+    Test2();
+    Test3();
+    Test4();
+    Test5();
+    Test6();
+    Test7();
+    Test8();
+    Test9();
+    Test10();
+    Test11();
+
+    return 0;
+}
+</code></pre>  
 	</div>
 		<footer class="article-footer clearfix">
 <div class="article-catetags">
@@ -116,7 +353,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/18/渣打面试机试/" data-title="渣打面试机试 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/05/23/矩阵中的路径与字符串的匹配问题/" data-title="矩阵中的路径与字符串的匹配问题 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -130,18 +367,18 @@
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/18/关于链表必须知道的事/" title="关于链表必须知道的事">
+ <a href="/2016/05/23/横列坐标数位之和不大于K的可移动方格数目/" title="横列坐标数位之和不大于K的可移动方格数目">
   <strong>上一篇：</strong><br/>
   <span>
-  关于链表必须知道的事</span>
+  横列坐标数位之和不大于K的可移动方格数目</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/17/阿里巴巴2015算法/"  title="阿里巴巴2015算法工程师">
+<a href="/2016/05/23/滑动窗口的最大值/"  title="滑动窗口的最大值">
  <strong>下一篇：</strong><br/> 
- <span>阿里巴巴2015算法工程师
+ <span>滑动窗口的最大值
 </span>
 </a>
 </div>
