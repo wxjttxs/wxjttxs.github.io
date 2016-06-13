@@ -1,0 +1,566 @@
+
+ <!DOCTYPE HTML>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+  
+    <title>网络地址知多少 | happy happy</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
+    
+    <meta name="author" content="王晓静">
+    
+
+    
+    <meta name="description" content="IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.255.255.255
+C 类 IP 段 192.0.0.0 到 223.255.255.255
+XP 默认分配的子网掩码每段只有 255 或 0">
+<meta property="og:type" content="article">
+<meta property="og:title" content="网络地址知多少">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/06/07/网络地址知多少/index.html">
+<meta property="og:site_name" content="happy happy">
+<meta property="og:description" content="IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.255.255.255
+C 类 IP 段 192.0.0.0 到 223.255.255.255
+XP 默认分配的子网掩码每段只有 255 或 0">
+<meta property="og:updated_time" content="2016-06-07T13:53:23.873Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="网络地址知多少">
+<meta name="twitter:description" content="IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.255.255.255
+C 类 IP 段 192.0.0.0 到 223.255.255.255
+XP 默认分配的子网掩码每段只有 255 或 0">
+
+    
+    <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
+    
+    
+    <link rel="icon" href="/img/favicon.ico">
+    
+    
+    <link rel="apple-touch-icon" href="/img/jacman.jpg">
+    <link rel="apple-touch-icon-precomposed" href="/img/jacman.jpg">
+    
+    <link rel="stylesheet" href="/css/style.css">
+</head>
+
+  <body>
+    <header>
+      
+<div>
+		
+			<div id="imglogo">
+				<a href="/"><img src="/img/logo.png" alt="happy happy" title="happy happy"/></a>
+			</div>
+			
+			<div id="textlogo">
+				<h1 class="site-name"><a href="/" title="happy happy">happy happy</a></h1>
+				<h2 class="blog-motto"></h2>
+			</div>
+			<div class="navbar"><a class="navbutton navmobile" href="#" title="菜单">
+			</a></div>
+			<nav class="animated">
+				<ul>
+					<ul>
+					 
+						<li><a href="/">首页</a></li>
+					
+						<li><a href="/about">关于</a></li>
+					
+						<li><a href="/resume">简历</a></li>
+					
+						<li><a href="/archives">博客</a></li>
+					
+					<li>
+ 					
+					<form class="search" action="//google.com/search" method="get" accept-charset="utf-8">
+						<label>Search</label>
+						<input type="search" id="search" name="q" autocomplete="off" maxlength="20" placeholder="搜索" />
+						<input type="hidden" name="q" value="site:wxjttxs.github.io">
+					</form>
+					
+					</li>
+				</ul>
+			</nav>			
+</div>
+    </header>
+    <div id="container">
+      <div id="main" class="post" itemscope itemprop="blogPost">
+  
+	<article itemprop="articleBody"> 
+		<header class="article-info clearfix">
+  <h1 itemprop="name">
+    
+      <a href="/2016/06/07/网络地址知多少/" title="网络地址知多少" itemprop="url">网络地址知多少</a>
+  </h1>
+  <p class="article-author">By
+       
+		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
+		
+  <p class="article-time">
+    <time datetime="2016-06-07T13:52:19.000Z" itemprop="datePublished"> 发表于 2016-06-07</time>
+    
+  </p>
+</header>
+	<div class="article-content">
+		
+		<div id="toc" class="toc-article">
+			<strong class="toc-title">文章目录</strong>
+		
+			
+		
+		</div>
+		
+		<pre><code>IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.255.255.255
+C 类 IP 段 192.0.0.0 到 223.255.255.255
+XP 默认分配的子网掩码每段只有 255 或 0
+A 类的默认子网掩码 255.0.0.0 一个子网最多可以容纳 1677 万多台电脑
+B 类的默认子网掩码 255.255.0.0 一个子网最多可以容纳 6 万台电脑
+C 类的默认子网掩码 255.255.255.0 一个子网最多可以容纳 254 台电脑
+我们必须有一个子网掩码，因为：
+1 ）当配置 IP 时，所有计算机都必须填写子网掩码
+2 ）我们必须在我们的网络中设置一些逻辑边界
+3 ）我们必须至少输入所使用 IP 类的默认子网掩码
+我以前认为，要想把一些电脑搞在同一网段，只要 IP 的前三段一样就可以了，今天，我才知道我错了。如果照我这样说的话，一个子网就只能容纳 254 台电脑？真是有点笑话。我们来说详细看看吧。
+要想在同一网段，只要网络标识相同就可以了，那要怎么看网络标识呢？首先要做的是把每段的 IP 转换为二进制。（有人说，我不会转换耶，没关系，我们用 Windows 自带计算器就行。打开计算器，点查看 &gt; 程序员，输入十进制的数字，再点一下“二进制”这个单选点，就可以切换至二进制了。）
+把子网掩码切换至二进制，我们会发现，所有的子网掩码是由一串连续的 1 和一串连续的 0 组成的（一共 4 段，每段 8 位，一共 32 位数）。
+255.0.0.0 11111111.00000000.00000000.00000000
+255.255.0.0 11111111.11111111.00000000.00000000
+255.255.255.0 11111111.11111111.11111111.00000000
+这是 A/B/C 三类默认子网掩码的二进制形式，其实，还有好多种子网掩码，只要是一串连续的 1 （不少于 8 个）和一串连续的 0 就可以了（每段都是 8 位）。如 11111111.11111111.11111000.00000000 ，这也是一段合法的子网掩码。子网掩码决定的是一个子网的计算机数目，计算机公式是 2 的 m 次方，其中，我们可以把 m 看到是后面的多少个 0 。如 255.255.255.0 转换成二进制，那就是 11111111.11111111.11111111.00000000 ，后面有 8 个 0 ，那 m 就是 8 ， 255.255.255.0 这个子网掩码可以容纳 2 的 8 次方（台）电脑，也就是 256 台，但是有两个 IP 是不能用的，那就是最后一段不能为 0 和 255 ，减去这两台，就是 254 台。
+划分方法
+
+子网的划分，实际上就是设计子网掩码的过程。子网掩码主要是用来区分 IP 地址中的网络 ID 和主机 ID ，它用来屏蔽 IP 地址的一部分，从 IP 地址中分离出网络 ID 和主机 ID. 子网掩码是由 4 个十进制数组成的数值 &quot; 中间用 &quot;.&quot; 分隔，如 255.255.255.0 。若将它写成二进制的形式为 :11111111.11111111.11111111.00000000 ，其中为 &quot;1&quot; 的位分离出网络 ID, 为 &quot;0&quot; 的位分离出主机 ID ，也就是通过将 IP 地址与子网掩码进行 &quot; 与 &quot; 逻辑操作，得出网络号。
+例如，假设 IP 地址为 192.160.4.1 ，子网掩码为 255.255.255.0 ，则网络 ID 为 192.160.4.0, 主机 ID 为 0.0.0.1 。计算机网络 ID 的不同，则说明他们不在同一个物理子网内，需通过路由器转发才能进行数据交换。
+每类地址具有默认的子网掩码 : 对于 A 类为 255.0.0.0 ，对于 B 类为 255.255.0.0 ，对于 C 类为 255.255.255.0 。除了使用上述的表示方法之外，还有使用子网掩码中 &quot;1&quot; 的位数来表示的，在默认情况下， A 类地址为 8 位， B 类地址为 16 位， C 类地址为 24 位。例如， A 类的某个地址为 12.10.10.3/8 ，这里的最后一个 &quot;8&quot; 说明该地址的子网掩码为 8 位，而 199.42.26.0/28 表示网络 199.42.26.0 的子网掩码位数有 28 位。
+如果希望在一个网络中建立子网，就要在这个默认的子网掩码中加入一些位，它减少了用于主机地址的位数。加入到掩码中的位数决定了可以配置的子网。因而，在一个划分了子网的网络中，每个地址包含一个网络地址、一个子网位数和一个主机地址
+示例
+
+255.255.248.0 这个子网掩码可以最多容纳多少台电脑？
+计算方法
+
+把将其转换为二进制的四段数字（每段要是 8 位，如果是 0 ，可以写成 8 个 0 ，也就是 00000000 ）
+11111111.1111111.11111000.00000000
+然后，数数后面有几颗 0 ，一共是有 11 颗，那就是 2 的 11 次方，等于 2048 ( 注意：主机号中全 0 是保留地址，全 1 是广播地址，所以它们不算可用主号地址。网络号也是一样的。子网号是可以用全 0 和全 1 的 ) ，所以这个子网掩码最多可以容纳 2048-2=2046 台电脑。
+一个子网最多可以容纳多少台电脑你会算了吧，下面我们来个逆向算法的题。
+一个公司有 530 台电脑，组成一个对等局域网，子网掩码设多少最合适？
+首先，无疑， 530 台电脑用 B 类 IP 最合适（ A 类不用说了，太多， C 类又不够，肯定是 B 类），但是 B 类默认的子网掩码是 255.255.0.0 ，可以容纳 6 万台电脑，显然不太合适，那子网掩码设多少合适呢？我们先来列个公式。
+公式
+
+2 的 m 次方 &gt;=560
+首先，我们确定 2 的 m 次方一定是大于 2 的 8 次方的，因为我们知道 2 的 8 次方是 256 ，也就是 C 类 IP 的最大容纳电脑的数目，我们从 9 次方一个一个试， 2 的 9 次方是 512 ，不到 560 ， 2 的 10 次方是 1024 ，看来 2 的 10 次方最合适了。子网掩码一共由 32 位组成，已确定后面 10 位是 0 了，那前面的 22 位就是 1 ，最合适的子网掩码就是： 11111111.11111111.11111100.00000000 ，转换成 10 进制，那就是 255.255.252.0 。
+分配和计算子网掩码你会了吧，下面，我们来看看 IP 地址的网段。
+相信好多人都和我一样，认为 IP 只要前三段相同，就是在同一网段了，其实，不是这样的，同样，我也把 IP 的每一段转换为一个二进制数，这里就拿 IP ： 192.168.0.1 ，子网掩码： 255.255.255.0 做实验吧。
+192.168.0.1
+11000000.10101000.00000000.00000001
+（这里说明一下，和子网掩码一样，每段 8 位，不足 8 位的，前面加 0 补齐。）
+IP 11000000.10101000.00000000.00000001
+子网掩码 11111111.11111111.11111111.00000000
+同一网段
+
+在这里，向大家说一下到底怎么样才算同一网段。
+要想在同一网段，必需做到网络标识相同，那网络标识怎么算呢？各类 IP 的网络标识算法都是不一样的。 A 类的，只算第一段。 B 类，只算第一、二段。 C 类，算第一、二、三段。
+算法只要把 IP 和子网掩码的每位数 AND 就可以了。
+AND 方法： 0 和 1=0 0 和 0=0 1 和 1=1
+如： And 192.168.0.1 ， 255.255.255.0 ，先转换为二进制，然后 AND 每一位
+IP 11000000.10101000.00000000.00000001
+子网掩码 11111111.11111111.11111111.00000000
+得出 AND 结果 11000000.10101000.00000000.00000000
+转换为十进制 192.168.0.0 ，这就是网络标识，
+再将子网掩码反取，也就是 00000000.00000000.00000000.11111111 ，与 IP AND
+得出结果 00000000.00000000.00000000.00000001 ，转换为 10 进制，即 0.0.0.1 ，
+这 0.0.0.1 就是主机标识。要想在同一网段，必需做到网络标识一样。
+我们再来看看这个改为默认子网掩码的 B 类 IP
+如 IP ： 188.188.0.111 ， 188.188.5.222 ，子网掩码都设为 255.255.254.0 ，在同一网段吗？
+先将这些转换成二进制
+188.188.0.111 10111100.10111100.00000000.01101111
+188.188.5.222 10111100.10111100.00000101.11011110
+255.255.254.0 11111111.11111111.11111110.00000000
+分别 AND ，得
+10111100.10111100.00000000.00000000
+10111100.10111100.00000100.00000000
+网络标识不一样（看 255.255.254.0 转换成二进制后 1 的数位，所以可以看到不一样），即不在同一网段。
+判断是不是在同一网段，你会了吧，下面，我们来点实际的。
+一个公司有 530 台电脑，组成一个对等局域网，子网掩码和 IP 设多少最合适？
+子网掩码不说了，前面算出结果来了 11111111.11111111.11111100.00000000 ，也就是 255.255.252.0
+B 类地址
+
+选一个 B 类 IP 段，这里就选 188.188.x.x 吧
+这样， IP 的前两段确定的，关键是要确定第三段，只要网络标识相同就可以了。我们先来确定网络号。（我们把子网掩码中的 1 和 IP 中的 ? 对就起来， 0 和 * 对应起来，如下：）
+255.255.252.0 11111111.11111111.11111100.00000000
+188.188.x.x 10111100.10111100.??????**.********
+网络标识 10111100.10111100.??????00.00000000
+由此可知， ? 处随便填（只能用 0 和 1 填，不一定全是 0 和 1 ），我们就用全填 0 吧， * 处随便，这样呢，我们的 IP 就是
+10111100.10111100.000000**.******** ，一共有 530 台电脑， IP 的最后一段 1 ～ 254 可以分给 254 台计算机， 530/254=2.086 ，采用进 1 法，得整数 3 ，这样，我们确定了 IP 的第三段要分成三个不同的数字，也就是说，把 000000** 中的 ** 填三次数字，只能填 1 和 0 ，而且每次的数字都不一样，至于填什么，就随我们便了，如 00000001 ， 00000010 ， 00000011 ，转换成十进制，分别是 1 ， 2 ， 3 ，这样，第三段也确定了，这样，就可以把 IP 分成 188.188.1.y ， 188.188.2.y ， 188.188.3.y ， y 处随便填，只要在 1 ～ 254 范围之内，并且这 530 台电脑每台和每台的 IP 不一样，就可以了。
+有人也许会说，既然算法这么麻烦，干脆用 A 类 IP 和 A 类默认子网掩码得了，偶要告诉你的是，由于 A 类 IP 和 A 类默认子网掩码的主机数目过大，这样做无疑是大海捞针，如果同时局域网访问量过频繁、过大，会影响效率的，所以，最好设置符合自己的 IP 和子网掩码 ^_^
+举个实例：比如公司分配到的网段是 192.168.1.0/24 ，首先我要分一个 8 个主机的网段出来，那么这个网段的首地址是什么 ? 之后，我又要划分一个 16 个主机的地址出来，那么 16 个主机的首地址是什么？
+划分实例
+
+C 类地址例子 : 网络地址 192.168.10.0; 子网掩码 255.255.255.192(/26)
+1. 子网数 =2*2=4
+2. 主机数 =2 的 6 次方 -2=62
+3. 有效子网 ?:block size=256-192=64; 所以第一个子网为 192.168.10.64, 第二个为 192.168.10.128
+4. 广播地址 : 下个子网 -1. 所以 2 个子网的广播地址分别是 192.168.10.127 和 192.168.10.191
+5. 有效主机范围是 : 所以第一个子网为 192.168.10.0 ，第二个为 192.168.10.64 ，第三个为 192.168.10.128 ，第四个为 192.168.10.192
+B 类地址例子 1: 网络地址 :172.16.0.0; 子网掩码 255.255.192.0(/18)
+1. 子网数 =2*2=4
+2. 主机数 =2 的 14 次方 -2=16382
+3. 有效子网 ?:block size=256-192=64; 所以第一个子网为 172.16.64.0, 最后 1 个为 172.16.128.0
+4. 广播地址 : 下个子网 -1. 所以 2 个子网的广播地址分别是 172.16.127.255 和 172.16.191.255
+5. 有效主机范围是 : 第一个子网的主机地址是 172.16.64.1 到 172.16.127.254; 第二个是 172.16.128.1 到 172.16.191.254
+B 类地址例子 2: 网络地址 :172.16.0.0; 子网掩码 255.255.255.224(/27)
+1. 子网数 =2 的 11 次方 -2=2046( 因为 B 类地址默认掩码是 255.255.0.0, 所以网络位为 8+3=11)
+2. 主机数 =2 的 5 次方 -2=30
+3. 有效子网 ?:block size=256-224=32; 所以第一个子网为 172.16.0.32, 最后 1 个为 172.16.255.192
+4. 广播地址 : 下个子网 -1. 所以第一个子网和最后 1 个子网的广播地址分别是 172.16.0.63 和 172.16.255.223
+5. 有效主机范围是 : 第一个子网的主机地址是 172.16.0.33 到 172.16.0.62; 最后 1 个是 172.16.255.193 到 172.16.255.223
+Variable Length Subnet Masks(VLSM)
+变长子网掩码 (VLSM) 的作用 : 节约 IP 地址空间 ; 减少路由表大小 . 使用 VLSM 时 , 所采用的路由协议必须能够支持它 , 这些路由协议包括 RIPv2,OSPF,EIGRP 和 BGP.
+</code></pre>  
+	</div>
+		<footer class="article-footer clearfix">
+<div class="article-catetags">
+
+
+</div>
+
+
+
+	<div class="article-share" id="share">
+	
+	  <div data-url="http://wxjttxs.github.io/2016/06/07/网络地址知多少/" data-title="网络地址知多少 | happy happy" data-tsina="null" class="share clearfix">
+	  </div>
+	
+	</div>
+
+
+</footer>
+
+   	       
+	</article>
+	
+<nav class="article-nav clearfix">
+ 
+ <div class="prev" >
+ <a href="/2016/06/08/最少操作使得数组回文/" title="最少操作使得数组回文">
+  <strong>上一篇：</strong><br/>
+  <span>
+  最少操作使得数组回文</span>
+</a>
+</div>
+
+
+<div class="next">
+<a href="/2016/05/23/横列坐标数位之和不大于K的可移动方格数目/"  title="横列坐标数位之和不大于K的可移动方格数目">
+ <strong>下一篇：</strong><br/> 
+ <span>横列坐标数位之和不大于K的可移动方格数目
+</span>
+</a>
+</div>
+
+</nav>
+
+	
+
+</div>  
+      <div class="openaside"><a class="navbutton" href="#" title="显示侧边栏"></a></div>
+
+  <div id="toc" class="toc-aside">
+  <strong class="toc-title">文章目录</strong>
+ 
+ 
+ 
+  </div>
+
+<div id="asidepart">
+<div class="closeaside"><a class="closebutton" href="#" title="隐藏侧边栏"></a></div>
+<aside class="clearfix">
+
+  
+
+
+  
+
+  
+
+  <div class="linkslist">
+  <p class="asidetitle">友情链接</p>
+    <ul>
+        
+          <li>
+            
+            	<a href="https://github.com/wxjttxs/wxjttxs.github.io" target="_blank" title="My Github">My Github</a>
+            
+          </li>
+        
+          <li>
+            
+            	<a href="http://bbs.sciencenet.cn/home.php?mod=space&uid=2891269&view=xiaojingwang" target="_blank" title="Wxj&#39;s Blog">Wxj&#39;s Blog</a>
+            
+          </li>
+        
+    </ul>
+</div>
+
+  
+
+
+  <div class="rsspart">
+	<a href="/atom.xml" target="_blank" title="rss">RSS 订阅</a>
+</div>
+
+  <div class="weiboshow">
+  <p class="asidetitle">新浪微博</p>
+    <iframe width="100%" height="119" class="share_self"  frameborder="0" scrolling="no" src="http://widget.weibo.com/weiboshow/index.php?language=&width=0&height=119&fansRow=2&ptype=1&speed=0&skin=9&isTitle=1&noborder=1&isWeibo=0&isFans=0&uid=null&verifier=&dpc=1"></iframe>
+</div>
+
+
+</aside>
+</div>
+    </div>
+    <footer><div id="footer" >
+	
+	<div class="line">
+		<span></span>
+		<div class="author"></div>
+	</div>
+	
+	
+	<section class="info">
+		<p> Hello ,I&#39;m Wang xiaojing in Tianjin University. <br/>
+			This is my blog, welcome!</p>
+	</section>
+	 
+	<div class="social-font" class="clearfix">
+		
+		<a href="http://weibo.com/2677339583" target="_blank" class="icon-weibo" title="微博"></a>
+		
+		
+		
+		
+		
+		
+		
+		
+		
+		
+	</div>
+			
+		
+
+		<p class="copyright">
+		Powered by <a href="http://hexo.io" target="_blank" title="hexo">hexo</a> and Theme by <a href="https://github.com/wuchong/jacman" target="_blank" title="Jacman">Jacman</a> © 2016 
+		
+		<a href="/about" target="_blank" title="王晓静">王晓静</a>
+		
+		
+		</p>
+</div>
+</footer>
+    <script src="/js/jquery-2.0.3.min.js"></script>
+<script src="/js/jquery.imagesloaded.min.js"></script>
+<script src="/js/gallery.js"></script>
+<script src="/js/jquery.qrcode-0.12.0.min.js"></script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.navbar').click(function(){
+    $('header nav').toggleClass('shownav');
+  });
+  var myWidth = 0;
+  function getSize(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+  };
+  var m = $('#main'),
+      a = $('#asidepart'),
+      c = $('.closeaside'),
+      o = $('.openaside');
+  c.click(function(){
+    a.addClass('fadeOut').css('display', 'none');
+    o.css('display', 'block').addClass('fadeIn');
+    m.addClass('moveMain');
+  });
+  o.click(function(){
+    o.css('display', 'none').removeClass('beforeFadeIn');
+    a.css('display', 'block').removeClass('fadeOut').addClass('fadeIn');      
+    m.removeClass('moveMain');
+  });
+  $(window).scroll(function(){
+    o.css("top",Math.max(80,260-$(this).scrollTop()));
+  });
+  
+  $(window).resize(function(){
+    getSize(); 
+    if (myWidth >= 1024) {
+      $('header nav').removeClass('shownav');
+    }else{
+      m.removeClass('moveMain');
+      a.css('display', 'block').removeClass('fadeOut');
+      o.css('display', 'none');
+      
+      $('#toc.toc-aside').css('display', 'none');
+        
+    }
+  });
+});
+</script>
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var ai = $('.article-content>iframe'),
+      ae = $('.article-content>embed'),
+      t  = $('#toc'),
+      ta = $('#toc.toc-aside'),
+      o  = $('.openaside'),
+      c  = $('.closeaside');
+  if(ai.length>0){
+    ai.wrap('<div class="video-container" />');
+  };
+  if(ae.length>0){
+   ae.wrap('<div class="video-container" />');
+  };
+  c.click(function(){
+    ta.css('display', 'block').addClass('fadeIn');
+  });
+  o.click(function(){
+    ta.css('display', 'none');
+  });
+  $(window).scroll(function(){
+    ta.css("top",Math.max(140,320-$(this).scrollTop()));
+  });
+});
+</script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){ 
+  var $this = $('.share'),
+      url = $this.attr('data-url'),
+      encodedUrl = encodeURIComponent(url),
+      title = $this.attr('data-title'),
+      tsina = $this.attr('data-tsina'),
+      description = $this.attr('description');
+  var html = [
+  '<div class="hoverqrcode clearfix"></div>',
+  '<a class="overlay" id="qrcode"></a>',
+  '<a href="https://www.facebook.com/sharer.php?u=' + encodedUrl + '" class="article-share-facebook" target="_blank" title="Facebook"></a>',
+  '<a href="https://twitter.com/intent/tweet?url=' + encodedUrl + '" class="article-share-twitter" target="_blank" title="Twitter"></a>',
+  '<a href="#qrcode" class="article-share-qrcode" title="微信"></a>',
+  '<a href="http://widget.renren.com/dialog/share?resourceUrl=' + encodedUrl + '&srcUrl=' + encodedUrl + '&title=' + title +'" class="article-share-renren" target="_blank" title="人人"></a>',
+  '<a href="http://service.weibo.com/share/share.php?title='+title+'&url='+encodedUrl +'&ralateUid='+ tsina +'&searchPic=true&style=number' +'" class="article-share-weibo" target="_blank" title="微博"></a>',
+  '<span title="Share to"></span>'
+  ].join('');
+  $this.append(html);
+
+  $('.hoverqrcode').hide();
+
+  var myWidth = 0;
+  function updatehoverqrcode(){
+    if( typeof( window.innerWidth ) == 'number' ) {
+      myWidth = window.innerWidth;
+    } else if( document.documentElement && document.documentElement.clientWidth) {
+      myWidth = document.documentElement.clientWidth;
+    };
+    var qrsize = myWidth > 1024 ? 200:100;
+    var options = {render: 'image', size: qrsize, fill: '#2ca6cb', text: url, radius: 0.5, quiet: 1};
+    var p = $('.article-share-qrcode').position();
+    $('.hoverqrcode').empty().css('width', qrsize).css('height', qrsize)
+                          .css('left', p.left-qrsize/2+20).css('top', p.top-qrsize-10)
+                          .qrcode(options);
+  };
+  $(window).resize(function(){
+    $('.hoverqrcode').hide();
+  });
+  $('.article-share-qrcode').click(function(){
+    updatehoverqrcode();
+    $('.hoverqrcode').toggle();
+  });
+  $('.article-share-qrcode').hover(function(){}, function(){
+      $('.hoverqrcode').hide();
+  });
+});   
+</script>
+
+
+
+
+
+
+
+
+
+<link rel="stylesheet" href="/fancybox/jquery.fancybox.css" media="screen" type="text/css">
+<script src="/fancybox/jquery.fancybox.pack.js"></script>
+<script type="text/javascript">
+$(document).ready(function(){ 
+  $('.article-content').each(function(i){
+    $(this).find('img').each(function(){
+      if ($(this).parent().hasClass('fancybox')) return;
+      var alt = this.alt;
+      if (alt) $(this).after('<span class="caption">' + alt + '</span>');
+      $(this).wrap('<a href="' + this.src + '" title="' + alt + '" class="fancybox"></a>');
+    });
+    $(this).find('.fancybox').each(function(){
+      $(this).attr('rel', 'article' + i);
+    });
+  });
+  if($.fancybox){
+    $('.fancybox').fancybox();
+  }
+}); 
+</script>
+
+
+
+<!-- Analytics Begin -->
+
+
+
+<script>
+var _hmt = _hmt || [];
+(function() {
+  var hm = document.createElement("script");
+  hm.src = "//hm.baidu.com/hm.js?e6d1f421bbc9962127a50488f9ed37d1";
+  var s = document.getElementsByTagName("script")[0]; 
+  s.parentNode.insertBefore(hm, s);
+})();
+</script>
+
+
+
+<!-- Analytics End -->
+
+<!-- Totop Begin -->
+
+	<div id="totop">
+	<a title="返回顶部"><img src="/img/scrollup.png"/></a>
+	</div>
+	<script src="/js/totop.js"></script>
+
+<!-- Totop End -->
+
+<!-- MathJax Begin -->
+<!-- mathjax config similar to math.stackexchange -->
+
+
+<!-- MathJax End -->
+
+<!-- Tiny_search Begin -->
+
+<!-- Tiny_search End -->
+
+  </body>
+</html>

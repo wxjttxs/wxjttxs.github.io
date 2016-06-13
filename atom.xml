@@ -5,7 +5,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="http://wxjttxs.github.io/"/>
-  <updated>2016-05-23T09:12:00.582Z</updated>
+  <updated>2016-06-13T00:23:57.797Z</updated>
   <id>http://wxjttxs.github.io/</id>
   
   <author>
@@ -14,6 +14,594 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>百度2017实习生编程题</title>
+    <link href="http://wxjttxs.github.io/2016/06/12/%E7%99%BE%E5%BA%A62017%E5%AE%9E%E4%B9%A0%E7%94%9F%E7%BC%96%E7%A8%8B%E9%A2%98/"/>
+    <id>http://wxjttxs.github.io/2016/06/12/百度2017实习生编程题/</id>
+    <published>2016-06-12T15:05:28.000Z</published>
+    <updated>2016-06-13T00:23:57.797Z</updated>
+    
+    <content type="html">&lt;p&gt;// 0612.cpp : Defines the entry point for the console application.&lt;br&gt;//&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(Shortest Process&lt;br&gt;Next)；是对FCFS算法的改进，其目标是减少平均周转时间。 短作业优先调度算法基于这样一种思想： 运行时间短的优先调度；&lt;br&gt;如果运行时间相同则调度最先发起请求的进程。 等待时间：一个进程从发起请求到开始执行的时间间隔。&lt;br&gt;现在有n个进程请求cpu，每个进程用一个二元组表示：(p,q),p代表该进程发起请求的时间，p代表需要占用cpu的时间。&lt;br&gt;请计算n个进程的平均等待时间。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;//短作业优先（SJF）调度是FIFO的改进，减少了平均周转时间
+    #include&amp;lt;iostream&amp;gt;
+using namespace std;
+#include&amp;lt;vector&amp;gt;
+
+struct Job
+{
+    int start;
+    int need;
+};
+
+int compareJob(Job j1, Job j2)
+{
+    if (j1.start == j2.start)
+        return j1.need - j2.need;
+    return j1.start - j2.start;
+}
+
+int main()
+{
+    int n;
+    while (cin &amp;gt;&amp;gt; n)
+    {
+        vector&amp;lt;Job&amp;gt; wait;
+        int  st, nd, sum_w = 0;
+        for (int i = 0; i &amp;lt; n; ++i)
+        {
+            cin &amp;gt;&amp;gt; st &amp;gt;&amp;gt; nd;
+            wait.push_back({ st, nd });
+        }
+        for (int i = wait.size() - 1; i &amp;gt; 0; --i)
+        {
+            bool change = false;
+            for (int j = 0; j &amp;lt; i; ++j)
+            {
+                if (compareJob(wait[j], wait[j + 1])&amp;gt;0)
+                {
+                    Job t = wait[j];
+                    wait[j] = wait[j + 1];
+                    wait[j + 1] = t;
+                    change = true;
+                }
+            }
+            if (change == false)
+                break;
+        }
+        int thisTime = wait[0].start + wait[0].need;
+        for (int i = 1; i &amp;lt; wait.size(); ++i)
+        {
+            if (thisTime &amp;lt; wait[i].start)
+                thisTime = wait[i].start;
+            sum_w += (thisTime - wait[i].start);
+            thisTime += wait[i].need;
+        }
+        printf(&amp;quot;%.4f\n&amp;quot;, sum_w / (double)n);
+    }
+    return 0;
+}
+
+在计算机中，页式虚拟存储器实现的一个难点是设计页面调度（置换）算法。其中一种实现方式是FIFO算法。 FIFO算法根据页面进入内存的时间先后选择淘汰页面，先进入内存的页面先淘汰，后进入内存的后淘汰。 假设Cache的大小为2,有5个页面请求，分别为 2 1 2 3 1，则Cache的状态转换为：(2)-&amp;gt;(2,1)-&amp;gt;(2,1)-&amp;gt;(1,3)-&amp;gt;(1,3)，其中第1,2,4次缺页，总缺页次数为3。 现在给出Cache的大小n和m个页面请求，请算出缺页数。
+
+#include &amp;lt;iostream&amp;gt;
+#include&amp;lt;string&amp;gt;
+#include&amp;lt;vector&amp;gt;
+#include&amp;lt;algorithm&amp;gt;
+using namespace std;
+bool findd(vector&amp;lt;int&amp;gt;q,int n){
+    bool flag=false;
+    for(int i=0;i&amp;lt;q.size();i++)
+    {
+        if(q[i]==n)
+            flag=true;
+
+    }
+    return flag;
+}
+
+int main(){
+    int n,m;
+    while(cin&amp;gt;&amp;gt;n&amp;gt;&amp;gt;m)
+    {
+
+        vector&amp;lt;int&amp;gt; v;
+        for(int i=0;i&amp;lt;m;i++)
+        {
+            int temp;
+            cin&amp;gt;&amp;gt;temp;
+            v.push_back(temp);
+        }
+        vector&amp;lt;int&amp;gt; q;
+        int countt=0;
+        for(int j=0;j&amp;lt;m;j++)
+        {
+           if(!findd(q,v[j]))
+           {
+                if(q.size()&amp;lt;n)
+                    q.push_back(v[j]);
+                else
+                    {
+                        q.erase(q.begin());
+                        q.push_back(v[j]);
+                    }
+               countt++;
+           }
+           else
+                continue;
+        }
+       cout&amp;lt;&amp;lt;countt&amp;lt;&amp;lt;endl;
+
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;&lt;blockquote&gt;
+&lt;pre&gt;&lt;code&gt;    拉姆刚开始学习英文单词，对单词排序很感兴趣。
+如果给拉姆一组单词，他能够迅速确定是否可以将这些单词排列在一个列表中，使得该列表中任何单词的首字母与前一单词的为字母相同。
+你能编写一个程序来帮助拉姆进行判断吗？
+&lt;/code&gt;&lt;/pre&gt;&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
+using namespace std;
+#include &amp;lt;vector&amp;gt;
+#include &amp;lt;string&amp;gt;
+
+int main()
+{
+    int n;
+    while (cin&amp;gt;&amp;gt;n)
+    {
+        vector&amp;lt;string&amp;gt; vc(n);
+        for (int i = 0; i &amp;lt; n;i++)
+        {
+            cin &amp;gt;&amp;gt; vc[i];
+        }
+        bool flag = true;
+        for (int i = 0; i &amp;lt; n-1;i++)   //提出为bool的函数
+        {
+            int size = vc[i].size();
+            if (vc[i][size-1]==vc[i+1][0])
+            {
+                continue;
+            }
+            else{
+                flag = false;           
+                break;
+            }
+
+        }
+        if (flag)
+        {
+            cout &amp;lt;&amp;lt; &amp;quot;Yes&amp;quot; &amp;lt;&amp;lt; endl;
+        }
+        else
+        {
+            cout &amp;lt;&amp;lt; &amp;quot;No&amp;quot; &amp;lt;&amp;lt; endl;
+        }
+    }
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;// 0612.cpp : Defines the entry point for the console application.&lt;br&gt;//&lt;/p&gt;
+&lt;blockquote&gt;
+&lt;p&gt;短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>完美度最大的子串</title>
+    <link href="http://wxjttxs.github.io/2016/06/10/%E5%AE%8C%E7%BE%8E%E5%BA%A6%E6%9C%80%E5%A4%A7%E7%9A%84%E5%AD%90%E4%B8%B2/"/>
+    <id>http://wxjttxs.github.io/2016/06/10/完美度最大的子串/</id>
+    <published>2016-06-10T13:57:26.000Z</published>
+    <updated>2016-06-10T14:04:26.051Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。&lt;br&gt;现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美度最高。&lt;br&gt;&lt;strong&gt;输入描述：&lt;/strong&gt; 多组测试数据，对于每组测试数据： 第一行包含一个整数N，代表牛牛写了N段话 接下来包含N段话，每段话之间中空格隔开，均有大写字母组成。 保证：1&amp;lt;=N&amp;lt;=50,1&amp;lt;=Ai&amp;lt;=50&lt;br&gt;&lt;strong&gt;输出描述：&lt;/strong&gt; 对于每组数据，输出一个字符串，代表完美度最高的最长连续 子串。如果有多个，输出最早出现的子串。&lt;/p&gt;
+&lt;/blockquote&gt;
+&lt;pre&gt;&lt;code&gt;#include&amp;quot;stdafx.h&amp;quot;
+#include&amp;lt;iostream&amp;gt;
+#include &amp;lt;string&amp;gt;
+using namespace std;
+//方法一穷举法
+//得到一个字符串的完美度
+//int getPerfectDegree(string s){
+//    int length = s.size();
+//    int countt = 0;//完美度,也就是不重复字符个数
+//    int hashtable[256] = { 0 };
+//    for (int i = 0; i&amp;lt;length; i++)
+//    {
+//        hashtable[s[i]]++;
+//    }
+//    for (int i = 0; i&amp;lt;length; i++)
+//    {
+//        if (hashtable[s[i]] == 1)
+//            countt++;
+//    }
+//
+//    return countt;
+//}
+//string getMaxSubstr(string s){
+//    int length = s.size();
+//    int D[2500][2500] = { 0 };
+//    for (int i = 0; i&amp;lt;length; i++)
+//    {
+//        for (int j = 0; j &amp;lt;= i; j++)
+//        {
+//            D[i][j] = getPerfectDegree(s.substr(j, i - j + 1));
+//        }
+//    }
+//    int maxx = 0;
+//    int row = 0;
+//    int col = 0;
+//    for (int i = 0; i&amp;lt;length; i++)
+//    {
+//        for (int j = 0; j &amp;lt;= i; j++)
+//        {
+//            if (D[i][j]&amp;gt;maxx)
+//            {
+//                maxx = D[i][j];
+//                row = i;
+//                col = j;
+//            }
+//
+//        }
+//    }
+//    cout &amp;lt;&amp;lt; maxx &amp;lt;&amp;lt; endl;;
+//    return s.substr(col, row - col + 1);
+//}
+//方法二，当前结果基于前一次结果
+void getMaxSubstr(string s)
+{
+    int a[50][50] = { 0 };
+    string ans;
+    int iStrlen = s.size();
+    for (int i = 0; i &amp;lt; iStrlen; i++)
+        a[i][i] = 1;
+    for (int j = 1; j&amp;lt;iStrlen; j++)  //第j列
+    {
+        int index1 = -1, index2 = -1;
+        for (int i = j - 1; i &amp;gt;= 0; i--)   //首次出现位置
+        {
+            if (s[i] == s[j])
+            {
+                if (index1 == -1)//j之前重复1次
+                    index1 = i;
+                else if (index2 == -1)//j之前重复多次
+                {
+                    index2 = i;
+                    break;
+                }
+            }
+        }
+
+        for (int i = 0; i&amp;lt;j; i++)
+        {
+            if (i&amp;gt;index1)//j之前未重复
+                a[i][j] = a[i][j - 1] + 1;
+            else if (i&amp;gt;index2 &amp;amp;&amp;amp; i &amp;lt;= index1)//j之前重复一次
+                a[i][j] = a[i][j - 1] - 1;
+            else//j 之前重复多次
+                a[i][j] = a[i][j - 1];
+        }
+    }
+
+    //for(int i=0; i&amp;lt;iStrlen; i++)
+    //{
+    //    for(int j=0; j&amp;lt;iStrlen; j++)
+    //        cout&amp;lt;&amp;lt;a[i][j]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+    //    cout&amp;lt;&amp;lt;endl;
+    //}
+
+    int iStart = 0, iEnd = 0, iMax = 0;
+    for (int j = 0; j&amp;lt;iStrlen; j++)
+    {
+        for (int i = 0; i&amp;lt;iStrlen; i++)
+        {
+            if (a[i][j]&amp;gt;iMax)
+            {
+                iMax = a[i][j];
+                iStart = i;
+                iEnd = j;
+            }
+        }
+    }
+
+    ans = s.substr(iStart, iEnd - iStart + 1);
+    cout &amp;lt;&amp;lt; a[iStart][iEnd] &amp;lt;&amp;lt; endl;
+    cout &amp;lt;&amp;lt; ans &amp;lt;&amp;lt; endl;
+
+}
+int main(){
+    string s = &amp;quot;hello&amp;quot;;
+    // cout&amp;lt;&amp;lt;s.substr(0,5);从0开始5个
+
+    /*cout &amp;lt;&amp;lt; getMaxSubstr(s);*/
+    getMaxSubstr(&amp;quot;aohhad&amp;quot;);
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。&lt;br&gt;现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>2009^2009</title>
+    <link href="http://wxjttxs.github.io/2016/06/09/2009/"/>
+    <id>http://wxjttxs.github.io/2016/06/09/2009/</id>
+    <published>2016-06-09T08:28:52.000Z</published>
+    <updated>2016-06-09T15:10:47.729Z</updated>
+    
+    <content type="html">&lt;blockquote&gt;
+&lt;p&gt;��������2009^2009�Ľ����ĸ�λ���ӵĽ��� �� ����������λ��ab,cd���ˣ�&lt;br&gt;��10a+b)&lt;em&gt;(10c+d)=100ac+10ad+10bc+bd&lt;br&gt;����һ��������x�ĸ���λ�����ӣ�������10x��һ���ģ���Ϊ���������ֶ���0.�������������⡣����23��230,8��80�ȡ� Ҳ���Ǻ�&lt;br&gt;��a+b)&lt;/em&gt;(c+d) = ac+ad+bc+bd  �ĸ���λ���������ȵġ�&lt;br&gt;���ԣ����Եó����ۣ�������λ�����˵Ľ����ĸ�λ���������Ǻ�ÿ�����ĸ�λ�����Ӻ������˵Ľ��������ȵġ�&lt;br&gt;ͬ�����Ƴ�����λ�������������˵Ľ����ĸ�λ�������ӽ������������������ˡ�  ��ô2009^2009�ĸ�λ������&lt;br&gt;��(2+0+0+9)^2009���ȣ�11^2009)  ��(1+1)^2009==&amp;gt;2^2009���ȡ�&lt;br&gt;ʵ����2^2009Ҳ���ó�2009�Σ��������Լ򻯳�(2^1004)^2 * 2ֻ��Ҫ��1006�Σ�ͬ�����Լ����Ż���ȥ&lt;/p&gt;
+&lt;p&gt;2^n ��n��1��n �ó������� 1,2,4,8,7,5,1,2,4,8,7,5 ��������6Ϊ���ڣ�2009%6=5��������Ϊ5&lt;/p&gt;
+&lt;/blockquote&gt;
+</content>
+    
+    <summary type="html">
+    
+      &lt;blockquote&gt;
+&lt;p&gt;��������2009^2009�Ľ����ĸ�λ���ӵĽ��� �� ����������λ��ab,cd���ˣ�&lt;br&gt;��10a+b)&lt;em&gt;(10c+d)=100ac+10ad+10bc+bd&lt;br&gt;����һ��������x�ĸ�
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>最少操作使得数组回文</title>
+    <link href="http://wxjttxs.github.io/2016/06/08/%E6%9C%80%E5%B0%91%E6%93%8D%E4%BD%9C%E4%BD%BF%E5%BE%97%E6%95%B0%E7%BB%84%E5%9B%9E%E6%96%87/"/>
+    <id>http://wxjttxs.github.io/2016/06/08/最少操作使得数组回文/</id>
+    <published>2016-06-08T01:41:41.000Z</published>
+    <updated>2016-06-08T02:47:18.593Z</updated>
+    
+    <content type="html">&lt;p&gt;//给定一个数列，每次操作可以选择相邻的两个数，然后用他们的和来替换这两个数，最少需要多少次操作才能使这个数列变为一个回文数列&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;iostream&amp;gt;
+using namespace std;
+
+bool isHuiwen(int *a,int length){//没有用，判断是否回文
+    int start=0;
+    int endd=length-1;
+    int midd=(start+endd)/2;
+
+    if(a[start]!=a[endd])
+        return false;
+    while(start&amp;lt;=endd){
+        if(a[start]==a[endd]){
+            start++;
+            endd--;
+        }
+        else
+            break;
+    }
+    if(midd==(start+endd)/2)
+        return true;
+}
+int minDoCore(int *a,int start,int endd);
+int minDo(int *a,int length){
+    int start=0;
+    int endd=length-1;
+    int countt=0;
+    if(a!=NULL &amp;amp;&amp;amp; length&amp;gt;1){
+        countt=minDoCore(a,start,endd);
+    }
+    return countt;
+}
+int minDoCore(int *a,int start,int endd){
+    int countt=0;
+    int min1=0;
+    int min2=0;
+
+    if(start&amp;gt;=endd)
+        return 0;
+    else if(a[start]==a[endd])//两端相等
+        countt= minDoCore(a,start+1,endd-1);
+
+    else//两端不相等
+    {
+        a[start+1]=a[start]+a[start+1];//左端加
+        min1=minDoCore(a,start+1,endd)+1;
+        a[start+1]=a[start+1]-a[start];//恢复左端操作
+
+        a[endd-1]=a[endd-1]+a[endd];//右端加
+        min2=minDoCore(a,start,endd-1)+1;
+        a[endd-1]=a[endd-1]-a[endd];//恢复右端操作
+
+        countt=(min1&amp;lt;=min2)?min1:min2;
+    }
+
+//    if(countt==min1)
+//        start++;
+    return countt;
+}
+int main(){
+//    int a[]={1,2,3,4,2,1};
+//    int start=0;
+//    int endd=5;
+//    int temp[50];
+//    while(start&amp;lt;=endd){
+//         if(a[start]==a[endd]){
+//            start++;
+//            endd--;
+//         }
+//         else
+//            break;
+//    }
+//    for(int i=0;i&amp;lt;length-start*2;i++){
+//        temp[i]=a[i+start];
+//    }
+//     for(int i=0;i&amp;lt;length-start*2;i++)
+//        cout&amp;lt;&amp;lt;temp[i]&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
+
+
+
+    int n;
+    int a[50];
+    cin&amp;gt;&amp;gt;n;
+    for(int i=0;i&amp;lt;n;i++){
+        cin&amp;gt;&amp;gt;a[i];
+    }
+    int temp=minDo(a,n);
+    cout&amp;lt;&amp;lt;temp;
+    return 0;
+}
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;p&gt;//给定一个数列，每次操作可以选择相邻的两个数，然后用他们的和来替换这两个数，最少需要多少次操作才能使这个数列变为一个回文数列&lt;/p&gt;
+&lt;pre&gt;&lt;code&gt;#include&amp;lt;stdio.h&amp;gt;
+#include&amp;lt;iostream&amp;gt;
+using nam
+    
+    </summary>
+    
+    
+  </entry>
+  
+  <entry>
+    <title>网络地址知多少</title>
+    <link href="http://wxjttxs.github.io/2016/06/07/%E7%BD%91%E7%BB%9C%E5%9C%B0%E5%9D%80%E7%9F%A5%E5%A4%9A%E5%B0%91/"/>
+    <id>http://wxjttxs.github.io/2016/06/07/网络地址知多少/</id>
+    <published>2016-06-07T13:52:19.000Z</published>
+    <updated>2016-06-07T13:53:23.873Z</updated>
+    
+    <content type="html">&lt;pre&gt;&lt;code&gt;IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.255.255.255
+C 类 IP 段 192.0.0.0 到 223.255.255.255
+XP 默认分配的子网掩码每段只有 255 或 0
+A 类的默认子网掩码 255.0.0.0 一个子网最多可以容纳 1677 万多台电脑
+B 类的默认子网掩码 255.255.0.0 一个子网最多可以容纳 6 万台电脑
+C 类的默认子网掩码 255.255.255.0 一个子网最多可以容纳 254 台电脑
+我们必须有一个子网掩码，因为：
+1 ）当配置 IP 时，所有计算机都必须填写子网掩码
+2 ）我们必须在我们的网络中设置一些逻辑边界
+3 ）我们必须至少输入所使用 IP 类的默认子网掩码
+我以前认为，要想把一些电脑搞在同一网段，只要 IP 的前三段一样就可以了，今天，我才知道我错了。如果照我这样说的话，一个子网就只能容纳 254 台电脑？真是有点笑话。我们来说详细看看吧。
+要想在同一网段，只要网络标识相同就可以了，那要怎么看网络标识呢？首先要做的是把每段的 IP 转换为二进制。（有人说，我不会转换耶，没关系，我们用 Windows 自带计算器就行。打开计算器，点查看 &amp;gt; 程序员，输入十进制的数字，再点一下“二进制”这个单选点，就可以切换至二进制了。）
+把子网掩码切换至二进制，我们会发现，所有的子网掩码是由一串连续的 1 和一串连续的 0 组成的（一共 4 段，每段 8 位，一共 32 位数）。
+255.0.0.0 11111111.00000000.00000000.00000000
+255.255.0.0 11111111.11111111.00000000.00000000
+255.255.255.0 11111111.11111111.11111111.00000000
+这是 A/B/C 三类默认子网掩码的二进制形式，其实，还有好多种子网掩码，只要是一串连续的 1 （不少于 8 个）和一串连续的 0 就可以了（每段都是 8 位）。如 11111111.11111111.11111000.00000000 ，这也是一段合法的子网掩码。子网掩码决定的是一个子网的计算机数目，计算机公式是 2 的 m 次方，其中，我们可以把 m 看到是后面的多少个 0 。如 255.255.255.0 转换成二进制，那就是 11111111.11111111.11111111.00000000 ，后面有 8 个 0 ，那 m 就是 8 ， 255.255.255.0 这个子网掩码可以容纳 2 的 8 次方（台）电脑，也就是 256 台，但是有两个 IP 是不能用的，那就是最后一段不能为 0 和 255 ，减去这两台，就是 254 台。
+划分方法
+
+子网的划分，实际上就是设计子网掩码的过程。子网掩码主要是用来区分 IP 地址中的网络 ID 和主机 ID ，它用来屏蔽 IP 地址的一部分，从 IP 地址中分离出网络 ID 和主机 ID. 子网掩码是由 4 个十进制数组成的数值 &amp;quot; 中间用 &amp;quot;.&amp;quot; 分隔，如 255.255.255.0 。若将它写成二进制的形式为 :11111111.11111111.11111111.00000000 ，其中为 &amp;quot;1&amp;quot; 的位分离出网络 ID, 为 &amp;quot;0&amp;quot; 的位分离出主机 ID ，也就是通过将 IP 地址与子网掩码进行 &amp;quot; 与 &amp;quot; 逻辑操作，得出网络号。
+例如，假设 IP 地址为 192.160.4.1 ，子网掩码为 255.255.255.0 ，则网络 ID 为 192.160.4.0, 主机 ID 为 0.0.0.1 。计算机网络 ID 的不同，则说明他们不在同一个物理子网内，需通过路由器转发才能进行数据交换。
+每类地址具有默认的子网掩码 : 对于 A 类为 255.0.0.0 ，对于 B 类为 255.255.0.0 ，对于 C 类为 255.255.255.0 。除了使用上述的表示方法之外，还有使用子网掩码中 &amp;quot;1&amp;quot; 的位数来表示的，在默认情况下， A 类地址为 8 位， B 类地址为 16 位， C 类地址为 24 位。例如， A 类的某个地址为 12.10.10.3/8 ，这里的最后一个 &amp;quot;8&amp;quot; 说明该地址的子网掩码为 8 位，而 199.42.26.0/28 表示网络 199.42.26.0 的子网掩码位数有 28 位。
+如果希望在一个网络中建立子网，就要在这个默认的子网掩码中加入一些位，它减少了用于主机地址的位数。加入到掩码中的位数决定了可以配置的子网。因而，在一个划分了子网的网络中，每个地址包含一个网络地址、一个子网位数和一个主机地址
+示例
+
+255.255.248.0 这个子网掩码可以最多容纳多少台电脑？
+计算方法
+
+把将其转换为二进制的四段数字（每段要是 8 位，如果是 0 ，可以写成 8 个 0 ，也就是 00000000 ）
+11111111.1111111.11111000.00000000
+然后，数数后面有几颗 0 ，一共是有 11 颗，那就是 2 的 11 次方，等于 2048 ( 注意：主机号中全 0 是保留地址，全 1 是广播地址，所以它们不算可用主号地址。网络号也是一样的。子网号是可以用全 0 和全 1 的 ) ，所以这个子网掩码最多可以容纳 2048-2=2046 台电脑。
+一个子网最多可以容纳多少台电脑你会算了吧，下面我们来个逆向算法的题。
+一个公司有 530 台电脑，组成一个对等局域网，子网掩码设多少最合适？
+首先，无疑， 530 台电脑用 B 类 IP 最合适（ A 类不用说了，太多， C 类又不够，肯定是 B 类），但是 B 类默认的子网掩码是 255.255.0.0 ，可以容纳 6 万台电脑，显然不太合适，那子网掩码设多少合适呢？我们先来列个公式。
+公式
+
+2 的 m 次方 &amp;gt;=560
+首先，我们确定 2 的 m 次方一定是大于 2 的 8 次方的，因为我们知道 2 的 8 次方是 256 ，也就是 C 类 IP 的最大容纳电脑的数目，我们从 9 次方一个一个试， 2 的 9 次方是 512 ，不到 560 ， 2 的 10 次方是 1024 ，看来 2 的 10 次方最合适了。子网掩码一共由 32 位组成，已确定后面 10 位是 0 了，那前面的 22 位就是 1 ，最合适的子网掩码就是： 11111111.11111111.11111100.00000000 ，转换成 10 进制，那就是 255.255.252.0 。
+分配和计算子网掩码你会了吧，下面，我们来看看 IP 地址的网段。
+相信好多人都和我一样，认为 IP 只要前三段相同，就是在同一网段了，其实，不是这样的，同样，我也把 IP 的每一段转换为一个二进制数，这里就拿 IP ： 192.168.0.1 ，子网掩码： 255.255.255.0 做实验吧。
+192.168.0.1
+11000000.10101000.00000000.00000001
+（这里说明一下，和子网掩码一样，每段 8 位，不足 8 位的，前面加 0 补齐。）
+IP 11000000.10101000.00000000.00000001
+子网掩码 11111111.11111111.11111111.00000000
+同一网段
+
+在这里，向大家说一下到底怎么样才算同一网段。
+要想在同一网段，必需做到网络标识相同，那网络标识怎么算呢？各类 IP 的网络标识算法都是不一样的。 A 类的，只算第一段。 B 类，只算第一、二段。 C 类，算第一、二、三段。
+算法只要把 IP 和子网掩码的每位数 AND 就可以了。
+AND 方法： 0 和 1=0 0 和 0=0 1 和 1=1
+如： And 192.168.0.1 ， 255.255.255.0 ，先转换为二进制，然后 AND 每一位
+IP 11000000.10101000.00000000.00000001
+子网掩码 11111111.11111111.11111111.00000000
+得出 AND 结果 11000000.10101000.00000000.00000000
+转换为十进制 192.168.0.0 ，这就是网络标识，
+再将子网掩码反取，也就是 00000000.00000000.00000000.11111111 ，与 IP AND
+得出结果 00000000.00000000.00000000.00000001 ，转换为 10 进制，即 0.0.0.1 ，
+这 0.0.0.1 就是主机标识。要想在同一网段，必需做到网络标识一样。
+我们再来看看这个改为默认子网掩码的 B 类 IP
+如 IP ： 188.188.0.111 ， 188.188.5.222 ，子网掩码都设为 255.255.254.0 ，在同一网段吗？
+先将这些转换成二进制
+188.188.0.111 10111100.10111100.00000000.01101111
+188.188.5.222 10111100.10111100.00000101.11011110
+255.255.254.0 11111111.11111111.11111110.00000000
+分别 AND ，得
+10111100.10111100.00000000.00000000
+10111100.10111100.00000100.00000000
+网络标识不一样（看 255.255.254.0 转换成二进制后 1 的数位，所以可以看到不一样），即不在同一网段。
+判断是不是在同一网段，你会了吧，下面，我们来点实际的。
+一个公司有 530 台电脑，组成一个对等局域网，子网掩码和 IP 设多少最合适？
+子网掩码不说了，前面算出结果来了 11111111.11111111.11111100.00000000 ，也就是 255.255.252.0
+B 类地址
+
+选一个 B 类 IP 段，这里就选 188.188.x.x 吧
+这样， IP 的前两段确定的，关键是要确定第三段，只要网络标识相同就可以了。我们先来确定网络号。（我们把子网掩码中的 1 和 IP 中的 ? 对就起来， 0 和 * 对应起来，如下：）
+255.255.252.0 11111111.11111111.11111100.00000000
+188.188.x.x 10111100.10111100.??????**.********
+网络标识 10111100.10111100.??????00.00000000
+由此可知， ? 处随便填（只能用 0 和 1 填，不一定全是 0 和 1 ），我们就用全填 0 吧， * 处随便，这样呢，我们的 IP 就是
+10111100.10111100.000000**.******** ，一共有 530 台电脑， IP 的最后一段 1 ～ 254 可以分给 254 台计算机， 530/254=2.086 ，采用进 1 法，得整数 3 ，这样，我们确定了 IP 的第三段要分成三个不同的数字，也就是说，把 000000** 中的 ** 填三次数字，只能填 1 和 0 ，而且每次的数字都不一样，至于填什么，就随我们便了，如 00000001 ， 00000010 ， 00000011 ，转换成十进制，分别是 1 ， 2 ， 3 ，这样，第三段也确定了，这样，就可以把 IP 分成 188.188.1.y ， 188.188.2.y ， 188.188.3.y ， y 处随便填，只要在 1 ～ 254 范围之内，并且这 530 台电脑每台和每台的 IP 不一样，就可以了。
+有人也许会说，既然算法这么麻烦，干脆用 A 类 IP 和 A 类默认子网掩码得了，偶要告诉你的是，由于 A 类 IP 和 A 类默认子网掩码的主机数目过大，这样做无疑是大海捞针，如果同时局域网访问量过频繁、过大，会影响效率的，所以，最好设置符合自己的 IP 和子网掩码 ^_^
+举个实例：比如公司分配到的网段是 192.168.1.0/24 ，首先我要分一个 8 个主机的网段出来，那么这个网段的首地址是什么 ? 之后，我又要划分一个 16 个主机的地址出来，那么 16 个主机的首地址是什么？
+划分实例
+
+C 类地址例子 : 网络地址 192.168.10.0; 子网掩码 255.255.255.192(/26)
+1. 子网数 =2*2=4
+2. 主机数 =2 的 6 次方 -2=62
+3. 有效子网 ?:block size=256-192=64; 所以第一个子网为 192.168.10.64, 第二个为 192.168.10.128
+4. 广播地址 : 下个子网 -1. 所以 2 个子网的广播地址分别是 192.168.10.127 和 192.168.10.191
+5. 有效主机范围是 : 所以第一个子网为 192.168.10.0 ，第二个为 192.168.10.64 ，第三个为 192.168.10.128 ，第四个为 192.168.10.192
+B 类地址例子 1: 网络地址 :172.16.0.0; 子网掩码 255.255.192.0(/18)
+1. 子网数 =2*2=4
+2. 主机数 =2 的 14 次方 -2=16382
+3. 有效子网 ?:block size=256-192=64; 所以第一个子网为 172.16.64.0, 最后 1 个为 172.16.128.0
+4. 广播地址 : 下个子网 -1. 所以 2 个子网的广播地址分别是 172.16.127.255 和 172.16.191.255
+5. 有效主机范围是 : 第一个子网的主机地址是 172.16.64.1 到 172.16.127.254; 第二个是 172.16.128.1 到 172.16.191.254
+B 类地址例子 2: 网络地址 :172.16.0.0; 子网掩码 255.255.255.224(/27)
+1. 子网数 =2 的 11 次方 -2=2046( 因为 B 类地址默认掩码是 255.255.0.0, 所以网络位为 8+3=11)
+2. 主机数 =2 的 5 次方 -2=30
+3. 有效子网 ?:block size=256-224=32; 所以第一个子网为 172.16.0.32, 最后 1 个为 172.16.255.192
+4. 广播地址 : 下个子网 -1. 所以第一个子网和最后 1 个子网的广播地址分别是 172.16.0.63 和 172.16.255.223
+5. 有效主机范围是 : 第一个子网的主机地址是 172.16.0.33 到 172.16.0.62; 最后 1 个是 172.16.255.193 到 172.16.255.223
+Variable Length Subnet Masks(VLSM)
+变长子网掩码 (VLSM) 的作用 : 节约 IP 地址空间 ; 减少路由表大小 . 使用 VLSM 时 , 所采用的路由协议必须能够支持它 , 这些路由协议包括 RIPv2,OSPF,EIGRP 和 BGP.
+&lt;/code&gt;&lt;/pre&gt;</content>
+    
+    <summary type="html">
+    
+      &lt;pre&gt;&lt;code&gt;IP 和子网掩码
+我们都知道， IP 是由四段数字组成，在此，我们先来了解一下 3 类常用的 IP
+A 类 IP 段 0.0.0.0 到 127.255.255.255 (0 段和 127 段不使用 )
+B 类 IP 段 128.0.0.0 到 191.25
+    
+    </summary>
+    
+    
+  </entry>
   
   <entry>
     <title>横列坐标数位之和不大于K的可移动方格数目</title>
@@ -2894,372 +3482,6 @@ int main()
 &lt;/blockquote&gt;
 &lt;p&gt;*/&lt;/p&gt;
 &lt;pre&gt;&lt;code&gt;#
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>字符串转换为整型</title>
-    <link href="http://wxjttxs.github.io/2016/05/14/%E5%AD%97%E7%AC%A6%E4%B8%B2%E8%BD%AC%E6%8D%A2%E4%B8%BA%E6%95%B4%E5%BD%A2/"/>
-    <id>http://wxjttxs.github.io/2016/05/14/字符串转换为整形/</id>
-    <published>2016-05-14T08:23:03.000Z</published>
-    <updated>2016-05-14T08:23:43.725Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000&lt;br&gt;//区分“0”的输出结果和无效字符串的输出&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-enum Status {kValid=0, kInvalid};
-int g_nStatus=kValid;//输出状态
-long long StrToIntCore(const char* str, bool minuss){
-    long long num=0;
-    while(*str!=&amp;apos;\0&amp;apos;){
-        if(*str&amp;gt;=&amp;apos;0&amp;apos; &amp;amp;&amp;amp; *str&amp;lt;=&amp;apos;9&amp;apos;){//有效数字
-            int flag=minuss?-1:1;
-            num=num*10+flag*(*str-&amp;apos;0&amp;apos;);
-
-            if((!minuss &amp;amp;&amp;amp; num&amp;gt;0x7fffffff)||(minuss &amp;amp;&amp;amp; num&amp;lt;(signed int)0x80000000)){//超过long long表示范围,注意signed int
-                num=0;
-                break;
-            }
-            str++;
-        }
-        else{//非法输入
-            num=0;
-            break;
-        }
-    }
-    if(*str==&amp;apos;\0&amp;apos;)//字符串为空
-    {
-        g_nStatus=kValid;
-    }
-    return num;
-}
-int StrToInt(const char* str){
-    g_nStatus=kInvalid;
-    long long num=0;
-
-    if(str!=NULL &amp;amp;&amp;amp; *str !=&amp;apos;\0&amp;apos;){
-        bool minuss=false;//正负号
-        if(*str==&amp;apos;+&amp;apos;)
-            str++;
-        else if(*str==&amp;apos;-&amp;apos;){
-            str++;
-            minuss=true;
-        }
-        if(*str!=&amp;apos;\0&amp;apos;){
-            num=StrToIntCore(str,minuss);
-        }
-    }
-    return (int)num;
-}
-int main()
-{
-    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;-123&amp;quot;) &amp;lt;&amp;lt; endl;
-    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;+123&amp;quot;) &amp;lt;&amp;lt; endl;
-    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;0&amp;quot;) &amp;lt;&amp;lt; endl;
-    cout &amp;lt;&amp;lt; StrToInt(&amp;quot;&amp;quot;) &amp;lt;&amp;lt; endl;
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//不用atoi，实现字符串转数字 //考虑边界：字符串NULL，正负号，int 型最大0x7fffffff,负数最小0x80000000&lt;br&gt;//区分“0”的输出结果和无效字符串的输出&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>1+2+3..+n</title>
-    <link href="http://wxjttxs.github.io/2016/05/13/1-2-3-n/"/>
-    <id>http://wxjttxs.github.io/2016/05/13/1-2-3-n/</id>
-    <published>2016-05-13T09:59:06.000Z</published>
-    <updated>2016-05-13T09:59:38.606Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//���ó˳���for�� while��if else��switch caseʵ��1+2+����+n //��Ȼ���͹�ʽ�Ͳ�������&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-//***********************��һ�����ù��캯������*****************************
-class Temp{
-public:
-    Temp(){++N; Sum+=N;}
-    static void Reset() {N=0;Sum=0;}
-    static unsigned int GetSum(){return Sum;}
-private:
-    static unsigned int N;
-    static unsigned int Sum;
-
-};
-unsigned int Temp::N=0;
-unsigned int Temp::Sum=0;
-unsigned int Sum_Solution1(unsigned int n)
-{
-    Temp::Reset();
-    Temp *a= new Temp[n];//���ù��캯��n��
-    delete[] a;
-    a=NULL;
-    return Temp::GetSum();
-
-}
-//***********************�ڶ��������麯������*****************************
-//�麯�������������ж���������ͬ���ĺ��������ҿ���ͨ������ָ�������������ʻ������������е�ͬ������
-//��������������һ���ݹ飬һ����ֹ�ݹ飬���Ǵ��ж�ѡһ���� ����������ͨ��!!n����ֵת���ɲ����͡�
-class A;
-A * Array[2];
-class A{
-public:
-    virtual unsigned int Sum(unsigned int n){
-        return 0;
-    }
-};
-class B :public A{
-public:
-    virtual unsigned int Sum(unsigned int n){
-        return Array[!!n]-&amp;gt;Sum(n-1)+n;//�Ӻ���ǰ��ʼ��
-    }
-};
-//���麯��ʵ�ֺ�����ѡ�񣬵���ֵ��Ϊ0ѡ��B::Sum()��n=0ѡ��A::Sum()
-int Sum_Solution2(int n){
-    A a;
-    B b;
-    Array[0]=&amp;amp;a;
-    Array[1]=&amp;amp;b;
-
-    int value=Array[1]-&amp;gt;Sum(n);
-    return value;
-}
-//***********************���������ú���ָ������*****************************
-//�ڴ�C���ԵĻ����У�����ʹ���麯������ʱ�����ú���ָ����ģ��
-typedef unsigned int (*fun) (unsigned int);
-unsigned int Sum_Solution3_Teminator(unsigned int n){
-    return 0;
-}
-unsigned int Sum_Solution3(unsigned int n){
-    static fun f[2]={Sum_Solution3_Teminator,Sum_Solution3};//��ʵ����һά����
-    return n+f[!!n](n-1);
-}
-//***********************������ģ����������*******************************
-template &amp;lt;unsigned int n&amp;gt; struct Sum_Solution4{
-    enum Value {N=Sum_Solution4&amp;lt;n-1&amp;gt;::N+n};
-};
-template &amp;lt;&amp;gt; struct Sum_Solution4&amp;lt;1&amp;gt;{
-    enum Value {N=1};
-};
-int main()
-{
-   cout&amp;lt;&amp;lt; Sum_Solution4&amp;lt;100&amp;gt;::N;//���ֵ��÷����ܶ���
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//���ó˳���for�� while��if else��switch caseʵ��1+2+����+n //��Ȼ���͹�ʽ�Ͳ�������&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iost
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>不用四则运算，实现两数相加</title>
-    <link href="http://wxjttxs.github.io/2016/05/13/%E4%B8%8D%E7%94%A8%E5%9B%9B%E5%88%99%E8%BF%90%E7%AE%97%EF%BC%8C%E5%AE%9E%E7%8E%B0%E4%B8%A4%E6%95%B0%E7%9B%B8%E5%8A%A0/"/>
-    <id>http://wxjttxs.github.io/2016/05/13/不用四则运算，实现两数相加/</id>
-    <published>2016-05-13T09:03:53.000Z</published>
-    <updated>2016-05-13T09:15:16.958Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//不用四则运算实现两数相加 //分成三步：首先两数相加不进位；然后对应位上的进位，最后把前两部的结果相加&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespace std;
-int GetSum(int a,int b){
-    int sum=0;int carryy=0;
-    do{
-        sum=a^b;//第一步
-        carryy=(a&amp;amp;b)&amp;lt;&amp;lt;1;//第二步
-        a=sum;//第三步
-        b=carryy;//第三步
-
-    }while(b);
-    return a;
-}
-int main()
-{
-    cout&amp;lt;&amp;lt;GetSum(5,8);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//不用四则运算实现两数相加 //分成三步：首先两数相加不进位；然后对应位上的进位，最后把前两部的结果相加&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-
-using namespac
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>圆圈剩下的数字</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/%E5%9C%86%E5%9C%88%E5%89%A9%E4%B8%8B%E7%9A%84%E6%95%B0%E5%AD%97/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/圆圈剩下的数字/</id>
-    <published>2016-05-09T15:16:13.000Z</published>
-    <updated>2016-05-09T15:16:37.526Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构&lt;br&gt;//要么通过数学建模找到规律&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;list&amp;gt;
-using namespace std;
-//**********************方法一环形结构****************************
-//std::list本身并不是一个环形结构，因此每当迭代器扫描到末尾时候，我们要把迭代器移到链表头部，
-//Lists将元素按顺序储存在链表中. 与 向量(vectors)相比, 它允许快速的插入和删除，但是随机访问却比较慢.
-int LastRemaining(unsigned int n,unsigned int m){
-    if(n&amp;lt;1 || m&amp;lt;1)
-        return -1;
-    unsigned int i=0;
-    list&amp;lt;int&amp;gt; numbers;
-    for(i=0;i&amp;lt;n;i++)
-        numbers.push_back(i);//0~n-1
-    list&amp;lt;int&amp;gt;::iterator current=numbers.begin();
-    while(numbers.size()&amp;gt;1){
-        for(int i=1;i&amp;lt;m;i++){//找到第m个要删除的位置
-            current++;//current指向要删除的位置
-            if(current==numbers.end())
-                current=numbers.begin();
-
-        }
-        list&amp;lt;int&amp;gt;::iterator next=++current;
-        if(next==numbers.end())
-            next=numbers.begin();
-        --current;
-        numbers.erase(current);
-        current=next;
-    }
-    return *(current);
-}
-//**********************方法二数学建模****************************
-//令f(n,m)表示从0开始删除第m个数字后的剩下的数字；第一个删除的数字是（m-1)%n，为了简单表示，我们令k=（m-1)%n。剩下的数字0,1,2，，，，k-1,k+1,k+2..n-1;
-//下一次从k+1开始计数。相当于形成这样的序列：k+1,k+2...0,1...k-1。剩下的序列也是关于n,m的函数。但是这个序列的规律和最初的规律不一样。因此记为f&amp;apos;(n-1,m).
-//最初序列剩下的数字一定是删除一个数字之后的序列最后剩下的数字，即f(n,m)=f&amp;apos;(n-1,m).
-//定义一种映射 ，使得k+1,k+2...0,1...k-1 -》0,1.。。n-2，p(x)=(x-k-1)%n.逆映射p&amp;apos;(x)=(x+k+1)%n
-//f(n,m)=f&amp;apos;(n-1,m)=p&amp;apos;(f(n-1,m))=[f(n-1,m)+k+1]%n=[f(n-1,m)+m]%n;
-//综上，递归公式：f(n,m)=0   n=1
-//                      =[f(n-1,m)+m]%n  n&amp;gt;1
-
-int LastRemaining(unsigned int n,unsigned int m){
-    if(n&amp;lt;1 ||m&amp;lt;1)
-        return -1;
-    int last=0;
-    for(int i=2;i&amp;lt;=n;i++)
-        last=(last+m)%i;
-    return last;
-}
-int main()
-{
-    int data[]={3,4,5,6,7,8};
-    for(int i=0;i&amp;lt;6;i++)
-
-        cout&amp;lt;&amp;lt;LastRemaining(data[i],3)&amp;lt;&amp;lt;&amp;quot; &amp;quot;;
-    cout&amp;lt;&amp;lt;endl;
-
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//从0~n-1这n个数字构成环形，从0开始每次删除第m个数字，求最后一个剩下的数字 //要么借助环形链表数据结构&lt;br&gt;//要么通过数学建模找到规律&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostre
-    
-    </summary>
-    
-    
-  </entry>
-  
-  <entry>
-    <title>扑克牌是不是顺子</title>
-    <link href="http://wxjttxs.github.io/2016/05/09/%E6%89%91%E5%85%8B%E7%89%8C%E6%98%AF%E4%B8%8D%E6%98%AF%E9%A1%BA%E5%AD%90/"/>
-    <id>http://wxjttxs.github.io/2016/05/09/扑克牌是不是顺子/</id>
-    <published>2016-05-09T10:33:45.000Z</published>
-    <updated>2016-05-09T10:34:19.965Z</updated>
-    
-    <content type="html">&lt;blockquote&gt;
-&lt;p&gt;//从扑克牌中抽出五张，判断是不是顺子，A用1表示；JQK用11,12,13表示；大小王看成任意数字&lt;br&gt;//首先排序数组，然后统计0的个数和数组中间隔数，如果0的个数&amp;gt;=间隔，返回true。&lt;br&gt;//还有需要注意，如果数组中有两个数字相同，那么不可能是顺子了。&lt;/p&gt;
-&lt;/blockquote&gt;
-&lt;pre&gt;&lt;code&gt;#include &amp;lt;iostream&amp;gt;
-#include&amp;lt;algorithm&amp;gt;
-using namespace std;
-
-int compare(const void *arg1,const void *arg2){
-    return *(int*)arg1-*(int*)arg2;
-}
-bool IsContinuous(int *data,int length){
-    if(data==NULL ||length&amp;lt;1)
-        return false;
-
-    qsort(data,length,sizeof(int),compare);//排序
-
-    int numberOfZero=0;//0的个数，间隔的数目
-    int numberOfGap=0;
-
-    //统计0的个数
-    for(int i=0;i&amp;lt;length;i++){
-        if(data[i]==0)
-            numberOfZero++;
-    }
-    //统计间隔数目
-    int small=numberOfZero;//必须从这个开始，因为0不能算在这个里面，代表的是任意
-    int big=small+1;
-    while(big&amp;lt;length){
-        //两个数相等，对子不可能是顺子
-        if(data[small]==data[big])
-            return false;
-        numberOfGap+=data[big]-data[small]-1;//比如 1  3   4  5
-        small=big;//两个指针，依次往后挪
-        big++;
-    }
-    return (numberOfGap&amp;lt;=numberOfZero)?true:false;
-
-}
-int main()
-{
-    int data[]={2,4,5,6,0};
-    cout&amp;lt;&amp;lt;IsContinuous(data,5);
-    return 0;
-}
-&lt;/code&gt;&lt;/pre&gt;</content>
-    
-    <summary type="html">
-    
-      &lt;blockquote&gt;
-&lt;p&gt;//从扑克牌中抽出五张，判断是不是顺子，A用1表示；JQK用11,12,13表示；大小王看成任意数字&lt;br&gt;//首先排序数组，然后统计0的个数和数组中间隔数，如果0的个数&amp;gt;=间隔，返回true。&lt;br&gt;//还有需要注意，如果数组中有两个数字相
     
     </summary>
     

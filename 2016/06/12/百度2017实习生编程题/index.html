@@ -4,44 +4,29 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>百度2017实习生编程题 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    <meta name="description" content="// 0612.cpp : Defines the entry point for the console application.//
+
+短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(Shortest ProcessNext)；是对FCFS算法的改进，其目标是减少平均周转时间。 短作业优先调度算法基于这样一种思想： 运行时间短的优先调度；如果运行时间相同">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="百度2017实习生编程题">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/06/12/百度2017实习生编程题/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+<meta property="og:description" content="// 0612.cpp : Defines the entry point for the console application.//
+
+短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(Shortest ProcessNext)；是对FCFS算法的改进，其目标是减少平均周转时间。 短作业优先调度算法基于这样一种思想： 运行时间短的优先调度；如果运行时间相同">
+<meta property="og:updated_time" content="2016-06-13T00:23:57.797Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+<meta name="twitter:title" content="百度2017实习生编程题">
+<meta name="twitter:description" content="// 0612.cpp : Defines the entry point for the console application.//
+
+短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(Shortest ProcessNext)；是对FCFS算法的改进，其目标是减少平均周转时间。 短作业优先调度算法基于这样一种思想： 运行时间短的优先调度；如果运行时间相同">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +88,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/06/12/百度2017实习生编程题/" title="百度2017实习生编程题" itemprop="url">百度2017实习生编程题</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-06-12T15:05:28.000Z" itemprop="datePublished"> 发表于 2016-06-12</time>
     
   </p>
 </header>
@@ -123,98 +108,166 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
+		<p>// 0612.cpp : Defines the entry point for the console application.<br>//</p>
+<blockquote>
+<p>短作业优先（SJF, Shortest Job First）又称为“短进程优先”SPN(Shortest Process<br>Next)；是对FCFS算法的改进，其目标是减少平均周转时间。 短作业优先调度算法基于这样一种思想： 运行时间短的优先调度；<br>如果运行时间相同则调度最先发起请求的进程。 等待时间：一个进程从发起请求到开始执行的时间间隔。<br>现在有n个进程请求cpu，每个进程用一个二元组表示：(p,q),p代表该进程发起请求的时间，p代表需要占用cpu的时间。<br>请计算n个进程的平均等待时间。</p>
+</blockquote>
+<pre><code>//短作业优先（SJF）调度是FIFO的改进，减少了平均周转时间
+    #include&lt;iostream&gt;
 using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
+#include&lt;vector&gt;
+
+struct Job
+{
+    int start;
+    int need;
 };
 
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&gt;m_nValue=rootValue;
-    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
+int compareJob(Job j1, Job j2)
+{
+    if (j1.start == j2.start)
+        return j1.need - j2.need;
+    return j1.start - j2.start;
+}
+
+int main()
+{
+    int n;
+    while (cin &gt;&gt; n)
+    {
+        vector&lt;Job&gt; wait;
+        int  st, nd, sum_w = 0;
+        for (int i = 0; i &lt; n; ++i)
+        {
+            cin &gt;&gt; st &gt;&gt; nd;
+            wait.push_back({ st, nd });
+        }
+        for (int i = wait.size() - 1; i &gt; 0; --i)
+        {
+            bool change = false;
+            for (int j = 0; j &lt; i; ++j)
+            {
+                if (compareJob(wait[j], wait[j + 1])&gt;0)
+                {
+                    Job t = wait[j];
+                    wait[j] = wait[j + 1];
+                    wait[j + 1] = t;
+                    change = true;
+                }
+            }
+            if (change == false)
+                break;
+        }
+        int thisTime = wait[0].start + wait[0].need;
+        for (int i = 1; i &lt; wait.size(); ++i)
+        {
+            if (thisTime &lt; wait[i].start)
+                thisTime = wait[i].start;
+            sum_w += (thisTime - wait[i].start);
+            thisTime += wait[i].need;
+        }
+        printf(&quot;%.4f\n&quot;, sum_w / (double)n);
+    }
+    return 0;
+}
+
+在计算机中，页式虚拟存储器实现的一个难点是设计页面调度（置换）算法。其中一种实现方式是FIFO算法。 FIFO算法根据页面进入内存的时间先后选择淘汰页面，先进入内存的页面先淘汰，后进入内存的后淘汰。 假设Cache的大小为2,有5个页面请求，分别为 2 1 2 3 1，则Cache的状态转换为：(2)-&gt;(2,1)-&gt;(2,1)-&gt;(1,3)-&gt;(1,3)，其中第1,2,4次缺页，总缺页次数为3。 现在给出Cache的大小n和m个页面请求，请算出缺页数。
+
+#include &lt;iostream&gt;
+#include&lt;string&gt;
+#include&lt;vector&gt;
+#include&lt;algorithm&gt;
+using namespace std;
+bool findd(vector&lt;int&gt;q,int n){
+    bool flag=false;
+    for(int i=0;i&lt;q.size();i++)
+    {
+        if(q[i]==n)
+            flag=true;
+
+    }
+    return flag;
+}
+
+int main(){
+    int n,m;
+    while(cin&gt;&gt;n&gt;&gt;m)
+    {
+
+        vector&lt;int&gt; v;
+        for(int i=0;i&lt;m;i++)
+        {
+            int temp;
+            cin&gt;&gt;temp;
+            v.push_back(temp);
+        }
+        vector&lt;int&gt; q;
+        int countt=0;
+        for(int j=0;j&lt;m;j++)
+        {
+           if(!findd(q,v[j]))
+           {
+                if(q.size()&lt;n)
+                    q.push_back(v[j]);
+                else
+                    {
+                        q.erase(q.begin());
+                        q.push_back(v[j]);
+                    }
+               countt++;
+           }
+           else
+                continue;
+        }
+       cout&lt;&lt;countt&lt;&lt;endl;
+
+    }
+    return 0;
+}
+</code></pre><blockquote>
+<pre><code>    拉姆刚开始学习英文单词，对单词排序很感兴趣。
+如果给拉姆一组单词，他能够迅速确定是否可以将这些单词排列在一个列表中，使得该列表中任何单词的首字母与前一单词的为字母相同。
+你能编写一个程序来帮助拉姆进行判断吗？
+</code></pre></blockquote>
+<pre><code>#include &lt;iostream&gt;
+using namespace std;
+#include &lt;vector&gt;
+#include &lt;string&gt;
+
+int main()
+{
+    int n;
+    while (cin&gt;&gt;n)
+    {
+        vector&lt;string&gt; vc(n);
+        for (int i = 0; i &lt; n;i++)
+        {
+            cin &gt;&gt; vc[i];
+        }
+        bool flag = true;
+        for (int i = 0; i &lt; n-1;i++)   //提出为bool的函数
+        {
+            int size = vc[i].size();
+            if (vc[i][size-1]==vc[i+1][0])
+            {
+                continue;
+            }
+            else{
+                flag = false;           
+                break;
+            }
+
+        }
+        if (flag)
+        {
+            cout &lt;&lt; &quot;Yes&quot; &lt;&lt; endl;
+        }
         else
-            throw std::exception();
+        {
+            cout &lt;&lt; &quot;No&quot; &lt;&lt; endl;
+        }
     }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&gt;0)//左子树的长度,构建左子树
-     {
-         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
-        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
-    }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
-
-    }
-     return result;
-}
-
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
+    return 0;
 }
 </code></pre>  
 	</div>
@@ -228,7 +281,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/06/12/百度2017实习生编程题/" data-title="百度2017实习生编程题 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -241,19 +294,11 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
-  <strong>上一篇：</strong><br/>
-  <span>
-  链表和队列</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/06/10/完美度最大的子串/"  title="完美度最大的子串">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>完美度最大的子串
 </span>
 </a>
 </div>

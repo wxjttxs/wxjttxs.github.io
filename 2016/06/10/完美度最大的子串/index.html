@@ -4,44 +4,23 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>构建二叉树 | happy happy</title>
+    <title>完美度最大的子串 | happy happy</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="王晓静">
     
 
     
-    <meta name="description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+    <meta name="description" content="//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美度最高。输入描述： 多组测试数据，对于每组测试数据： 第一行包含一个整数N，代表牛牛写了N段话 接下来包含N段话，每段话之间中空格隔开，均有大写字母组成。 保">
 <meta property="og:type" content="article">
-<meta property="og:title" content="构建二叉树">
-<meta property="og:url" content="http://wxjttxs.github.io/2016/04/20/构建二叉树/index.html">
+<meta property="og:title" content="完美度最大的子串">
+<meta property="og:url" content="http://wxjttxs.github.io/2016/06/10/完美度最大的子串/index.html">
 <meta property="og:site_name" content="happy happy">
-<meta property="og:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
-<meta property="og:updated_time" content="2016-04-29T03:46:55.167Z">
+<meta property="og:description" content="//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美度最高。输入描述： 多组测试数据，对于每组测试数据： 第一行包含一个整数N，代表牛牛写了N段话 接下来包含N段话，每段话之间中空格隔开，均有大写字母组成。 保">
+<meta property="og:updated_time" content="2016-06-10T14:04:26.051Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="构建二叉树">
-<meta name="twitter:description" content="//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &amp;lt;iostream&amp;gt;\
-#include&amp;lt;exception&amp;gt;
-using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode*">
+<meta name="twitter:title" content="完美度最大的子串">
+<meta name="twitter:description" content="//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美度最高。输入描述： 多组测试数据，对于每组测试数据： 第一行包含一个整数N，代表牛牛写了N段话 接下来包含N段话，每段话之间中空格隔开，均有大写字母组成。 保">
 
     
     <link rel="alternative" href="/atom.xml" title="happy happy" type="application/atom+xml">
@@ -103,14 +82,14 @@ struct BinaryTreeNode{
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2016/04/20/构建二叉树/" title="构建二叉树" itemprop="url">构建二叉树</a>
+      <a href="/2016/06/10/完美度最大的子串/" title="完美度最大的子串" itemprop="url">完美度最大的子串</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="王晓静" target="_blank" itemprop="author">王晓静</a>
 		
   <p class="article-time">
-    <time datetime="2016-04-20T01:44:51.000Z" itemprop="datePublished"> 发表于 2016-04-20</time>
+    <time datetime="2016-06-10T13:57:26.000Z" itemprop="datePublished"> 发表于 2016-06-10</time>
     
   </p>
 </header>
@@ -123,98 +102,129 @@ struct BinaryTreeNode{
 		
 		</div>
 		
-		<pre><code>//根据先序和中序构建二叉树，进一步的，判断一棵树是不是另一棵树的子树
-#include  &lt;iostream&gt;\
-#include&lt;exception&gt;
+		<blockquote>
+<p>//牛牛参加了一个文学比赛，比赛的规则是写一段话，使得这段话中不重复的字最多，当然还要有文采。一段话的完美度就是这段话中仅出现一次的字符个数。<br>现在牛牛写了N段话，他想把这N段话按顺序连在一起，然后从中找出一个最短连续子串，使得这个子串的完美度最高。<br><strong>输入描述：</strong> 多组测试数据，对于每组测试数据： 第一行包含一个整数N，代表牛牛写了N段话 接下来包含N段话，每段话之间中空格隔开，均有大写字母组成。 保证：1&lt;=N&lt;=50,1&lt;=Ai&lt;=50<br><strong>输出描述：</strong> 对于每组数据，输出一个字符串，代表完美度最高的最长连续 子串。如果有多个，输出最早出现的子串。</p>
+</blockquote>
+<pre><code>#include&quot;stdafx.h&quot;
+#include&lt;iostream&gt;
+#include &lt;string&gt;
 using namespace std;
-struct BinaryTreeNode{
-    int m_nValue;
-    BinaryTreeNode* m_pLeft;
-    BinaryTreeNode* m_pRight;
-};
+//方法一穷举法
+//得到一个字符串的完美度
+//int getPerfectDegree(string s){
+//    int length = s.size();
+//    int countt = 0;//完美度,也就是不重复字符个数
+//    int hashtable[256] = { 0 };
+//    for (int i = 0; i&lt;length; i++)
+//    {
+//        hashtable[s[i]]++;
+//    }
+//    for (int i = 0; i&lt;length; i++)
+//    {
+//        if (hashtable[s[i]] == 1)
+//            countt++;
+//    }
+//
+//    return countt;
+//}
+//string getMaxSubstr(string s){
+//    int length = s.size();
+//    int D[2500][2500] = { 0 };
+//    for (int i = 0; i&lt;length; i++)
+//    {
+//        for (int j = 0; j &lt;= i; j++)
+//        {
+//            D[i][j] = getPerfectDegree(s.substr(j, i - j + 1));
+//        }
+//    }
+//    int maxx = 0;
+//    int row = 0;
+//    int col = 0;
+//    for (int i = 0; i&lt;length; i++)
+//    {
+//        for (int j = 0; j &lt;= i; j++)
+//        {
+//            if (D[i][j]&gt;maxx)
+//            {
+//                maxx = D[i][j];
+//                row = i;
+//                col = j;
+//            }
+//
+//        }
+//    }
+//    cout &lt;&lt; maxx &lt;&lt; endl;;
+//    return s.substr(col, row - col + 1);
+//}
+//方法二，当前结果基于前一次结果
+void getMaxSubstr(string s)
+{
+    int a[50][50] = { 0 };
+    string ans;
+    int iStrlen = s.size();
+    for (int i = 0; i &lt; iStrlen; i++)
+        a[i][i] = 1;
+    for (int j = 1; j&lt;iStrlen; j++)  //第j列
+    {
+        int index1 = -1, index2 = -1;
+        for (int i = j - 1; i &gt;= 0; i--)   //首次出现位置
+        {
+            if (s[i] == s[j])
+            {
+                if (index1 == -1)//j之前重复1次
+                    index1 = i;
+                else if (index2 == -1)//j之前重复多次
+                {
+                    index2 = i;
+                    break;
+                }
+            }
+        }
 
-BinaryTreeNode* ContrustCore(int* startpreorder,int* endpreorder,int* startinorder,int* endinorder){
-    //根据先序确定第一个数值确定根节点
-   //BinaryTreeNode *root;
-    int rootValue=startpreorder[0];
-    BinaryTreeNode* root=new BinaryTreeNode();//为链表申请空间
-    root-&gt;m_nValue=rootValue;
-    root-&gt;m_pLeft=root-&gt;m_pRight=NULL;
-    if(startpreorder==endpreorder){
-        if(startinorder==endinorder &amp;&amp; *startpreorder==*endpreorder)//z只有一个根节点
-            return root;
-        else
-            throw std::exception();
+        for (int i = 0; i&lt;j; i++)
+        {
+            if (i&gt;index1)//j之前未重复
+                a[i][j] = a[i][j - 1] + 1;
+            else if (i&gt;index2 &amp;&amp; i &lt;= index1)//j之前重复一次
+                a[i][j] = a[i][j - 1] - 1;
+            else//j 之前重复多次
+                a[i][j] = a[i][j - 1];
+        }
     }
-    //在中序找到根节点所在位置
-    int*rootinoder=startinorder;
-     while(rootinoder&lt;=endinorder &amp;&amp; *rootinoder!=rootValue)
-        rootinoder++;
-     if(rootinoder==endinorder &amp;&amp; *rootinoder!=rootValue)//在中序中没有找到根节点
-         throw exception();
-     int leftLength=rootinoder-startinorder;
-     int* leftPreorderEnd=startpreorder+leftLength;
-     if(leftLength&gt;0)//左子树的长度,构建左子树
-     {
-         root-&gt;m_pLeft=ContrustCore(startpreorder+1,leftPreorderEnd,startinorder,rootinoder-1);
-     }
-    if(leftLength&lt;endpreorder-startpreorder)//存在右子树
-        root-&gt;m_pRight=ContrustCore(leftPreorderEnd+1,endpreorder,rootinoder+1,endinorder);
-    return root;
-}
-BinaryTreeNode* Contrust(int* preorder,int* inorder,int length){
-        if(preorder==NULL||inorder==NULL||length&lt;=0)
-            return NULL;
-        return ContrustCore(preorder,preorder+length-1,inorder,inorder+length-1);
-}
-void postorder(BinaryTreeNode* Btree){//后序遍历输出书的各个节点 
-    if(Btree!=NULL){
-        postorder(Btree-&gt;m_pLeft);
-        postorder(Btree-&gt;m_pRight);
-        cout&lt;&lt;Btree-&gt;m_nValue&lt;&lt;&quot; &quot;;
+
+    //for(int i=0; i&lt;iStrlen; i++)
+    //{
+    //    for(int j=0; j&lt;iStrlen; j++)
+    //        cout&lt;&lt;a[i][j]&lt;&lt;&quot; &quot;;
+    //    cout&lt;&lt;endl;
+    //}
+
+    int iStart = 0, iEnd = 0, iMax = 0;
+    for (int j = 0; j&lt;iStrlen; j++)
+    {
+        for (int i = 0; i&lt;iStrlen; i++)
+        {
+            if (a[i][j]&gt;iMax)
+            {
+                iMax = a[i][j];
+                iStart = i;
+                iEnd = j;
+            }
+        }
     }
-}
-//*************************************************
-//判断根节点开始相同的树1是不是包含树2
-bool DoesTree1haveTree2(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){//完全匹配
-    if(pRoot2==NULL)
-        return true;
-    if(pRoot1==NULL)
-        return false;
-    if(pRoot1-&gt;m_nValue!=pRoot2-&gt;m_nValue)
-        return false;
-    return DoesTree1haveTree2(pRoot1-&gt;m_pLeft,pRoot2-&gt;m_pLeft)&amp;&amp;DoesTree1haveTree2(pRoot1-&gt;m_pRight,pRoot2-&gt;m_pRight);
-}
-//判断树1是不是包含树2，不一定从根节点开始
-bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
-    bool result=false;
-    if(pRoot1!=NULL &amp;&amp; pRoot2!=NULL){
-        if(pRoot1-&gt;m_nValue==pRoot2-&gt;m_nValue)
-            result=DoesTree1haveTree2(pRoot1,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pLeft,pRoot2);
-        if(!result)
-            result=HasSubtree(pRoot1-&gt;m_pRight,pRoot2);
 
-    }
-     return result;
+    ans = s.substr(iStart, iEnd - iStart + 1);
+    cout &lt;&lt; a[iStart][iEnd] &lt;&lt; endl;
+    cout &lt;&lt; ans &lt;&lt; endl;
+
 }
+int main(){
+    string s = &quot;hello&quot;;
+    // cout&lt;&lt;s.substr(0,5);从0开始5个
 
-//****************************************************
-//求一棵二叉树的镜像
-</code></pre><p>void MirrorBinaryTree(BinaryTreeNode<em> pNode){<br>    if(pNode==NULL)<br>        return;<br>    if(pNode-&gt;m_pLeft==NULL &amp;&amp; pNode-&gt;m_pRight==NULL)//叶子节点，没有左右子树<br>        return;<br>    BinaryTreeNode</em> temp= pNode-&gt;m_pLeft;//交换非叶子节点<br>    pNode-&gt;m_pLeft=pNode-&gt;m_pRight;<br>    pNode-&gt;m_pRight=temp;<br>    if(pNode-&gt;m_pLeft)<br>        MirrorBinaryTree(pNode-&gt;m_pLeft);//递归交换非叶子节点的左右子树<br>    if(pNode-&gt;m_pRight)<br>        MirrorBinaryTree(pNode-&gt;m_pRight);</p>
-<p>}<br>    int main(){<br>            BinaryTreeNode<em> Btree1,</em>Btree2;<br>            int preorder1[]={10,8,9,2,4,7,7};<br>            int inorder1[]={9,8,4,2,7,10,7};<br>            int preorder2[]={8,9,2};<br>            int inorder2[]={9,8,2};</p>
-<pre><code>        Btree1= Contrust(preorder1,inorder1,7);
-        Btree2= Contrust(preorder2,inorder2,3);
-        postorder(Btree1);
-        cout&lt;&lt;endl;
-    //    postorder(Btree2);
-    //    cout&lt;&lt;endl&lt;&lt;&quot;result:&quot;;
-    //    cout&lt;&lt;HasSubtree(Btree2,Btree1);
-        MirrorBinaryTree(Btree1);
-        postorder(Btree1);
-        return 0;
-
+    /*cout &lt;&lt; getMaxSubstr(s);*/
+    getMaxSubstr(&quot;aohhad&quot;);
+    return 0;
 }
 </code></pre>  
 	</div>
@@ -228,7 +238,7 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://wxjttxs.github.io/2016/04/20/构建二叉树/" data-title="构建二叉树 | happy happy" data-tsina="null" class="share clearfix">
+	  <div data-url="http://wxjttxs.github.io/2016/06/10/完美度最大的子串/" data-title="完美度最大的子串 | happy happy" data-tsina="null" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -242,18 +252,18 @@ bool HasSubtree(BinaryTreeNode* pRoot1,BinaryTreeNode* pRoot2){
 <nav class="article-nav clearfix">
  
  <div class="prev" >
- <a href="/2016/04/20/链表和队列/" title="链表和队列">
+ <a href="/2016/06/12/百度2017实习生编程题/" title="百度2017实习生编程题">
   <strong>上一篇：</strong><br/>
   <span>
-  链表和队列</span>
+  百度2017实习生编程题</span>
 </a>
 </div>
 
 
 <div class="next">
-<a href="/2016/04/18/关于链表必须知道的事/"  title="关于链表必须知道的事">
+<a href="/2016/06/09/2009/"  title="2009^2009">
  <strong>下一篇：</strong><br/> 
- <span>关于链表必须知道的事
+ <span>2009^2009
 </span>
 </a>
 </div>
